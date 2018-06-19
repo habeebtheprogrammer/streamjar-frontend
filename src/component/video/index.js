@@ -106,11 +106,11 @@ class Video extends Component {
                             <div className="page-start  ">
 
                                 <div className="row zero page-row">
-                                    <div className=" col-sm-3 zero left-grid hidden-xs ">
+                                    {/* <div className=" col-sm-3 zero left-grid hidden-xs ">
                                      <Relatedusers auth={this.props.auth}/>
-                                    </div>
+                                    </div> */}
 
-                                    <div className="col-sm-10 zero right-grid">
+                                    <div className="col-sm-12 zero ">
                                         <div className="page-title" style={{ borderBottom: "none" }}>
                                             <div style={{ padding: "20px" }}>Recently dialed contact</div>
 
@@ -122,7 +122,7 @@ class Video extends Component {
                                                     <ul>
                                                         {
                                                             this.state.users.map((member, key) => (
-                                                                <li>
+                                                                <li className="col-md-6">
                                                                     <div className="list-box-listing">
                                                                         <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={`../../images/${imglist[key]}`} alt="" /></Link></div>
                                                                         <div className="list-box-listing-content">
@@ -139,7 +139,7 @@ class Video extends Component {
                                                                     </div>
                                                                     <div className="buttons-to-right">
                                                                         <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                        <Link to="/chat" className="button gray"><i className="fa fa-chat"></i> Message</Link>
+                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-chat"></i> Message</Link>
                                                                     </div>
                                                                 </li>
                                                             ))

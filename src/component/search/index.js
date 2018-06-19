@@ -16,6 +16,7 @@ import moment from "moment"
 import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
 import Relatedusers from "../extras/relatedusers"
+import Shuffle from "shuffle-array"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -110,7 +111,7 @@ class Search extends Component {
                                      <Relatedusers auth={this.props.auth}/>
                                     </div>
 
-                                    <div className="col-sm-10 zero right-grid">
+                                    <div className="col-sm-10 right-grid zero ">
                                         <div className="page-title" style={{ borderBottom: "none" }}>
                                             <input type="text" name="name" onChange={this.typing} placeholder="Who/what are you looking for?" className="form-control"  />
                                             
@@ -124,7 +125,7 @@ class Search extends Component {
                                                     <ul>
                                                         {this.state.searched ?
                                                             this.state.result.map((member, key) => (
-                                                                <li>
+                                                                <li className="col-md-6">
                                                                     <div className="list-box-listing">
                                                                         <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={`../../images/${imglist[key]}`} alt="" /></Link></div>
                                                                         <div className="list-box-listing-content">
@@ -139,14 +140,14 @@ class Search extends Component {
                                                                     </div>
                                                                     <div className="buttons-to-right">
                                                                         <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                        <Link to="/chat" className="button gray"><i className="fa fa-chat"></i> Message</Link>
+                                                                        <Link to={`/chat/${member.username}`} className="button gray"><i className="fa fa-chat"></i> Message</Link>
                                                                     </div>
                                                                 </li>
                                                             ))
                                                             :
                                                     
-                                                        this.state.users.map((member,key) => (
-                                                            <li>
+                                                        Shuffle(this.state.users).map((member,key) => (
+                                                                <li className="col-md-6">
                                                                 <div className="list-box-listing">
                                                                     <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={`../../images/${imglist[key]}`} alt="" /></Link></div>
                                                                     <div className="list-box-listing-content">

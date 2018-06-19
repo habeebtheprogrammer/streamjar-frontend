@@ -15,7 +15,7 @@ class Login extends Component {
             password: "",
             steptwo: false,
             isLoading: false,
-            error: { email: "", password: "", server: "" },
+            error: "",
             success: "",
         }
         this.login = this.login.bind(this)
@@ -52,6 +52,11 @@ class Login extends Component {
                 $(".step-two").addClass('bounceOutRight').removeClass('bounceInRight');
 
             });
+            $(".input1").keyup(function (e) {
+                if (e.which == 13) {
+                    console.log(e)
+                }
+            });
 
             // $('.username').on("keydown", function () {
             //     if ($(this).val() != "") {
@@ -70,9 +75,10 @@ class Login extends Component {
 
     login(e) {
         e.preventDefault();
-        this.setState({ isLoading: true, error: { email: "", password: "" } })
+        this.setState({ isLoading: true, error:"" })
         axios.post(`${apiUrl}/api/login`,this.state).then((res) => {
             setTimeout(() => {
+                console.log(res)
                 if (res.data.error) {
                     this.setState({ ...this.state, error: res.data.error });
                 } else if (res.data.token) {
@@ -80,14 +86,14 @@ class Login extends Component {
                     if (userData) {
                         localStorage.setItem("kaytoken", res.data.token);
                         setAuthorizationToken(res.data.token);
-                        window.location.assign("/dashboard")
+                        window.location.assign("/search")
                     }
                 }
                 this.setState({ isLoading: false })
-            }, 2000);
+            }, 200);
         }).catch((err) => {
             setTimeout(() => {
-                this.setState({ isLoading: false, error: { server: "Please try again later. an error has occured" } })
+                this.setState({ isLoading: false, error: "Please try again later. an error has occured" })
             }, 2000);
 
         })
@@ -96,6 +102,7 @@ class Login extends Component {
         if (this.state.username === "") return this.setState({ steptwo: false }); else this.setState({ steptwo: true });
     }
     typing(e) {
+        console.log(e)
         this.setState({
             [e.target.name]: e.target.value
         }, () => this.validation())
@@ -180,6 +187,7 @@ class Login extends Component {
                             <div>
 
                                 <center>
+                                    <p>{this.state.error?this.state.error:null}</p>
                                     Not a member?
                         <a href="/signup">Sign up</a>
                                     <br />
@@ -217,7 +225,7 @@ class Login extends Component {
                 <style>
                     {`
                         .x-wrapper{
-                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 90%),url('./images/ui.PNG');min-height:662px;background-size:cover
+                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 90%),url('./images/slide3.jpg');min-height:662px;background-size:cover
                         }
                         .x-password{
                             border-left:none; border-radius:0px;margin-left:-3px;
@@ -250,8 +258,8 @@ class Login extends Component {
                         }
 
                         input:focus {
-
-                                                                    letter - spacing: 2px;
+                            box-shadow:0px !important;
+                            letter-spacing: 2px;
                             -webkit-transition: 0.2s ease-in;
                             -moz-transition: 0.2s ease-in;
                             transition: 0.2s ease-in;

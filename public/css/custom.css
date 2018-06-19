@@ -133,6 +133,12 @@ a{
     background: #fff;
     
 }
+.unread{
+    font-weight: bold;
+}
+.unread>div{
+    background: #ddd;
+}
 .page-start .left-grid a.active > div{
     background: #287AC2;
     color: #fff
@@ -264,6 +270,7 @@ float:left; padding:0px
 }
  input:focus{
     letter-spacing: 2px;
+    box-shadow: none !important;
       -webkit-transition: 0.2s ease-in  ;
     -moz-transition: 0.2s ease-in  ;
     transition: 0.2s ease-in  ;

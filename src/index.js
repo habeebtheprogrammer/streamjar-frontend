@@ -8,13 +8,17 @@ import { createStore } from "redux";
 import jwt from "jsonwebtoken";
 import { setCurrentUser } from "./actions/index"
 import setAuthorizationToken from "./component/auth"
-
+import socketIOClient from "socket.io-client"
+import apiUrl from "./config"
 var store = createStore(allReducer);
 
 if (window.localStorage.kaytoken) {
     setAuthorizationToken(window.localStorage.kaytoken);
-    console.log(jwt.decode(window.localStorage.kaytoken))
-    store.dispatch(setCurrentUser(jwt.decode(window.localStorage.kaytoken)))
+    var socket = socketIOClient(apiUrl);
+    var decodedToken = jwt.decode(window.localStorage.kaytoken);
+    socket.emit("initialize", decodedToken.id, decodedToken.fullName, decodedToken.department,decodedToken.username)
+    store.dispatch(setCurrentUser(decodedToken))
+    console.log(decodedToken)
 }
 
 ReactDOM.render(<BrowserRouter>

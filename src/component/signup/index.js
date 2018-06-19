@@ -50,10 +50,9 @@ class Signup extends Component {
         // const { username, password, completed, firstName, lastName, email, dob, tos, street, country, membership, city, state, phone, touchbyemail, touchbysms, contactedbynews, contactedbypromotion, contactedbyevent, missathing, importantstuff, donotcontact } = this.state
 
         return (
-            <div className="x-swrapper">
-                <Navbar />
-                <div className="row" className="form-horizontal" style={{ padding: "50px 0px", margin: "0" }}>
-                    <div className=" col-sm-4 col-sm-offset-4 bounceInLeft animated" style={{ overflow: "hidden" }}>
+            <div className="x-swrapper signup">
+                <div className="row" className="form-horizontal" style={{ padding: "20px 10px", margin: "0" }}>
+                    <div className=" col-sm-4 col-sm-offset-4 " style={{ overflow: "hidden" }}>
                         <form onSubmit={this.register}>
                             <div className="row" style={{ padding: "30px 0px" }}>
                                 <div className="col-sm-4" style={{ paddingTop: "18px" }}>
@@ -96,7 +95,7 @@ class Signup extends Component {
                             <div className="form-group has-feedback">
                                 <select type="text" onChange={this.typing} name="gender" className="form-control" required="required" >
                                     <option >Please select your gender</option>
-                                    <option value="gender">Male</option>
+                                    <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                                 <span className="form-control-feedback">
@@ -155,18 +154,29 @@ class Signup extends Component {
 
                     <style>
                         {`
-                        .x-swrapper{
+                        body{
                             color:#eee;
-                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 80%),url('./images/ui.PNG');
+                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 80%),url('./images/slide3.jpg');
                             min-height:662px;
                             background-size:cover;
-                            background-position:fixed !important;
+                            background-attachment:fixed;
                             
                         }
                         .x-sbutton{
                             background:transparent; border-radius:100%;color:#fff
                         }
-                      
+                          input.form-control::-webkit-input-placeholder {
+                                                                    color: #eee 
+                        }
+                        .signup input,select{
+                                                                    background: rgba(228, 223, 223, 0.2) !important;
+                            border: none  !important;
+                            color: #eee  !important;
+                            -webkit-transition: 0.2s ease-in !important;
+                            -moz-transition: 0.2s ease-in  !important;
+                            transition: 0.2s ease-in  !important;
+                        }
+                       option{color:#555 !important}
                     `}
                     </style>
                 </div>

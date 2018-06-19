@@ -15,19 +15,14 @@ import moment from "moment"
 import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
 import Relatedusers from "../extras/relatedusers"
-
+import Onlineusers from "../extras/onlineusers"
+import socketIOClient from "socket.io-client"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
         profile: state.profile.bioData,
         media: state.profile.media
     }
-}
-function matchDispatchToProps(dispatch) {
-    return bindActionCreators({
-        setUserProfile: setUserProfile,
-        editUserProfile: editUserProfile
-    }, dispatch)
 }
 
 
@@ -37,7 +32,8 @@ class Dashboard extends Component {
         this.state = {
 
             user: {},
-            isLoading:true
+            isLoading:true,
+            online:true
 
         }
 
@@ -48,6 +44,14 @@ class Dashboard extends Component {
             if (res.user)
                 this.setState({ user: res.user, isLoading: false }); else this.setState({ empty: true })
         })
+        var socket = socketIOClient(apiUrl);
+        // var decodedToken = jwt.decode(window.localStorage.kaytoken);
+        socket.on("connect",()=>this.setState({online:true}))
+        socket.on("disconnect",()=>{
+            this.setState({online:false})
+            console.log("disconnect from server")
+        })
+
     }
 
     render() {
@@ -87,7 +91,7 @@ class Dashboard extends Component {
                                 <div className="row zero page-row">
                                     <div className=" col-sm-3 zero left-grid  ">
 
-                                        <Relatedusers auth={this.props.auth} />
+                                        <Onlineusers auth={this.props.auth} />
 
                                     </div>
 
@@ -190,12 +194,12 @@ class Dashboard extends Component {
                                             </div>
                                             <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
 
-                                                <img src="./images/user.jpg" width="100%" className="img-responsive" alt="img" />
+                                                <img src="../../images/user.jpg" width="100%" className="img-responsive" alt="img" />
                                                 <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.props.auth.user.fullName} </span> </div>
                                                 <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
-                                                <small className="online"> online</small><br />
-                                                <small> Joined 10:30am 12 Aug 2017</small>
-                                                <button className="btn btn-custom btn-sm  btn-block" id="callbtn">Edit profile</button>
+                                                {this.state.online ? <small className="online"> online</small> : <small className="away"> Connecting...</small>}<br />
+                                                <small> Joined {moment(this.props.auth.user.date).format("LL")}</small>
+                                                <Link to="/dashboard/edit" className="btn btn-custom btn-sm  btn-block" id="callbtn">Edit profile</Link>
                                             </div>
                                         </div>
 
@@ -227,4 +231,4 @@ class Dashboard extends Component {
     }
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Dashboard);
+export default connect(mapStateToProps)(Dashboard);
