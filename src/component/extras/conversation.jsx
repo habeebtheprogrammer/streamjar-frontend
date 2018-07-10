@@ -57,7 +57,7 @@ class Conversation extends Component {
         // })
         return (
             <div>
-                <div style={{ padding: "20px" }}>People you may know</div>
+                <div style={{ padding: "20px" }}>Recent conversation</div>
 
                 {this.state.rloader ? <center style={{ margin: "100px 0px" }}><i className="fa fa-spin fa-spinner"></i></center> : null}
                 {this.messages()}

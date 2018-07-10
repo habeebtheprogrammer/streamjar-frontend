@@ -31,32 +31,18 @@ class Chat extends Component {
         super(props);
         this.state = {
             name: "",
-            mesg:[],
+            mesg: { messages: [] },
             user: {},
+            text: "",
             empty: false,
             isLoading: true,
 
         }
-
+       
     }
-    componentWillMount() {
-        var token = localStorage.getItem("jwToken")
-        $.getJSON(`${apiUrl}/api/getuserbyid?id=${this.props.match.params.id}`, (res) => {
-            if (res.user)
-                this.setState({ user: res.user, isLoading: false }); else this.setState({ empty: true })
-        })
-    }
-    sendmesg(){
-        var socket = socketIOClient(apiUrl);
-        socket.emit("sendmesg","yeah")
-    }
+  
     render() {
-        var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
-        var socket = socketIOClient(apiUrl);
-        socket.on("broadcast",(params)=>{
-            
-            this.setState({})
-        })
+   
         return (
             <div className="row">
                 <Navbar />
@@ -94,68 +80,7 @@ class Chat extends Component {
                                      <Conversation auth={this.props.auth} />
                                     </div>
 
-                                    <div className="col-sm-10 zero right-grid">
-                                   
-                                            <div className="row" style={{}}>
-                                                <div className="col-sm-9 zero" style={{}}>
-                                                    <div className="page-title">
-                                                        Chat Message
-                                                        <small><i className="fa fa-smile-o"></i></small>
-
-                                                    </div>
-                                                    <div className="row chat-row" >
-                                                 
-                                                    <div className="col-sm-12">
-                                                        <div className="row " style={{ marginBottom: "10px" }}>
-                                                            <div className="col-xs-1 dp">
-                                                                <img src="../../../images/govinda.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
-                                                            </div>
-
-                                                            <div className="col-xs-11 zero">
-                                                                <div className="chat-box">
-                                                                  Hi, {this.props.auth.user.fullName}.<br />
-                                                                    <small style={{ fontSize: "0.8em" }}>10:20am</small>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="col-sm-12">
-                                                        <div className="row" style={{ marginBottom: "10px" }}>
-                                                            <div className="col-xs-1 dp">
-                                                                <img src="../../../images/govinda.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
-                                                            </div>
-
-                                                            <div className="col-xs-11 zero">
-                                                                <div className="chat-box">
-                                                                    we welcome you to world of possibilities. explore and do what you love.<br />
-                                                                    <small style={{ fontSize: "0.8em" }}>10:20am</small>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                        <div className="col-xs-12 zero chat-input" style={{ position: "absolute", bottom: "0" }}>
-
-                                                            <textarea type="text" className="search-field chat-input" placeholder="Type your message" name="" id="" style={{ width: "100%" }} ></textarea>
-
-
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
-
-                                                    <img src="../../images/genu.jpg" width="100%" className="img-responsive" alt="img" />
-                                                    <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.state.user.fullName}</span> </div>
-                                                    <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
-                                                    <small className="online"> online</small><br />
-                                                    <small> Joined {moment(this.state.user.date).format("LL")}</small>
-                                                    <button className="btn btn-custom btn-sm  btn-block" id="callbtn"> <i className="fa fa-video-camera"></i> call</button>
-                                                </div>
-                                            </div>
+                                    <div className="col-sm-10 zero right-grid" style={{background:"url('../../images/slide3.jpg')",backgroundSize:"cover",height:"550px"}}>
                                    
                                     </div>
 

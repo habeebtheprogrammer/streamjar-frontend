@@ -71,7 +71,7 @@ class Chatpage extends Component {
         var suname = this.props.auth.user.username; var runame = this.state.user.username;
         var date = new Date()
         e.preventDefault()
-        var socket = socketIOClient(apiUrl);
+        var {socket} = this.props.socket;
         var party;
         if (moment(this.props.auth.user.regDate).isAfter(this.state.user.date)) {
             party = receiverID + senderID

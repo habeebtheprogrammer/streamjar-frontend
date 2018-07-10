@@ -19,7 +19,7 @@ class App extends Component {
                 {/* <Header itemsInCart={this.state.cartItems}/> */}
                 {/* <Header/> */}
                 {/* <Main newUpdate={this.newUpdate.bind(this)} state={this.state}/> */}
-                <Main />
+                <Main socket={this.props.socket}/>
                 {/* <Footer /> */}
             </div>
         );

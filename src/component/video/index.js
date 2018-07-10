@@ -129,18 +129,18 @@ class Video extends Component {
                                                                             <div className="inner" style={{ textTransform: "capitalize" }}>
                                                                                 <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>
                                                                                 <span style={{ textTransform: "capitalize" }}>{member.country}</span>
-                                                                                <div className="star-rating">
-                                                                                    <div className="rating-counter">  {member.department} {member.university} </div>
-                                                                                    <span className="star"></span><span className="star"></span><span className="star"></span><span className="star half"></span><span className="star empty"></span>
-                                                                                    </div>
+                                                                                <div style={{fontSize:"0.9em"}}>  
+                                                                                  <div><b>university : </b>{member.university}</div>
+                                                                                  <div><b>department : </b>{member.department}</div>
+                                                                            </div><br />
+                                                                                    <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
+                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-chat"></i> Message</Link>
+                                                                        <Link to={`/call/${member.username}`}  className="button gray"><i className="fa fa-phone"></i> Call</Link>
                                                                             </div>
                                                                             
                                                                         </div>
                                                                     </div>
-                                                                    <div className="buttons-to-right">
-                                                                        <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-chat"></i> Message</Link>
-                                                                    </div>
+                                                                        
                                                                 </li>
                                                             ))
                                                           }

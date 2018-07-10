@@ -16,7 +16,6 @@ import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
 import Relatedusers from "../extras/relatedusers"
 import Onlineusers from "../extras/onlineusers"
-import socketIOClient from "socket.io-client"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -44,7 +43,7 @@ class Dashboard extends Component {
             if (res.user)
                 this.setState({ user: res.user, isLoading: false }); else this.setState({ empty: true })
         })
-        var socket = socketIOClient(apiUrl);
+        var {socket} = this.props.socket
         // var decodedToken = jwt.decode(window.localStorage.kaytoken);
         socket.on("connect",()=>this.setState({online:true}))
         socket.on("disconnect",()=>{
@@ -55,7 +54,6 @@ class Dashboard extends Component {
     }
 
     render() {
-
         return (
             <div className="row">
                 <Navbar />
@@ -91,7 +89,7 @@ class Dashboard extends Component {
                                 <div className="row zero page-row">
                                     <div className=" col-sm-3 zero left-grid  ">
 
-                                        <Onlineusers auth={this.props.auth} />
+                                        <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
 
                                     </div>
 

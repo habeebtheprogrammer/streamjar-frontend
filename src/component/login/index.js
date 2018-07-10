@@ -188,8 +188,7 @@ class Login extends Component {
 
                                 <center>
                                     <p>{this.state.error?this.state.error:null}</p>
-                                    Not a member?
-                        <a href="/signup">Sign up</a>
+                                    Not a member?  <a href="/signup">Sign up</a>
                                     <br />
 
 
@@ -200,10 +199,10 @@ class Login extends Component {
                         </div>
 
                     </div>
-                    <div className="container">
+                    <div className="container" >
+                    <div style={{margin:"80px 0px"}}>
                         <span>
-                            Follow us on
-                            <button type="button" className="btn btn-default x-sbutton" >
+                            Follow us on  <button type="button" className="btn btn-default x-sbutton" >
                                 <i className="fa fa-facebook"></i>
                             </button>
                             <button type="button" className="btn btn-default x-sbutton" >
@@ -216,16 +215,17 @@ class Login extends Component {
 
 
                         </span>
-                        <span className="pull-right"> Designed by
-                        <span style={{ color: "#D3450C" }}>Habeeb Abdulrahman</span>
+                        <span className="pull-right"> Designed by <span style={{ color: "#D3450C" }}>Habeeb Abdulrahman</span>
                         </span>
+                        </div>
                     </div>
 
                 </div>
                 <style>
                     {`
                         .x-wrapper{
-                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 90%),url('./images/slide3.jpg');min-height:662px;background-size:cover
+                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 90%),url('./images/slide3.jpg');min-height:700px;background-size:cover;
+                            background-attachment:fixed;
                         }
                         .x-password{
                             border-left:none; border-radius:0px;margin-left:-3px;

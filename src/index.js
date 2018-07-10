@@ -23,6 +23,6 @@ if (window.localStorage.kaytoken) {
 
 ReactDOM.render(<BrowserRouter>
     <Provider store={store}>
-        <App />
+        <App socket={socket}/>
     </Provider >
 </BrowserRouter>, document.getElementById('root'));

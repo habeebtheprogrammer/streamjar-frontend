@@ -59,7 +59,7 @@ class Navbar extends Component {
                 </div>
                 {this.props.auth.isAuthenticated?null:
                 <div className="collapse navbar-collapse navbar-ex1-collapse" style={{ border: "none" }}>
-                    <ul className="nav navbar-nav navbar-right">
+                    {/* <ul className="nav navbar-nav navbar-right">
                         <li>
                             <a href="/login" className="navbar-link" style={{ color: "#fff" }}>
 
@@ -74,7 +74,7 @@ class Navbar extends Component {
                                 <span> Signup</span>
                         </a>
                         </li>
-                    </ul>
+                    </ul> */}
                 </div>
                 }
                 <style>

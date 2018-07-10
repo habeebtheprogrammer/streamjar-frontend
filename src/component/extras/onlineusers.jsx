@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import $ from "jquery"
 import classnames from "classnames"
 import apiUrl from "../../config"
-import socketIOClient from "socket.io-client"
+// import socketIOClient from "socket.io-client"
 import jwt from "jsonwebtoken"
 class Onlineusers extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class Onlineusers extends Component {
 
 componentWillMount() {
     
-    var socket = socketIOClient(apiUrl);
+    var {socket} = this.props.socket
     var decodedToken = jwt.decode(window.localStorage.kaytoken);
     socket.emit("fetchuserlist")
     // socket.emit("initialize", decodedToken.id, decodedToken.fullName, decodedToken.department)

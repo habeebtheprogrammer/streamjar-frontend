@@ -107,11 +107,11 @@ class Search extends Component {
                             <div className="page-start  ">
 
                                 <div className="row zero page-row">
-                                    <div className=" col-sm-3 zero left-grid hidden-xs ">
+                                    {/* <div className=" col-sm-3 zero left-grid hidden-xs ">
                                      <Relatedusers auth={this.props.auth}/>
-                                    </div>
+                                    </div> */}
 
-                                    <div className="col-sm-10 right-grid zero ">
+                                    <div className="col-sm-12 full-grid zero ">
                                         <div className="page-title" style={{ borderBottom: "none" }}>
                                             <input type="text" name="name" onChange={this.typing} placeholder="Who/what are you looking for?" className="form-control"  />
                                             
@@ -129,19 +129,23 @@ class Search extends Component {
                                                                     <div className="list-box-listing">
                                                                         <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={`../../images/${imglist[key]}`} alt="" /></Link></div>
                                                                         <div className="list-box-listing-content">
-                                                                            <div className="inner" style={{ textTransform: "capitalize" }}>
-                                                                                <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>
-                                                                                <span style={{ textTransform: "capitalize" }}>{member.country}</span>
-                                                                                <div className="star-rating" data-rating="3.5">
-                                                                                    <div className="rating-counter">  {member.department} {member.university}  <small style={{ color: "#f44336" }}>(male)</small></div>
-                                                                                    <span className="star"></span><span className="star"></span><span className="star"></span><span className="star half"></span><span className="star empty"></span></div>
+                                                                        <div className="list-box-listing-content">
+                                                                        <div className="inner" style={{ textTransform: "capitalize" }}>
+                                                                            <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>
+                                                                            <span style={{ textTransform: "capitalize" }}>{member.country}</span>
+                                                                            <div style={{fontSize:"0.9em"}}>  
+                                                                                  <div><b>university : </b>{member.university}</div>
+                                                                                  <div><b>department : </b>{member.department}</div>
+                                                                                  <div style={{textTransform:"lowercase",paddingTop:"10px"}}>{member.bio}</div>
                                                                             </div>
+                                                                            </div> <br /><br />
+                                                                            <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
+                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-comments"></i> Message</Link>
+                                                                        <Link to={`/call/${member.username}`}  target="__blank" className="button gray"><i className="fa fa-phone"></i> Call</Link>
+                                                                    </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="buttons-to-right">
-                                                                        <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                        <Link to={`/chat/${member.username}`} className="button gray"><i className="fa fa-chat"></i> Message</Link>
-                                                                    </div>
+                                                                 
                                                                 </li>
                                                             ))
                                                             :
@@ -154,16 +158,21 @@ class Search extends Component {
                                                                         <div className="inner" style={{ textTransform: "capitalize" }}>
                                                                             <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>
                                                                             <span style={{ textTransform: "capitalize" }}>{member.country}</span>
-                                                                            <div className="star-rating" data-rating="3.5">
-                                                                                <div className="rating-counter">  {member.department} {member.university}  <small style={{ color: "#f44336" }}>(male)</small></div>
-                                                                                <span className="star"></span><span className="star"></span><span className="star"></span><span className="star half"></span><span className="star empty"></span></div>
-                                                                        </div>
+                                                                            <div style={{fontSize:"0.9em"}}>  
+                                                                                  <div><b>university : </b>{member.university}</div>
+                                                                                  <div><b>department : </b>{member.department}</div>
+                                                                                  <div style={{textTransform:"lowercase",paddingTop:"10px"}}>{member.bio}</div>
+                                                                            </div>
+                                                                            </div> <br /><br />
+                                                                            <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
+                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-comments"></i> Message</Link>
+                                                                        <Link to={`/call/${member.username}`}    target="__blank" className="button gray"><i className="fa fa-phone"></i> Call</Link>
                                                                     </div>
                                                                 </div>
-                                                                <div className="buttons-to-right">
+                                                                {/* <div className="buttons-to-right">
                                                                         <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
                                                                     <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-comments"></i> Message</Link>
-                                                                </div>
+                                                                </div> */}
                                                             </li>
                                                         ))}
 
