@@ -39,7 +39,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname,"..", 'build')));
 app.use('/', index);
 app.get('*',function(req, res){
-  res.sendFile(path.join(process.cwd(),"..","build/index.html"))
+  res.sendFile(path.join(__dirname,"..","build/index.html"))
 }); 
 var server = http.createServer(app);
 var io = socketIO(server);
