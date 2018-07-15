@@ -353,7 +353,7 @@ router.post("/api/conversation", (req, res, next) => {
        if(fsize > 4055021)
       return res.json({ error: "Image size should not be above 4mb" });
       var ulimit = fsize/1000000;
-      fs.rename(tmpFile, nFile, (err) => {
+      // fs.rename(tmpFile, nFile, (err) => {
         cloudinary.uploader.upload(nFile, function (result) {
           if (result.url) {
             let userData = jwt.decode(fields2.token)
@@ -364,7 +364,7 @@ router.post("/api/conversation", (req, res, next) => {
           } else {
             res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
           }
-        }).catch((err) => console.log(err))
+        // }).catch((err) => console.log(err))
       })
     })
   })
