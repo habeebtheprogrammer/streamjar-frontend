@@ -289,53 +289,8 @@ input[type="radio"] {
                                                 </div>
                                                 <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
 
-                                                    <img src="../../images/user.jpg" width="100%" className="img-responsive" alt="img" />
-                                                <FileUpload options={{
-                                                    baseUrl: `${apiUrl}/api/editeventdp`,
-                                                    param: {
-                                                        fid: 0
-                                                    },
-                                                    chooseAndUpload: true,
-                                                    accept: "image/*",
-                                                    fileFieldName: "dp",
-                                                    uploadSuccess: function (res) {
-                                                        if (res.error) {
-
-                                                            setTimeout(() => {
-                                                                this.setState({ error: "Error uploading file", isLoading: false, })
-
-                                                            }, 2000);
-                                                        }
-                                                        else {
-                                                            this.setState({ isLoading: false, success: "Uploaded successfully" })
-                                                            setTimeout(() => {
-                                                                window.location.reload();
-                                                            }, 1000);
-
-
-                                                        }
-
-                                                    }.bind(this),
-                                                    chooseFile: function (files) {
-                                                        this.setState({ isLoading: true, success: "", error: "" })
-                                                    }.bind(this),
-                                                    uploadFail: function (err) {
-                                                        this.setState({ isLoading: false, success: "", error: "Please try again late" })
-                                                        console.log(err)
-                                                    }.bind(this),
-                                                    uploadError: function (err) {
-                                                        this.setState({ error: " please try again later", isLoading: false })
-                                                    }.bind(this),
-                                                    uploading: function (progress) {
-                                                        this.setState({ success: "", error: "", isLoading: true })
-                                                    }.bind(this),
-                                                    paramAddToField: { token: token, userID: this.props.auth.user.id }
-                                                }}>
-                                                    {/* <button ref="chooseBtn" className="btn btn-default btn-sm">choose</button> */}
-                                                    <button ref="uploadBtn" ref="chooseAndUpload" className="btn grey z-depth-0 lighten-2 profile-pic" style={{}}>
-                                                        <i className="fa fa-camera"></i> upload dp
-                                                    </button>
-                                                </FileUpload>
+                                                    <img src={this.props.auth.user.dp || "../../../../images/avatar.jpg"} width="100%" className="img-responsive" alt="img" />
+                                              
                                                     <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.props.auth.user.fullName} </span> </div>
                                                     <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
                                                     <small className="online"> online</small><br />

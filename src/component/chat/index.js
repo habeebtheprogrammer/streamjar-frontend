@@ -80,8 +80,11 @@ class Chat extends Component {
                                      <Conversation auth={this.props.auth} />
                                     </div>
 
-                                    <div className="col-sm-10 zero right-grid" style={{background:"url('../../images/slide3.jpg')",backgroundSize:"cover",height:"550px"}}>
-                                   
+                                    <div className="col-sm-10 zero right-grid" style={{backgroundSize:"cover",height:"550px",padding:"180px 10px"}}>
+                                    <center>
+                                        <i className="fa fa-comments fa-4x"></i>
+                                        <h3>Click on a conversation to continue</h3>
+                                        </center>
                                     </div>
 
                                 </div>

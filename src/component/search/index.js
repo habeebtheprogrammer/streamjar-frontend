@@ -51,6 +51,7 @@ class Search extends Component {
     componentWillMount() {
         var token = localStorage.getItem("jwToken")
         $.getJSON(`http://localhost:3006/api/getusers`,(users) => {
+            console.log(users)
             this.setState(users)
         })
         
@@ -127,7 +128,7 @@ class Search extends Component {
                                                             this.state.result.map((member, key) => (
                                                                 <li className="col-md-6">
                                                                     <div className="list-box-listing">
-                                                                        <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={`../../images/${imglist[key]}`} alt="" /></Link></div>
+                                                                        <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" /></Link></div>
                                                                         <div className="list-box-listing-content">
                                                                         <div className="list-box-listing-content">
                                                                         <div className="inner" style={{ textTransform: "capitalize" }}>
@@ -153,7 +154,7 @@ class Search extends Component {
                                                         Shuffle(this.state.users).map((member,key) => (
                                                                 <li className="col-md-6">
                                                                 <div className="list-box-listing">
-                                                                    <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={`../../images/${imglist[key]}`} alt="" /></Link></div>
+                                                                    <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" /></Link></div>
                                                                     <div className="list-box-listing-content">
                                                                         <div className="inner" style={{ textTransform: "capitalize" }}>
                                                                             <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>

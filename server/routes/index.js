@@ -12,6 +12,7 @@ var formidable = require('formidable');
 var fs = require("fs")
 var cloudinary = require("cloudinary")
 var dotenv = require('dotenv')
+var path  = require ('path')
 var Message = require("../model/message")
 dotenv.config();
 cloudinary.config({
@@ -330,221 +331,41 @@ router.post("/api/conversation", (req, res, next) => {
 
   })
   //request from dashboard
-
-  
   .post('/api/uploadDp', (req, res, next) => {
     var newform = new formidable.IncomingForm();
+
     newform.keepExtensions = true;
+    var tmpFile, nFile, result,fsize, cname; var fields2 = {}
     newform.parse(req, (err, fields, files) => {
-      cloudinary.uploader.upload(files.dp.path, function (result) {
-        if (result.url) {
-          let userData = jwt.decode(fields.token)
-          var publicid = result.public_id + "." + result.format
-          User.findByIdAndUpdate(userData.id, { dpUrl: result.url, dpID: publicid }).then((success) => { res.json({ dpUrl: result.url }); })
-        } else {
-          res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
-        }
+     
+      cname = generator.generate({
+        length: 15,
+        numbers: true
+      });
+      cname += ".jpg"
+      Object.assign(fields2, fields)
+      tmpFile = files.dp.path;
+      fsize = files.dp.size;
+      nFile = path.join(__dirname, '..', '..', 'public/images', cname)
+
+    })
+    newform.on("end", function () {
+       if(fsize > 4055021)
+      return res.json({ error: "Image size should not be above 4mb" });
+      var ulimit = fsize/1000000;
+      fs.rename(tmpFile, nFile, (err) => {
+        cloudinary.uploader.upload(nFile, function (result) {
+          if (result.url) {
+            let userData = jwt.decode(fields2.token)
+            console.log(userData)
+            var publicid = result.public_id + "." + result.format
+
+            User.findByIdAndUpdate(userData.id, {  $inc: { uploadLimit: +ulimit } , dpUrl: result.url, dpID: publicid, dp2Url: cname }).then((success) => { res.json({ dpUrl: result.url }); })
+          } else {
+            res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
+          }
+        }).catch((err) => console.log(err))
       })
-    })
-  })
-  .post('/api/uploadBgPic', (req, res, next) => {
-    var newform = new formidable.IncomingForm();
-    newform.keepExtensions = true;
-    newform.parse(req, (err, fields, files) => {
-      cloudinary.uploader.upload(files.bgPic.path, function (result) {
-        if (result.url) {
-          let userData = jwt.decode(fields.token)
-          var publicid = result.public_id + "." + result.format
-          User.findByIdAndUpdate(userData.id, { bgUrl: result.url, bgID: publicid }).then((success) => { res.json({ dpUrl: result.url }) })
-        } else {
-          res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
-        }
-      })
-    })
-  })
-  .post('/api/uploadVideo', (req, res, next) => {
-    var newform = new formidable.IncomingForm();
-    newform.keepExtensions = true;
-    newform.parse(req, (err, fields, files) => {
-
-      let errorFields = {}
-      if (fields.title === "") errorFields.title = "This field is required";
-      if (fields.description === "") errorFields.description = "This field is required";
-      if (errorFields.title || errorFields.description) res.json({ error: { title: errorFields.title, description: errorFields.description } });
-      else if (files.video)
-        cloudinary.v2.uploader.upload(files.video.path, { resource_type: "video" }, function (error, result) {
-          if (result) {
-
-            let userData = jwt.decode(fields.token)
-            let time = new Date();
-            let uploadedVideo = new Video({
-              userID: userData.id,
-              videoUrl: result.url,
-              date: time,
-              title: fields.title,
-              dpUrl: userData.dpUrl,
-              description: fields.description,
-              industry: userData.industry
-            });
-            uploadedVideo.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
-          } else {
-
-            res.json({ error: { server: "Error uploading file" } }); console.log("error uploading to cloudinary")
-          }
-          // Picture.update({ userID: userData.id, url: result.url })
-        }); else res.json({ error: { server: "Please choose a file to upload" } });
-    })
-  })
-  .post('/api/uploadAudio', (req, res, next) => {
-    var newform = new formidable.IncomingForm();
-    newform.keepExtensions = true;
-    newform.parse(req, (err, fields, files) => {
-
-      let errorFields = {}
-      if (fields.name === "") errorFields.name = "This field is required";
-      if (fields.description === "") errorFields.description = "This field is required";
-      if (errorFields.name || errorFields.description) res.json({ error: { name: errorFields.name, description: errorFields.description } });
-      else if (files.audio)
-        cloudinary.v2.uploader.upload(files.audio.path, { resource_type: "video" }, function (error, result) {
-          if (result) {
-            let userData = jwt.decode(fields.token)
-            let time = new Date();
-            let uploadedAudio = new Audio({
-              userID: userData.id,
-              src: result.url,
-              date: time,
-              name: fields.name,
-              img: userData.dpUrl,
-              description: fields.description,
-              industry: userData.industry
-            });
-            uploadedAudio.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
-          } else {
-            res.json({ error: { server: "Error uploading file" } }); console.log("error uploading to cloudinary")
-          }
-          // Picture.update({ userID: userData.id, url: result.url })
-        }); else res.json({ error: { server: "Please choose a file to upload" } });
-    })
-  })
-  .post('/api/uploadProduct', (req, res, next) => {
-    var newform = new formidable.IncomingForm();
-    newform.keepExtensions = true;
-    newform.parse(req, (err, fields, files) => {
-      console.log(fields)
-      let errorFields = {}
-      if (fields.title === "") errorFields.title = "This field is required";
-      if (fields.price === "") errorFields.price = "This field is required";
-      // if (fields.billing === "") errorFields.billing = "This field is required";
-      if (fields.phone === "") errorFields.phone = "This field is required";
-      if (fields.stock === "") errorFields.stock = "This field is required";
-      if (fields.email === "") errorFields.email = "This field is required";
-      if (fields.description === "") errorFields.description = "This field is required";
-      if (errorFields.title || errorFields.price || errorFields.description) res.json({ error: { title: errorFields.title, price: errorFields.price, description: errorFields.description } });
-      else if (files.product)
-        cloudinary.uploader.upload(files.product.path, function (result) {
-          if (result.url) {
-            let userData = jwt.decode(fields.token)
-            let time = new Date();
-            var publicid = result.public_id + "." + result.format
-
-            let uploadedProduct = new Product({
-              userID: userData.id,
-              imgUrl: result.url,
-              imgID: publicid,
-              date: time,
-              title: fields.title,
-              dpUrl: userData.dpUrl,
-              price: fields.price,
-              description: fields.description,
-              // billing: fields.billing,
-              phone: fields.phone,
-              stock: fields.stock,
-              email: fields.email,
-              industry: userData.industry
-            });
-            uploadedProduct.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
-          } else {
-            res.json({ error: { server: "Error uploading file" } }); console.log("error uploading to cloudinary")
-          }
-          // Picture.update({ userID: userData.id, url: result.url })
-        }); else res.json({ error: { server: "Please choose a file to upload" } });
-    })
-  })
-  .post('/api/uploadEvent', (req, res, next) => {
-    var newform = new formidable.IncomingForm();
-    newform.keepExtensions = true;
-    newform.parse(req, (err, fields, files) => {
-      console.log(fields)
-      let errorFields = {}
-      if (fields.title === "") errorFields.title = "This field is required";
-      // if (fields.link === "") errorFields.link = "This field is required";
-      if (fields.location === "") errorFields.location = "This field is required";
-      if (fields.description === "") errorFields.description = "This field is required";
-      if (fields.startTime === "") errorFields.startTime = "This field is required";
-      if (fields.stopTime === "") errorFields.stopTime = "This field is required";
-      if (errorFields.title || errorFields.location || errorFields.description || errorFields.stopTime || errorFields.startTime) res.json({ error: { title: errorFields.title, location: errorFields.location, description: errorFields.description } });
-      else if (files.event)
-        cloudinary.uploader.upload(files.event.path, function (result) {
-          if (result.url) {
-            // let day = moment(fields.checkedDate).date(); let month = moment(fields.checkedDate).month() + 1;
-            let customDate = moment(fields.checkedDate).format("l")
-            let userData = jwt.decode(fields.token)
-            let time = new Date();
-            var publicid = result.public_id + "." + result.format
-
-            let UploadEvent = new Event({
-              userID: userData.id,
-              date: time,
-              title: fields.title,
-              imgUrl: result.url,
-              imgID: publicid,
-              ticket: fields.link,
-              location: fields.location,
-              description: fields.description,
-              address: fields.address,
-              startTime: fields.startTime,
-              stopTime: fields.stopTime,
-              checkedDate: fields.checkedDate,
-              customDate: customDate,
-              industry: userData.industry
-            });
-
-            UploadEvent.save().then().then((success) => { res.json({ url: result.url, success: "Event created successfully" }) })
-          } else {
-            res.json({ error: { server: "Error creating an event" } }); console.log("error uploading to cloudinary")
-          }
-          // Picture.update({ userID: userData.id, url: result.url })
-        }); else res.json({ error: { server: "Please choose a file to upload" } });
-    })
-  })
-
-  .post('/api/uploadPictures', (req, res, next) => {
-    var newform = new formidable.IncomingForm();
-    newform.keepExtensions = true;
-    newform.parse(req, (err, fields, files) => {
-      let errorFields = {}
-      if (fields.caption === "") errorFields.caption = "This field is required";
-      if (errorFields.caption) res.json({ error: { caption: errorFields.caption } });
-      else if (files.picture)
-        cloudinary.uploader.upload(files.picture.path, function (result) {
-          if (result.url) {
-            let userData = jwt.decode(fields.token)
-            let time = new Date();
-            var publicid = result.public_id + "." + result.format
-            let uploadedPicture = new Picture({
-              userID: userData.id,
-              imgUrl: result.url,
-              imgID: publicid,
-              date: time,
-              caption: fields.caption,
-              description: fields.description
-            });
-            uploadedPicture.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
-          } else {
-            res.json({ error: { server: "Error uploading the image" } }); console.log("error uploading to cloudinary")
-          }
-          // Picture.update({ userID: userData.id, url: result.url })
-        }); else res.json({ error: { server: "Please choose an image to upload" } });
     })
   })
 module.exports = router;

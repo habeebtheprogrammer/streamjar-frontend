@@ -17,6 +17,12 @@ class Sidebar extends Component {
         var url = window.location.pathname;
         window.location.assign("/")
     }
+
+    logout(e){
+        e.preventDefault();
+        localStorage.removeItem("kaytoken");
+        window.location.assign("/login")
+    }
     render() {
 
         return (
@@ -70,9 +76,18 @@ class Sidebar extends Component {
                         </a>
                     </div>
                     <div className="sidebar-list">
-                        <a href="" className="">
+                    <Link to="/dashboard/edit" className={classnames(window.location.pathname === "/edit" ? "active" : null)}>
+
                             <center>
                                 <i className="fa fa-cog"></i>
+                            </center>
+                    </Link>
+
+                    </div>
+                    <div className="sidebar-list">
+                        <a href="" className="" onClick={this.logout}>
+                            <center>
+                                <i className="fa fa-power-off"></i>
                             </center>
                         </a>
                     </div>

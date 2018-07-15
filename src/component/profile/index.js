@@ -105,7 +105,7 @@ class Profile extends Component {
                                                             <li>
                                                                 <div className="row" style={{ margin: "0px" }}>
                                                                     <div className="col-sm-6 col-sm-offset-3">
-                                                                        <div style={{ height: "195px", width: "67%", margin: "auto", background: `url('${this.state.user.dpUrl || "../../../../images/arijit.jpg"}')`, borderRadius: "100%", backgroundPosition: "center", backgroundSize: "contain" }}>
+                                                                        <div className="profile-pic" style={{ height: "195px", width: "67%", margin: "auto"}}>
                                                                         </div>
 
                                                                     </div>
@@ -131,11 +131,11 @@ class Profile extends Component {
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.bio}</p>
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.about}</p>
                                                                                 </div>
-                                                                                <div className="col-sm-4">
+                                                                                {/* <div className="col-sm-4">
                                                                                     <h3 style={{ textTransform: "capitalize" }}>Location</h3>
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.location}</p>
 
-                                                                                </div>
+                                                                                </div> */}
                                                                                 <div className="col-sm-4">
                                                                                     <h3 style={{ textTransform: "capitalize" }}>Department</h3>
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.department}</p>
@@ -156,10 +156,10 @@ class Profile extends Component {
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.email}</p>
 
                                                                                 </div>
-                                                                                <div className="col-sm-4">
+                                                                                {/* <div className="col-sm-4">
                                                                                     <h3 style={{ textTransform: "capitalize" }}>Date of Birth</h3>
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.dob}</p>
-                                                                                </div>
+                                                                                </div> */}
                                                                                 <div className="col-sm-4">
                                                                                     <h3 style={{ textTransform: "capitalize" }}>username</h3>
                                                                                     <p style={{ textTransform: "capitalize" }}>{this.state.user.username}</p>
@@ -193,12 +193,12 @@ class Profile extends Component {
                                                 </div>
                                                 <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
 
-                                                    <img src="../../images/genu.jpg" width="100%" className="img-responsive" alt="img" />
+                                                    <img src={this.state.user.dpUrl || "../../../../images/avatar.jpg"} width="100%" className="img-responsive" alt="img" />
                                                     <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.state.user.fullName}</span> </div>
                                                     <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
                                                     <small className="online"> online</small><br />
                                                     <small> Joined {moment(this.state.user.date).format("LL")}</small>
-                                                    <button className="btn btn-custom btn-sm  btn-block" id="callbtn"> <i className="fa fa-video-camera"></i> call</button>
+                                                    <a href={`/call/${this.state.user.username}`} target="_blank" className="btn btn-custom btn-sm  btn-block" id="callbtn"> <i className="fa fa-video-camera"></i> call</a>
                                                 </div>
                                             </div>
                                         }
@@ -226,6 +226,16 @@ class Profile extends Component {
                             </div>
                         </div> */}
                 </div>
+                <style>{`
+                        .profile-pic{
+                            // background: url("${this.state.user.dpUrl}");
+                            background: url('${this.state.user.dpUrl || "../../../../images/avatar.jpg"}');
+                             border-radius: 100%;
+                             background-position: center;
+                             background-size: contain;
+                        }
+                        `}
+                            </style>
             </div>
         );
     }

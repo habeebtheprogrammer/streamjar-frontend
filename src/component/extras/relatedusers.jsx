@@ -36,7 +36,7 @@ componentWillMount() {
                     <a className={classnames(this.state.rloader ? "hide" : null)} href={`/profile/${member.username}`}>
                         <div>
                             <div className="img">
-                                <img src={`../../images/${imglist[key]}`} width="70%" className="img-responsive img-rounded" alt="Image" />
+                                <img src={member.dpUrl || "../../../../images/avatar.jpg"} width="70%" className="img-responsive img-rounded" alt="Image" />
                             </div>
                             <div className="name">
                                 {member.fullName}<br />

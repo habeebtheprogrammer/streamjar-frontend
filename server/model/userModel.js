@@ -39,6 +39,10 @@ var userSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
+    uploadLimit:{
+        type: Number,
+        default: 0
+    },
     date: {
         type: String
     },

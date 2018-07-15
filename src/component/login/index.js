@@ -25,6 +25,8 @@ class Login extends Component {
 
 
     componentWillMount() {
+        var token = localStorage.getItem("kaytoken");
+        if(token) window.location.assign("/dashboard")
         if (window.location.search) {
             axios.get(`${apiUrl}/api/success${window.location.search}`).then((res) => {
                 if (res.data.success) {
@@ -84,6 +86,9 @@ class Login extends Component {
                 } else if (res.data.token) {
                     var userData = jwt.verify(res.data.token, "h1a2b3e4e5b6")
                     if (userData) {
+                        var data = jwt.decode(res.data.token,"h1a2b3e4e5b6");
+                        localStorage.setItem("dp", data.dp||"../../../images/avatar.jpg")
+                        localStorage.setItem("fullname", data.fullName)
                         localStorage.setItem("kaytoken", res.data.token);
                         setAuthorizationToken(res.data.token);
                         window.location.assign("/search")
@@ -108,7 +113,8 @@ class Login extends Component {
         }, () => this.validation())
     }
     render() {
-
+        var dp = window.localStorage.getItem("dp");
+        var fullName = window.localStorage.getItem("fullname");
         return (
             <div className="login" style={{ background: "#eee", color: " #eee" }}>
                 <div className="x-wrapper">
@@ -136,13 +142,13 @@ class Login extends Component {
                                     </div>
 
                                     <div className="col-xs-12 zero" style={{ fontSize: "1.8em" }}>
-                                        <center> CAMPUSCONNECT</center>
+                                        <center> {fullName? "Welcome Back "+fullName : "CAMPUSCONNECT"}</center>
 
                                     </div>
 
                                 </div>
                                 <div className="step-two animated" style={{ float: "left", position: "absolute" }}>
-                                    <img src="./images/govinda.jpg" className="img-responsive x-govinda" width="100px" alt="Image" />
+                                    <img src={dp || "../../../../images/govinda.jpg"} className="img-responsive x-govinda" width="100px" alt="Image" />
 
 
                                     <div className="input-group" style={{ padding: "31px 0px 0px" }}>
@@ -162,7 +168,7 @@ class Login extends Component {
                                     </div>
                                 </div>
                                 <div className="step-one animated" style={{ float: "left" }}>
-                                    <img src="./images/govinda.jpg" className="img-responsive x-govinda" width="100px" alt="Image" />
+                                    <img src={dp || "../../../../images/govinda.jpg"} className="img-responsive x-govinda" width="100px" alt="Image" />
 
                                     <div className="input-group" style={{ padding: "31px 0px 0px" }}>
                                         <input name="username" min="3" onChange={this.typing} type="text" className="form-control username" id="exampleInputAmount" placeholder="Username" style={{ borderLeft: "none", borderRadius: "0px", marginLeft: "-3px" }} />
@@ -234,7 +240,7 @@ class Login extends Component {
                             background:transparent;border:none; padding:10px
                         }
                         .x-govinda{
-                            border-radius:100%;padding:3px; border:3px solid #aaa;float:left;
+                            border-radius:100%;padding:3px; border:3px solid #aaa;float:left;height:100px;
                         }
                         .x-sbutton{
                             background:transparent; border-radius:100%;color:#fff

@@ -101,7 +101,7 @@ class Chatpage extends Component {
                     <div className="col-sm-12 msg" id="msg">
                         <div className="row " style={{ marginBottom: "10px" }}>
                             <div className="col-xs-1 dp pull-right">
-                                <img src="../../../images/govinda.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
+                                <img src={this.props.auth.user.dp || "../../../../images/avatar.jpg"} width="140px" className="img-responsive img-rounded" alt="Image" />
                             </div>
                             <div className="col-xs-11 zero">
                                 <div className="chat-box pull-right">
@@ -116,7 +116,7 @@ class Chatpage extends Component {
                     <div className="col-sm-12 msg" id="msg">
                         <div className="row " style={{ marginBottom: "10px" }}>
                             <div className="col-xs-1 dp">
-                                <img src="../../../images/govinda.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
+                                <img src="../../../images/avatar.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
                             </div>
 
                             <div className="col-xs-11 zero">
@@ -211,12 +211,12 @@ class Chatpage extends Component {
                                             </div>
                                             <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
 
-                                                <img src="../../images/genu.jpg" width="100%" className="img-responsive" alt="img" />
+                                                <img src={this.props.auth.user.dp || "../../../../images/avatar.jpg"} width="100%" className="img-responsive" alt="img" />
                                                 <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.state.user.fullName}</span> </div>
                                                 <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
                                                 <small className="online"> online</small><br />
                                                 <small> Joined {moment(this.state.user.date).format("LL")}</small>
-                                                <button className="btn btn-custom btn-sm  btn-block" id="callbtn"> <i className="fa fa-video-camera"></i> call</button>
+                                                <a className="btn btn-custom btn-sm  btn-block" id="callbtn" href={`/call/${this.state.user.username}`} target="_blank" > <i className="fa fa-video-camera"></i> call</a>
                                             </div>
                                         </div>
 

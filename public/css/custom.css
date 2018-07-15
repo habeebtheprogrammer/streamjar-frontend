@@ -22,6 +22,10 @@ nav.navbar{
     width: 100%;
     text-align: center;
 }
+.profilepic  div{
+    text-align: center;
+    display: block !important;
+}
 .btn-call{
     transition: 0.5s ease-in;
     -moz-transition: 0.5s ease-in;

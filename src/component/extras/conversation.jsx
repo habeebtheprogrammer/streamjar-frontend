@@ -35,7 +35,7 @@ class Conversation extends Component {
             div.push(<a className={classnames(this.state.rloader ? "hide" : null, read === "false" ? "unread" : "")} href={`/chat/${ msg.user1 === this.props.auth.user.username ? msg.user2 : msg.user1}`}>
                 <div>
                     <div className="img">
-                        <img src={`../../images/${imglist[key]}`} width="70%" className="img-responsive img-rounded" alt="Image" />
+                        <img src={`../../images/avatar.jpg`} width="70%" className="img-responsive img-rounded" alt="Image" />
                     </div>
                     <div className="name">
                         {msg.user1===this.props.auth.user.username?msg.user2:msg.user1}<br />
