@@ -50,7 +50,7 @@ class Search extends Component {
     }
     componentWillMount() {
         var token = localStorage.getItem("jwToken")
-        $.getJSON(`http://localhost:3006/api/getusers`,(users) => {
+        $.getJSON(`${apiUrl}/api/getusers`,(users) => {
             console.log(users)
             this.setState(users)
         })
