@@ -354,14 +354,14 @@ router.post("/api/conversation", (req, res, next) => {
       return res.json({ error: "Image size should not be above 4mb" });
       var ulimit = fsize/1000000;
       // fs.rename(tmpFile, nFile, (err) => {
-        cloudinary.uploader.upload(nFile, function (result) {
+        cloudinary.uploader.upload(tmpFile, function (result) {
           if (result.url) {
             let userData = jwt.decode(fields2.token)
             console.log(userData)
             var publicid = result.public_id + "." + result.format
 
             User.findByIdAndUpdate(userData.id, {  $inc: { uploadLimit: +ulimit } , dpUrl: result.url, dpID: publicid, dp2Url: cname }).then((success) => { res.json({ dpUrl: result.url }); })
-          } else {
+          } else {igt 
             res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
           }
         // }).catch((err) => console.log(err))
