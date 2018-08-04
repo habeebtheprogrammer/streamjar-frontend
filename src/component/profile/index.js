@@ -17,7 +17,10 @@ import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
 import Loading from "../loader"
 import Relatedusers from "../extras/relatedusers"
-
+import Conversation from "../extras/conversation"
+import Onlineusers from "../extras/onlineusers"
+import Intro from "../extras/intro"
+import Photos from "../extras/photos"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -60,9 +63,56 @@ class Profile extends Component {
                 <Navbar />
                 <Sidebar />
                
-                <div className="col-sm-11 x-right-grid">
+                <div className="col-sm-9 x-right-grid">
+                <div className="row">
+                <div className="col-sm-12">
+                <div className="profile-bg" style={{background:"url('../../images/bg.jpg')"}}>
+                 <div className="row profile-img">
+                 <div className="col-sm-2 zero">
+                 <img src={`${this.state.user.dpUrl ||'../../../../images/john.jpg'}`} width="160px" alt="" />
 
-                    <div className="second-nav" >
+                 </div>
+                 <div className="col-sm-9 ">
+                 <p className="profile-name" style={{ textTransform: "capitalize",paddingTop:"50px" }}>{this.state.user.fullName}
+                <button className="btn danger pull-right " style={{color:"black"}}>Follow</button>  
+                 
+                 </p>
+                 </div>
+                    </div>
+                    </div>
+                <div className="profile-tab">
+                </div>
+                </div>
+           
+              </div>
+
+              <div className="row">
+              <div className="col-sm-4">
+              <Intro profile={this.state.user}/>
+              <Photos profile={this.state.user}/>
+              </div>
+              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
+              <div className="x-post white">
+              <div className="">
+             <div> <div className="image">
+             <img src="../../images/john.jpg" style={{width:"100%",borderRadius:"100px"}} alt="img" />
+             </div> <div className="image-text">
+             <div className="title">{this.state.user.fullName}  has just Joined!</div>
+             <div style={{color:"grey"}}>{moment(this.state.user.date).format("ll")} at 4:03pm</div>
+             </div>
+             
+             </div>
+
+            <div className="clearfix"></div>
+            <div className="content">
+           <q>Change your life today. Don't gamble on the future, act now, without delay.</q> - Quote of the day
+            <div className="post-img"><img src="../images/hustle-quotes.jpg" width="100%"/></div>
+            </div>
+              </div>
+              </div>
+              </div>
+              </div>
+                    {/* <div className="second-nav" >
                         <ul className="nav navbar-nav hidden-xs">
                             <li className="list text">Search page</li>
 
@@ -80,137 +130,9 @@ class Profile extends Component {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
-
-                    <div className="row zero ">
-                        <div className="col-sm-12 main-page">
-                            <div className="page-start  ">
-
-                                <div className="row zero page-row">
-                                    <div className=" col-sm-3 zero left-grid hidden-xs ">
-
-                                     <Relatedusers auth={this.props.auth}/>
-
-                                    </div>
-
-                                    <div className="col-sm-10 zero right-grid">
-                                        {this.state.isLoading && this.state.empty? <center style={{ margin: "200px 0px" }}><i className="fa fa-spin fa-spinner"></i></center>
-                                            :
-                                            <div className="row" style={{}}>
-                                                <div className="col-sm-9 zero" style={{}}>
-                                                    <div className="dashboard-list-box margin-top-0">
-                                                        {/* <h4 style={{ textTransform: "capitalize" }}>{this.state.user.firstName} {this.state.user.lastName}</h4> */}
-                                                        <ul>
-                                                            <li>
-                                                                <div className="row" style={{ margin: "0px" }}>
-                                                                    <div className="col-sm-6 col-sm-offset-3">
-                                                                        <div className="profile-pic" style={{ height: "195px", width: "67%", margin: "auto"}}>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div className="col-sm-4 col-sm-offset-4">
-
-                                                                        <center>
-                                                                            <h2 style={{ textTransform: "capitalize" }}>{this.state.user.fullName}</h2>
-                                                                            <p style={{ textTransform: "capitalize" }}>{this.state.user.department} {this.state.user.university}</p>
-
-                                                                        </center>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div className="list-box-listing">
-                                                                    {/* <div className="list-box-listing-img"><a href="#"><img src={`${this.state.user.dpUrl}`} alt="" /></a></div> */}
-                                                                    <div className="list-box-listing-content">
-                                                                        <div className="inner" style={{ textTransform: "capitalize" }}>
-
-                                                                            <div className="row" style={{ margin: "0px" }}>
-                                                                                <div className="col-sm-12">
-                                                                                    <h3><a href="#" style={{ textTransform: "capitalize" }}>Bio</a></h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.bio}</p>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.about}</p>
-                                                                                </div>
-                                                                                {/* <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>Location</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.location}</p>
-
-                                                                                </div> */}
-                                                                                <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>Department</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.department}</p>
-
-                                                                                </div>
-                                                                                <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>University</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.university}</p>
-
-                                                                                </div>
-                                                                                <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>Member since</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{moment(this.state.user.date).format("LL")}</p>
-
-                                                                                </div>
-                                                                                <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>Email</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.email}</p>
-
-                                                                                </div>
-                                                                                {/* <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>Date of Birth</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.dob}</p>
-                                                                                </div> */}
-                                                                                <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>username</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.username}</p>
-
-                                                                                </div>
-                                                                                <div className="col-sm-4">
-                                                                                    <h3 style={{ textTransform: "capitalize" }}>Gender</h3>
-                                                                                    <p style={{ textTransform: "capitalize" }}>{this.state.user.gender}</p>
-
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div className="star-rating" data-rating="3.5">
-                                                                                {/* <div className="rating-counter">{this.state.user.views} Views  </div> */}
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                {/* <div className="buttons-to-right">
-                                                                    <a href={`/chat/${this.state.user.username}`} className="button gray"><i className="fa fa-comments"></i> Message</a>
-                                                                    <a href="#" className="button gray"><i className="fa fa-phone"></i> call</a>
-                                                                </div> */}
-                                                            </li>
-
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
-
-                                                    <img src={this.state.user.dpUrl || "../../../../images/avatar.jpg"} width="100%" className="img-responsive" alt="img" />
-                                                    <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.state.user.fullName}</span> </div>
-                                                    <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
-                                                    <small className="online"> online</small><br />
-                                                    <small> Joined {moment(this.state.user.date).format("LL")}</small>
-                                                    <a href={`/call/${this.state.user.username}`} target="_blank" className="btn btn-custom btn-sm  btn-block" id="callbtn"> <i className="fa fa-video-camera"></i> call</a>
-                                                </div>
-                                            </div>
-                                        }
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
+                    
                     {/* <div className="col-xs-12" style={{background:"#fff"}}>
                             <div style="text-align:center;padding: 15px 0px;font-weight:400">
                                 2017 © Peer to Peer RTC Designed by Habeeb <br />
@@ -225,6 +147,13 @@ class Profile extends Component {
                                 </button>
                             </div>
                         </div> */}
+                </div>
+                <div className=" col-sm-2 zero left-grid hidden-xs ">
+                    <div className="col-right white">
+                    <Relatedusers auth={this.props.auth}/>
+                    <Conversation auth={this.props.auth} />
+                    <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
+                    </div>
                 </div>
                 <style>{`
                         .profile-pic{

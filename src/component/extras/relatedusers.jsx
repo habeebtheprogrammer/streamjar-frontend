@@ -34,7 +34,7 @@ componentWillMount() {
                 {this.state.rloader ? <center style={{ margin: "100px 0px" }}><i className="fa fa-spin fa-spinner"></i></center> : null}
                 {this.state.relatedusers.map((member, key) => (
                     <a className={classnames(this.state.rloader ? "hide" : null)} href={`/profile/${member.username}`}>
-                        <div>
+                        <div style={{padding:"5px"}}>
                             <div className="img">
                                 <img src={member.dpUrl || "../../../../images/avatar.jpg"} width="70%" className="img-responsive img-rounded" alt="Image" />
                             </div>

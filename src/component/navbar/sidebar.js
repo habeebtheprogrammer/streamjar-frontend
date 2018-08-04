@@ -50,6 +50,13 @@ class Sidebar extends Component {
                     <div className="sidebar-list">
                         <Link to="/video" className={classnames(window.location.pathname ==="/video"?"active":null)}>
                             <center>
+                                <i className="fa fa-camera"></i>
+                            </center>
+                        </Link>
+                    </div>
+                    <div className="sidebar-list">
+                        <Link to="/video" className={classnames(window.location.pathname ==="/video"?"active":null)}>
+                            <center>
                                 <i className="fa fa-video-camera"></i>
                             </center>
                         </Link>

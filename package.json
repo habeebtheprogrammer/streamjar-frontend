@@ -77,7 +77,7 @@
     "video-react": "^0.10.4"
   },
   "scripts": {
-    "start": "node server/app.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

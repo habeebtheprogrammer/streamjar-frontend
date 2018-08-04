@@ -33,7 +33,7 @@ class Conversation extends Component {
             var read = msg.messages[length - 1].receipt;
             
             div.push(<a className={classnames(this.state.rloader ? "hide" : null, read === "false" ? "unread" : "")} href={`/chat/${ msg.user1 === this.props.auth.user.username ? msg.user2 : msg.user1}`}>
-                <div>
+                <div style={{padding:"5px"}}>
                     <div className="img">
                         <img src={`../../images/avatar.jpg`} width="70%" className="img-responsive img-rounded" alt="Image" />
                     </div>
@@ -56,8 +56,8 @@ class Conversation extends Component {
         //     this.setState({ allmesg })
         // })
         return (
-            <div>
-                <div style={{ padding: "20px" }}>Recent conversation</div>
+            <div className="">
+                <div style={{ padding: "20px" }} className="">Recent conversation</div>
 
                 {this.state.rloader ? <center style={{ margin: "100px 0px" }}><i className="fa fa-spin fa-spinner"></i></center> : null}
                 {this.messages()}
