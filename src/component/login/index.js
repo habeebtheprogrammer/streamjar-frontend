@@ -90,8 +90,9 @@ class Login extends Component {
                         localStorage.setItem("dp", data.dp||"../../../images/avatar.jpg")
                         localStorage.setItem("fullname", data.fullName)
                         localStorage.setItem("kaytoken", res.data.token);
+                        localStorage.setItem("username", data.username);
                         setAuthorizationToken(res.data.token);
-                        window.location.assign("/search")
+                        window.location.assign(`/profile/${data.username}`)
                     }
                 }
                 this.setState({ isLoading: false })

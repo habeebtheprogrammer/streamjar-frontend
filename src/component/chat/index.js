@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
 import Navbar from "../navbar/index"
-import Footer from "../footer/index"
-import axios from "axios"
-import { Player } from 'video-react';
-import apiUrl from "../../config"
-import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import Audio from 'react-audioplayer';
-import auth from "../../reducer/index"
-import { setUserProfile, editUserProfile } from "../../actions/index"
-import FileUpload from "react-fileupload"
-import moment from "moment"
-import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
+import Relatedusers from "../extras/relatedusers"
 import Conversation from "../extras/conversation"
-import classnames from "classnames"
-import socketIOClient from "socket.io-client"
+import Onlineusers from "../extras/onlineusers"
+import Bgchat from "../extras/bgchat"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -45,12 +34,13 @@ class Chat extends Component {
    
         return (
             <div className="row">
-                <Navbar />
-                <Sidebar />
-                <div className="col-sm-11 x-right-grid">
+                {/* <Navbar /> */}
+                <Sidebar match={this.props.match}/>
+                
+                <div className="col-sm-9 x-right-grid">
 
-
-                    <div className="second-nav" >
+                <Bgchat user={this.props.auth.user} socket={this.props.socket}/>
+                    {/* <div className="second-nav" >
                         <ul className="nav navbar-nav hidden-xs">
                             <li className="list text"> CHAT PAGE</li>
 
@@ -68,19 +58,19 @@ class Chat extends Component {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
                     <div className="row zero ">
-                        <div className="col-sm-12 main-page">
+                        <div className="col-sm-12 zero">
                             <div className="page-start  ">
 
                                 <div className="row zero page-row">
-                                    <div className=" col-sm-3 zero left-grid  ">
-                                     <Conversation auth={this.props.auth} />
-                                    </div>
+                                    {/* <div className=" col-sm-3 zero left-grid  ">
+                                     <Conversation  socket={this.props.socket} auth={this.props.auth} />
+                                    </div> */}
 
-                                    <div className="col-sm-10 zero right-grid" style={{backgroundSize:"cover",height:"550px",padding:"180px 10px"}}>
+                                    <div className="col-sm-12 zero " style={{backgroundSize:"cover",padding:"150px 10px"}}>
                                     <center>
                                         <i className="fa fa-comments fa-4x"></i>
                                         <h3>Click on a conversation to continue</h3>
@@ -94,7 +84,17 @@ class Chat extends Component {
                     </div>
 
                 </div>
+                <div className=" col-sm-2 zero left-grid hidden-xs ">
+                    <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 "}}>
+                    <Relatedusers auth={this.props.auth}/>
+                    <Conversation auth={this.props.auth}  socket={this.props.socket}/>
+                    <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
+                    </div>
+                </div>
                 <style>{`
+                body{
+                    background:#fff;
+                }
                 .chat-row{
                     padding:10px 0px 0px;height:450px;position:relative
                 }

@@ -15,8 +15,11 @@ import FileUpload from "react-fileupload"
 import moment from "moment"
 import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
-import Relatedusers from "../extras/relatedusers"
 import Shuffle from "shuffle-array"
+import Relatedusers from "../extras/relatedusers"
+import Conversation from "../extras/conversation"
+import Onlineusers from "../extras/onlineusers"
+import Bgchat from "../extras/bgchat"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -77,12 +80,11 @@ class Search extends Component {
         var imglist =["john.jpg","sonu.jpg","genu.jpg","govinda.jpg"]
         return (
             <div className="row">
-                <Navbar />
-                <Sidebar />
-                <div className="col-sm-11 x-right-grid">
-
-
-                    <div className="second-nav" >
+                {/* <Navbar /> */}
+                <Sidebar match={this.props.match}/>
+                <div className="col-sm-9 x-right-grid">
+              <Bgchat user={this.props.auth.user} socket={this.props.socket}/>
+                    {/* <div className="second-nav" >
                         <ul className="nav navbar-nav hidden-xs">
                             <li className="list text">Search page</li>
 
@@ -100,11 +102,11 @@ class Search extends Component {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
-                    <div className="row zero ">
-                        <div className="col-sm-12 main-page">
+                    <div className="row zero " style={{paddingTop:"15px"}}>
+                        <div className="col-sm-12 ">
                             <div className="page-start  ">
 
                                 <div className="row zero page-row">
@@ -121,64 +123,51 @@ class Search extends Component {
                                         </div>
 
                                         <div className={classnames(this.state.searching?"row hide":"row")}>
-                                            <div className="col-lg-12 col-md-12">
-                                                <div className="dashboard-list-box margin-top-0">
-                                                    <ul>
+                                            <div className="col-lg-12 col-md-12 zero">
+                                                <div className="">
                                                         {this.state.searched ?
                                                             this.state.result.map((member, key) => (
-                                                                <li className="col-md-6">
-                                                                    <div className="list-box-listing">
-                                                                        <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" /></Link></div>
-                                                                        <div className="list-box-listing-content">
-                                                                        <div className="list-box-listing-content">
-                                                                        <div className="inner" style={{ textTransform: "capitalize" }}>
-                                                                            <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>
-                                                                            <span style={{ textTransform: "capitalize" }}>{member.country}</span>
-                                                                            <div style={{fontSize:"0.9em"}}>  
-                                                                                  <div><b>university : </b>{member.university}</div>
-                                                                                  <div><b>department : </b>{member.department}</div>
-                                                                                  <div style={{textTransform:"lowercase",paddingTop:"10px"}}>{member.bio}</div>
-                                                                            </div>
-                                                                            </div> <br /><br />
-                                                                            <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-comments"></i> Message</Link>
-                                                                        <Link to={`/call/${member.username}`}  target="__blank" className="button gray"><i className="fa fa-phone"></i> Call</Link>
+                                                                <div className="col-sm-6 " style={{margin:"10px 0px"}}>
+                                                                <div className="row" >
+                                                                    <div className="col-sm-3 zero">
+                                                                    <Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" width="100%" /></Link>
                                                                     </div>
-                                                                        </div>
+                                                                    <div className="col-sm-6"  style={{padding:"20px 10px"}}>
+                                                                    <div><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></div>
+                                                                    <div style={{color:"gray",fontSize:"0.9em"}}>department of {member.department} {member.university} </div>
                                                                     </div>
-                                                                 
-                                                                </li>
+                                                                    <div className="col-sm-3">
+                                                                    
+                                                                    <button type="button" className="btn btn-default" style={{fontSize:"0.9em"}}>Add friend</button>
+                                                                    
+                                                                    </div>
+                                                                </div>
+                                                             
+                                                            </div>
                                                             ))
                                                             :
                                                     
                                                         Shuffle(this.state.users).map((member,key) => (
-                                                                <li className="col-md-6">
-                                                                <div className="list-box-listing">
-                                                                    <div className="list-box-listing-img"><Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" /></Link></div>
-                                                                    <div className="list-box-listing-content">
-                                                                        <div className="inner" style={{ textTransform: "capitalize" }}>
-                                                                            <h3><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></h3>
-                                                                            <span style={{ textTransform: "capitalize" }}>{member.country}</span>
-                                                                            <div style={{fontSize:"0.9em"}}>  
-                                                                                  <div><b>university : </b>{member.university}</div>
-                                                                                  <div><b>department : </b>{member.department}</div>
-                                                                                  <div style={{textTransform:"lowercase",paddingTop:"10px"}}>{member.bio}</div>
-                                                                            </div>
-                                                                            </div> <br /><br />
-                                                                            <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                        <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-comments"></i> Message</Link>
-                                                                        <Link to={`/call/${member.username}`}    target="__blank" className="button gray"><i className="fa fa-phone"></i> Call</Link>
-                                                                    </div>
+                                                            <div className="col-sm-6 " style={{margin:"10px 0px"}}>
+                                                            <div className="row" >
+                                                                <div className="col-sm-3 zero">
+                                                                <Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" width="100%" /></Link>
                                                                 </div>
-                                                                {/* <div className="buttons-to-right">
-                                                                        <Link to={`/profile/${member.username}`} className="button gray"><i className="fa fa-user"></i> View profile</Link>
-                                                                    <Link to={`/chat/${member.username}`}  className="button gray"><i className="fa fa-comments"></i> Message</Link>
-                                                                </div> */}
-                                                            </li>
+                                                                <div className="col-sm-6"  style={{padding:"20px 10px"}}>
+                                                                <div><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></div>
+                                                                <div style={{color:"gray",fontSize:"0.9em"}}>department of {member.department} {member.university} </div>
+                                                                </div>
+                                                                <div className="col-sm-3">
+                                                                
+                                                                <button type="button" className="btn btn-default">Add friend</button>
+                                                                
+                                                                </div>
+                                                            </div>
+                                                         
+                                                        </div>
                                                         ))}
 
 
-                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -192,20 +181,13 @@ class Search extends Component {
                     </div>
 
                 </div>
-                {/* <div className="col-xs-12" style={{background:"#fff"}}>
-                            <div style="text-align:center;padding: 15px 0px;font-weight:400">
-                                2017 © Peer to Peer RTC Designed by Habeeb <br />
-                                <button className="btn btn-danger btn-sm btn-round" style="border-radius:100%;box-shadow:0 1px 10px 0 darkgrey;border:none">
-                                    <i className="fa fa-facebook"></i>
-                                </button>
-                                <button className="btn btn-danger btn-sm btn-round" style="border-radius:100%;box-shadow:0 1px 10px 0 darkgrey;border:none">
-                                    <i className="fa fa-instagram"></i>
-                                </button>
-                                <button className="btn btn-danger btn-sm btn-round" style="border-radius:100%; box-shadow:0 1px 10px 0 darkgrey;border:none">
-                                    <i className="fa fa-whatsapp"></i>
-                                </button>
-                            </div>
-                        </div> */}
+                <div className=" col-sm-2 zero left-grid hidden-xs ">
+                    <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 "}}>
+                    <Relatedusers auth={this.props.auth}/>
+                    <Conversation auth={this.props.auth} socket={this.props.socket}/>
+                    <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
+                    </div>
+                </div>
             </div>
         );
     }

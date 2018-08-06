@@ -10,8 +10,13 @@ class Footer extends Component {
     render() {
         return (
 
-            <div>
-
+            <div className="x-footer">
+         <div className="col-xs-12" style={{background:"#fff"}}>
+                            <div style={{textAlign:"right",padding: "15px 0px",fontSize:"0.9em"}}>
+                                2018 © KampusKonnect developed by Habeeb <br />
+                                
+                            </div>
+                        </div>
             </div>
         );
     }

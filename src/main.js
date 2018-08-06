@@ -13,6 +13,7 @@ import Join from "./join"
 import Edit from './component/dashboard/edit';
 import Call from "./component/call/index"
 import Answer from "./component/call/answer"
+
 class Main extends Component {
 
     render() {
@@ -24,10 +25,11 @@ class Main extends Component {
                     
                     <Route exact path="/" component={Login} />
                     <Route exact path="/login" component={Login} />
+                    <Privateroute  path="/profile/:id" socket={this.props.socket} component={Profile} />
+
                     <Privateroute exact path="/dashboard" socket={this.props.socket} component={Dashboard} />
                     <Privateroute exact path="/dashboard/edit" socket={this.props.socket} component={Edit} />
                     <Privateroute exact path="/search" socket={this.props.socket} component={Search} />
-                    <Privateroute exact path="/profile/:id" socket={this.props.socket} component={Profile} />
                     <Privateroute exact path="/video" socket={this.props.socket} component={Video} />
                     <Privateroute exact path="/chat" socket={this.props.socket} component={Chat} />
                     <Privateroute exact path="/chat/:id" socket={this.props.socket} component={Chatpage} />

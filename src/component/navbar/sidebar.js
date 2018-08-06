@@ -24,7 +24,7 @@ class Sidebar extends Component {
         window.location.assign("/login")
     }
     render() {
-
+        var username = localStorage.getItem("username")
         return (
             <div className="col-sm-1 navbar-inverse hidden-xs zero x-left-grid">
                 <div className="x-sidebar">
@@ -34,9 +34,9 @@ class Sidebar extends Component {
                         </center>
                     </div>
                     <div className="sidebar-list">
-                        <Link to="/dashboard" className={classnames(window.location.pathname === "/dashboard" ? "active" : null)}>
+                        <Link to={`/profile/${username}`} className={classnames(this.props.match.path ===  "/profile/:id"? "active" : null)}>
                             <center>
-                                <img src="../../../images/user.jpg" width="50%" className="img-responsive img-rounded" alt="Image" />
+                                <img src="../../../images/john.jpg" width="50%" className="img-responsive img-rounded" alt="Image" />
                             </center>
                         </Link>
                     </div>

@@ -32,7 +32,7 @@ class Answer extends Component {
             {
                 this.localStream = stream;
                 this.localVideo.src = URL.createObjectURL(stream);
-                console.log("getUserMedia was successful")
+                console.log("getUserMedia was successful");
             })
             
             // $('.remoteVideo').hide()
@@ -41,16 +41,23 @@ class Answer extends Component {
   // select  *  from userTable where username in not NULL;
   // usertable
     remoteuser(remotedesc){
+        var {socket} = this.props.socket
         console.log("remotedesc came in",remotedesc)
         var sturnserver = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]}
         this.pc = new RTCPeerConnection(this.sturnserver);
         this.pc.onicecandidate = (e)=>{
-            console.log("remote pc is trying to reach me",e)
-            console.log(this.pc)
+            console.log("remote pc is trying to reach me",e.candidate)
+            // this.pc.addIceCandidate(
+            //     new RTCIceCandidate({
+            //         sdpMLineIndex: message.mlineindex,
+            //         candidate: message.candidate
+            //     })
+            // );
+            if(e.candidate) socket.emit(`addIceCandidate`,{username:this.props.match.params.caller,candidate:e.candidate})
+
         }
         this.pc.addStream(this.localStream);
-
-        this.pc.setRemoteDescription(new RTCSessionDescription(remotedesc)).then((desc)=>console.log("remote description set"));
+        this.pc.setRemoteDescription(remotedesc).then((desc)=>console.log("remote description set"));
 
         this.pc.createAnswer().then((desc)=>{
             this.localDesc = desc;
@@ -59,15 +66,18 @@ class Answer extends Component {
         })
 
         this.pc.onaddstream = (e)=>
-        { console.log(e,"remote pc has added stream")
+        { console.log("remote pc has added stream",e.stream)
             this.success(e.stream)
         }
     }
 
     success(stream){
-        $('.remoteVideo').show()
-        this.localStream = stream;
-        this.localVideo.src = URL.createObjectURL(stream);
+        // $('.remoteVideo').show()
+
+        this.remoteStream = stream;
+        this.remoteVideo.src = URL.createObjectURL(stream);
+        console.log(this.localStream.getVideoTracks()[0],this.remoteStream.getVideoTracks()[0])
+
         console.log("remote stream was added successful")
     }
 

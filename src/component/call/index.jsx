@@ -32,8 +32,9 @@ class Callpage extends Component {
         window.RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
         var sturnserver = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]} // turns servers
         // check twilio webrtc turns server!
-        this.pc = new RTCPeerConnection(this.sturnserver);
-        this.pc.onicecandidate = (e)=>{
+        this.pc = new RTCPeerConnection(sturnserver);
+        this.pc.onicecandidate = (e)=>{ 
+            this.localStream.getVideoTracks()[0].enabled = true
             console.log("pc is trying to reach remote user (pc2)",e.candidate)
             if(e.candidate) socket.emit(`addIceCandidate`,{username:this.props.match.params.remoteuser,candidate:e.candidate})
         }
@@ -44,6 +45,8 @@ class Callpage extends Component {
             console.log("peer has added a stream",e.stream)
             this.remoteStream = e.stream;
         this.remoteVideo.src = URL.createObjectURL(e.stream);
+        console.log(this.localStream.getVideoTracks()[0],this.remoteStream.getVideoTracks()[0])
+
         this.setState({connected:true})
         }
     
@@ -70,13 +73,14 @@ class Callpage extends Component {
     }
 
     setRemoteDesc(desc){
-        this.pc.setRemoteDescription(new RTCSessionDescription(desc)).then((desc)=>console.log("remote description set"));
+        this.pc.setRemoteDescription(desc).then((desc)=>console.log("remote description set"));
     }
  
     sendRemoteDesc(desc){
         var {socket} = this.props.socket
         socket.emit("setRemoteDesc",{username:this.props.match.params.remoteuser,desc:desc})
     }
+ 
 
     render() {
       

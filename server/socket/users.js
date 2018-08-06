@@ -4,11 +4,13 @@ class Users {
        this.userslist = []
     }
     addUser(sockID, mongoID, fullName, dept,username, room){
+        var exist = this.getUser(username);
+        if(exist.username) return false;
         var result = this.userslist.push({sockID,mongoID,fullName,dept,username,room});
         return result
     }
-    getUser(sockID){
-        let result = this.userslist.filter((user)=>user.sockID===sockID)
+    getUser(username){
+        let result = this.userslist.filter((user)=>user.username===username)
         return result
     }
     removeUser(sockID) {

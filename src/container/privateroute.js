@@ -13,7 +13,7 @@ class Privateroute extends Component {
         console.log(this.props)
         return (
             <div>
-                <Route exact={true} path={this.props.path} render={
+                <Route path={this.props.path} render={
                     (props) => {
                         if (this.props.auth.isAuthenticated === true) 
                             return <this.props.component {...props} socket={this.props}/>

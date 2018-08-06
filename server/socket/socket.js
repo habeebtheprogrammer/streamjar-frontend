@@ -5,6 +5,8 @@ module.exports = (io)=> {
     
 io.on("connection", (socket) => {
     socket.on("initialize", (id, fullName, dept, username) => {
+        var exist = users.getUser(username);
+        if(exist.length === 1) return false;
         socket.join('/campusconnect')
         users.addUser(socket.id, id, fullName, dept, username, '/campusconnect')
         io.emit("onlineusers", users.userslist)
@@ -16,18 +18,33 @@ io.on("connection", (socket) => {
     })
     socket.on("sendmesg", (party,senderID,suname,receiverID,reuname,text) =>{
         var date = new Date() 
+
         Message.findOne({party }).then((conversation)=>{
             if(conversation){
                 Message.update({ _id: conversation._id }, { $push: { messages: { text, date, from: senderID, to: receiverID} } }).then((conv)=>{
                     Message.findOne({ party }).then((conversation) => {
                         io.emit(conversation.party, conversation)
-                    })
+                       var allmesg = [];
+                        
+                    }).catch((err)=>console.log(err))
+                    Message.find({ user1: reuname }).then((mesg) => {
+                        Message.find({ user2: reuname }).then((mesg2) => {
+                            allmesg = mesg.concat(mesg2)
+                            io.emit(`conversation/${reuname}`,allmesg)
+                        }).catch((err)=>console.log(err))
+                    }).catch((err)=>console.log(err))
                     // socket.to(conversation.party).emit(conversation.party, conversation)
                 })
             }
             else {
                 Message.create({party, user1:suname,user2:reuname, messages:  { from: senderID, to: receiverID, text, date}  }).then((mesg) => {
                     io.emit(mesg.party, mesg)
+                    Message.find({ user1: reuname }).then((mesg) => {
+                        Message.find({ user2: reuname }).then((mesg2) => {
+                            allmesg = mesg.concat(mesg2)
+                            io.emit(`conversation/${reuname}`,allmesg)
+                        }).catch((err)=>console.log(err))
+                    }).catch((err)=>console.log(err))
                     // socket.to(mesg.party).emit(mesg.party, mesg)
                 }).catch((err)=>console.log(err))
             }

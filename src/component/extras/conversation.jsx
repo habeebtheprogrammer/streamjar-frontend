@@ -23,6 +23,14 @@ class Conversation extends Component {
         })
 
     }
+    componentDidMount() {
+        var username = localStorage.getItem("username")
+        var {socket} = this.props.socket;
+         socket.on(`conversation/${username}`, (mesg) => {
+             // var allmsg = this.state.mesg.messages;
+             this.setState({ allmesg: mesg })
+         })
+    }
     messages() {
         var div = [];
         var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
@@ -39,7 +47,7 @@ class Conversation extends Component {
                     </div>
                     <div className="name">
                         {msg.user1===this.props.auth.user.username?msg.user2:msg.user1}<br />
-                        {lastmsg}
+                       <div style={{fontSize:"0.8em",}}> {lastmsg} </div>
                     </div>
                     <div className="clearfix"> </div>
                 </div>
@@ -48,7 +56,7 @@ class Conversation extends Component {
         return div
     }
     render() {
-
+   
         // var socket = socketIOClient(apiUrl);
         // var decodedToken = jwt.decode(window.localStorage.kaytoken);
         // // socket.emit("fetchconversation",  this.props.auth.user.username )

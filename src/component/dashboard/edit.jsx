@@ -80,7 +80,7 @@ class Edit extends Component {
         return (
                 <div className="row">
                     <Navbar />
-                    <Sidebar />
+                    <Sidebar match={this.props.match}/>
                     <div className="col-sm-11 x-right-grid">
 
 

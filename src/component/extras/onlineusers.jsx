@@ -14,18 +14,19 @@ class Onlineusers extends Component {
     }
 
 componentWillMount() {
-    
+    var username = localStorage.getItem("username")
     var {socket} = this.props.socket
     var decodedToken = jwt.decode(window.localStorage.kaytoken);
-    socket.emit("fetchuserlist")
+    // socket.emit("fetchuserlist")
     // socket.emit("initialize", decodedToken.id, decodedToken.fullName, decodedToken.department)
     socket.on("onlineusers", (onlineusers) => {
-        this.setState({ onlineusers })
+        var list = onlineusers.filter((user)=>user.username !== username)
+        this.setState({ onlineusers:list })
     })
 }
 
     render() {
-     
+        
         var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
         
       

@@ -14,10 +14,12 @@ import FileUpload from "react-fileupload"
 import moment from "moment"
 import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
-import Conversation from "../extras/conversation"
-import classnames from "classnames"
+// import Conversation from "../extras/conversation"
 import socketIOClient from "socket.io-client"
-import uuid from "uuid"
+import Relatedusers from "../extras/relatedusers"
+import Conversation from "../extras/conversation"
+import Onlineusers from "../extras/onlineusers"
+import Bgchat from "../extras/bgchat"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -146,12 +148,13 @@ class Chatpage extends Component {
         var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
         return (
             <div className="row">
-                <Navbar />
-                <Sidebar />
-                <div className="col-sm-11 x-right-grid">
+                {/* <Navbar /> */}
+                <Sidebar match={this.props.match}/>
+                
+                <div className="col-sm-9 x-right-grid">
 
-
-                    <div className="second-nav" >
+                <Bgchat user={this.state.user} socket={this.props.socket}/>
+                    {/* <div className="second-nav" >
                         <ul className="nav navbar-nav hidden-xs">
                             <li className="list text"> CHAT PAGE</li>
 
@@ -169,24 +172,24 @@ class Chatpage extends Component {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
                     <div className="row zero ">
-                        <div className="col-sm-12 main-page">
-                            <div className="page-start  ">
+                        <div className="col-sm-12 zero">
+                            <div className="page-start ">
 
                                 <div className="row zero page-row">
-                                    <div className=" col-sm-3 zero left-grid  ">
+                                    {/* <div className=" col-sm-3 zero left-grid  ">
                                         <div>
-                                         <Conversation auth={this.props.auth} />
+                                         <Conversation  socket={this.props.socket} auth={this.props.auth} />
                                         </div>
-                                    </div>
+                                    </div> */}
 
-                                    <div className="col-sm-10 zero right-grid">
+                                    <div className="col-sm-12 zero">
 
                                         <div className="row" style={{}}>
-                                            <div className="col-sm-9 zero" style={{}}>
+                                            <div className="col-sm-12 zero" style={{}}>
                                                 {/* <div className="page-title">
                                                     Chat Message
                                                         <small><i className="fa fa-smile-o"></i></small>
@@ -209,15 +212,16 @@ class Chatpage extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-sm-3" style={{ borderLeft: "1px solid #eee", minHeight: "300px" }}>
+                                            {/* <div className="col-sm-3" style={{ borderLeft: "1px solid #eee",fontFamily:"sans-serif" }}>
 
-                                                <img src={this.props.auth.user.dp || "../../../../images/avatar.jpg"} width="100%" className="img-responsive" alt="img" />
-                                                <div style={{ padding: "5px 0px 0px", fontSize: "1.3em" }}><span>{this.state.user.fullName}</span> </div>
-                                                <i className="fa fa-circle" style={{ fontSize: "0.5em", color: "green" }}></i>
-                                                <small className="online"> online</small><br />
-                                                <small> Joined {moment(this.state.user.date).format("LL")}</small>
-                                                <a className="btn btn-custom btn-sm  btn-block" id="callbtn" href={`/call/${this.state.user.username}`} target="_blank" > <i className="fa fa-video-camera"></i> call</a>
-                                            </div>
+                                                <img src="../../../../images/hustle-quotes.jpg" width="100%" className="img-responsive" alt="img" />
+                                                <div style={{ padding: "5px 0px", fontSize: "0.9em" }}><span>How to place an ad here</span> </div>
+                                                <img src="../../../../images/banner2.jpg" width="100%" className="img-responsive" alt="img" />
+                                                <div style={{ padding: "5px 0px", fontSize: "0.9em" }}><span>How to place an ad</span> </div>
+                                                <img src="../../../../images/14.jpg" width="100%" className="img-responsive" alt="img" />
+                                                <div style={{ padding: "5px 0px ", fontSize: "0.9em" }}><span>How to place an ad</span> </div>
+                                               
+                                            </div> */}
                                         </div>
 
                                     </div>
@@ -229,9 +233,19 @@ class Chatpage extends Component {
                     </div>
 
                 </div>
+                <div className=" col-sm-2 zero left-grid hidden-xs ">
+                    <div className="col-right white">
+                    <Relatedusers auth={this.props.auth}/>
+                    <Conversation auth={this.props.auth}  socket={this.props.socket}/>
+                    <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
+                    </div>
+                </div>
                 <style>{`
+                body{
+                    background:#fff;
+                }
                 .chat-row{
-                    padding:10px 0px 0px;height:440px;position:relative;overflow:auto
+                    padding:10px 0px 0px;height:350px;position:relative;overflow:auto
                 }
                 .chat-input{
                     border:0px;box-shadow:none; 
