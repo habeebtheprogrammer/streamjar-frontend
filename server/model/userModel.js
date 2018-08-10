@@ -4,9 +4,9 @@ var userSchema = mongoose.Schema({
     fullName: {
         type: String,
     },
-    bio: {
+    status: {
         type: String,
-        default: "Hi! i am new to campus connect"
+        default: "Be good at all times."
     },
     password: {
         type: String,
@@ -39,7 +39,7 @@ var userSchema = mongoose.Schema({
         type: String,
         trim: true,
     },
-    uploadLimit:{
+    uploadCounter:{
         type: Number,
         default: 0
     },

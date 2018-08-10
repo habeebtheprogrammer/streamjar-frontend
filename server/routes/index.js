@@ -3,9 +3,10 @@ var router = express.Router()
 var bcrypt = require('bcrypt');
 var User = require('../model/userModel');
 var Newsletter = require('../model/newsletter');
-var Contactform = require('../model/contactform');
+var Message = require("../model/message")
+var Picture = require('../model/pictures');
+var Video = require('../model/videos');
 var moment = require('moment')
-var validator = require("express-validator")
 var generator = require("generate-password")
 var jwt = require('jsonwebtoken');
 var formidable = require('formidable');
@@ -13,7 +14,6 @@ var fs = require("fs")
 var cloudinary = require("cloudinary")
 var dotenv = require('dotenv')
 var path  = require ('path')
-var Message = require("../model/message")
 dotenv.config();
 cloudinary.config({
   cloud_name: 'afrikal',
@@ -62,10 +62,8 @@ router.post('/api/login', function (req, res, next) {
 
   .post("/api/signup", (req, res, next) => {
     let time = new Date();
-    console.log(req.body)
     const { username, password, fullName, email, department, university ,gender} = req.body
     User.findOne({username:username}).then((user)=>{
-      console.log(user)
       if(user) return res.json({error:"This username is not available"})
       User.findOne({ email: email }).then((user) => {
         if (user) return res.json({ error: { email: "This email address is not available" } })
@@ -78,7 +76,6 @@ router.post('/api/login', function (req, res, next) {
             // newUser.save()
             .then((user) => {
               if (user) {
-                console.log(user)
                 const token = jwt.sign({ ...user }, "o1l2a3m4i5d6e")
                 const nodemailer = require('nodemailer');
 
@@ -118,8 +115,6 @@ router.post('/api/login', function (req, res, next) {
                   }
                   console.log('Message sent: %s', info.messageId);
                   // Preview only available when sending through an Ethereal account
-                  console.log(info);
-
                   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
                   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
                 });
@@ -210,7 +205,6 @@ router.post('/api/editprofile', function (req, res, next) {
   let userData = jwt.decode(token)
   data.userid = userData.id;
   data.time = time;
-  console.log(data)
   User.findOneAndUpdate({ userid: userData.id }, data).then((user) => {
     if (user) {
       res.json({ "success": "Contact form modified successfully" })
@@ -248,7 +242,6 @@ router.post('/api/resetpassword', (req, res) => {
 })
 router.post('/api/subscribe', (req, res) => {
   const { email, firstName, lastName, country } = req.body;
-  console.log(req.body)
   Newsletter.findOne({ email }).then((user) => {
     if (user) {
       res.json({ error: "You are already on a subscription" })
@@ -277,7 +270,6 @@ router.post('/api/checkUsername', (req, res, next) => {
   }).catch((err) => res.json({ "uerror": "an error has occured" }))
 })
 router.get("/api/getusers", (req, res, next) => {
-  console.log("users")
 
   User.find().then((users) => {
     if (users) {
@@ -312,24 +304,55 @@ router.post("/api/conversation", (req, res, next) => {
   Message.find({ user1: req.body.username }).then((mesg) => {
     Message.find({ user2: req.body.username }).then((mesg2) => {
      allmesg= mesg.concat(mesg2)
-      console.log(allmesg)
       res.json({ allmesg: allmesg});
     })
   })
 })
+.post("/api/postStatus", (req, res, next) => {
+  let userData = jwt.decode(req.body.token)
+  let status = req.body.status
+  User.findOneAndUpdate({ _id: userData.id }, { status:status}).then((user) => {
+    if (user) res.json({ status: req.body.status }); else res.json({ error: "An error has occured" })
+  })
+})
   .get("/api/search", (req, res, next) => {
     var searchText = `${req.query.name}`
-    console.log(req.query)
     User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { if (data) res.json({ result: data }) })
     .catch((err)=>console.log(err))
 
   })
+
    .get("/api/relatedusers", (req, res, next) => {
     var searchText = `${req.query.dept} ${req.query.uni}`
-    console.log(req.query)
     User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { if (data) res.json({ result: data }) })
 
   })
+  .get("/api/getImagesByUser", (req, res, next) => {
+    Picture.find({username: req.query.username}).sort({ _id: -1 }).then((picture) => {
+      if (picture) {
+        res.json({ success: picture })
+      } else (res.json({ error: "There are no images available" }))
+    })
+  })
+  .get("/api/getVideosByUser", (req, res, next) => {
+    Video.find({username: req.query.username}).sort({ _id: -1 }).then((videos) => {
+      if (videos) {
+        res.json({ success: videos })
+      } else (res.json({ error: "There are no images available" }))
+    })
+  })
+  .get("/api/getTimeline", (req, res, next) => {
+    var media = []
+    Video.find({username: req.query.username}).sort({ _id: -1 }).then((videos) => {
+        media.push({videos})
+        Picture.find({username: req.query.username}).sort({ _id: -1 }).then((pictures) => {
+            media.push({pictures})
+            res.json({ media: media })
+        })
+    })
+    
+  })
+  
   //request from dashboard
   .post('/api/uploadDp', (req, res, next) => {
     var newform = new formidable.IncomingForm();
@@ -357,7 +380,6 @@ router.post("/api/conversation", (req, res, next) => {
         cloudinary.uploader.upload(tmpFile, function (result) {
           if (result.url) {
             let userData = jwt.decode(fields2.token)
-            console.log(userData)
             var publicid = result.public_id + "." + result.format
 
             User.findByIdAndUpdate(userData.id, {  $inc: { uploadLimit: +ulimit } , dpUrl: result.url, dpID: publicid, dp2Url: cname }).then((success) => { res.json({ dpUrl: result.url }); })
@@ -365,6 +387,97 @@ router.post("/api/conversation", (req, res, next) => {
             res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
           }
         // }).catch((err) => console.log(err))
+      })
+    })
+  })
+
+
+  .post('/api/uploadPictures', (req, res, next) => {
+    var newform = new formidable.IncomingForm();
+    newform.keepExtensions = true;
+    newform.parse(req, (err, fields, files) => {
+      let errorFields = {}
+      // if (fields.caption === "") errorFields.caption = "This field is required";
+      // if (errorFields.caption) res.json({ error: { caption: errorFields.caption } });
+      // else 
+      if (files.picture)
+        cloudinary.uploader.upload(files.picture.path, function (result) {
+          if (result.url) {
+            let userData = jwt.decode(fields.token)
+            let time = new Date();
+            var publicid = result.public_id + "." + result.format
+            let uploadedPicture = new Picture({
+              userID: userData.id,
+              username: userData.username,
+              imgUrl: result.url,
+              imgID: publicid,
+              date: time,
+              description: fields.description
+            });
+            var ulimit = files.picture.size/1000000
+            User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
+
+            uploadedPicture.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
+          } else {
+            res.json({ error: "Error uploading the image" }); console.log("error uploading to cloudinary")
+          }
+          // Picture.update({ userID: userData.id, url: result.url })
+        }); else res.json({ error: "Please choose an image to upload" });
+    })
+  })
+
+  .post('/api/uploadVideo', (req, res, next) => {
+    var newform = new formidable.IncomingForm();
+    newform.keepExtensions = true;
+    var tmpFile, nFile, result,fsize, cname; let fields2 = {}; var files2 = {}
+
+    newform.parse(req, (err, fields, files) => {
+      cname = generator.generate({
+        length: 15,
+        numbers: true
+      });
+      Object.assign(fields2, fields)
+      Object.assign(files2, files)
+      
+      cname += ".mp4"
+      tmpFile = files.video.path;
+      fsize = files.video.size;
+      nFile = path.join(__dirname, '..', '..', 'public/video', cname)
+
+
+    })
+    newform.on("end", function () {
+      // if(files2.size > 10550210)
+      // return res.json({ error: { server: "Video size should not be above 10mb" } });
+      fs.rename(tmpFile, nFile, (err) => {
+        if (err) console.log(err,"rename err")
+        let errorFields = {}
+        // if (fields2.description === "") errorFields.description = "Description field is required";
+        // if ( errorFields.description) res.json({ error:  errorFields.title||errorFields.description });
+        // else 
+        if (files2.video)
+          cloudinary.v2.uploader.upload(nFile, { resource_type: "video" }, function (error, result) {
+            if (result) {
+              var ulimit = fsize/1000000;
+              let userData = jwt.decode(fields2.token)
+              let time = new Date();
+              let uploadedVideo = new Video({
+                userID: userData.id,
+                username: userData.username,
+                videoUrl: result.url,
+                date: time,
+                title: fields2.title,
+                description: fields2.description,
+                video2Url: cname
+              });
+              User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
+              uploadedVideo.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
+            } else {
+
+              res.json({ error:  "Error uploading file" }); console.log("error uploading to cloudinary")
+            }
+            // Picture.update({ userID: userData.id, url: result.url })
+          }); else res.json({ error: "Please choose a file to upload"  });
       })
     })
   })

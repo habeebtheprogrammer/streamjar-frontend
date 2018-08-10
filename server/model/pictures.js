@@ -2,11 +2,15 @@ var mongoose = require('../config/mongoose');
 
 var picturesSchema = mongoose.Schema({
     userID: String,
+    username:String,
     imgUrl: String,
     imgID:String,    
     description:String,
     date: String,
-    caption:String
+    views: {
+        type: Number,
+        default: 0
+    },
 
 });
 
