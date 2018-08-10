@@ -51,6 +51,46 @@ nav.navbar{
 .white{
     background: #fff;
 }
+.grey-color{
+    color: grey;
+}
+
+.upload textarea{
+    min-height:50px;
+	padding:  0px;
+	outline: none;
+	font-size: 15px;
+	color: #808080;
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	display: block;
+	background-color: #fff;
+	border: none;
+	box-shadow: none;
+	font-weight: 500;
+	opacity: 1;
+	border-radius: 3px;
+}
+.upload button{
+    padding-left: 15px ;
+    padding-right: 15px;
+    margin-left:10px;
+}
+
+.upload textarea:focus {
+	color: #808080;
+	transition: box-shadow 0.2s !important;
+	box-shadow: none !important;
+	border: 0px !important;
+	opacity: 1;
+}
+.edit-pencil{
+cursor: pointer;
+}
+.reactfileupload > div > div:nth-child(2){
+    float: right;
+}
 .profile-img .profile-name{
     font-size: 1.7em;
 }
@@ -126,6 +166,9 @@ nav.navbar{
 }
 .post-img{
     margin: 10px 0px;
+}
+.post-img img{
+    max-width: 100% !important;
 }
 
 .x-post .content{
@@ -387,7 +430,8 @@ width: 30%;
 height: 30%;
 bottom: 50px;
 right: 10px;
-object-fit: cover
+object-fit: cover;
+z-index: 1024;
 }
 .video-div{
     height:350px;overflow:hidden

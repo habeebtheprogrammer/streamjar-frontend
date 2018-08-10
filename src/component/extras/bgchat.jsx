@@ -24,6 +24,7 @@ class Bgchat extends Component {
     }
     render() {
         var imglist = ["banner2.jpg", "bg.jpg", "banner2.jpg", "hustle-quotes.jpg"]
+        var me = localStorage.getItem("username")
         
         return (
                    <div className="row" style={{border:"1px solid #e8e8e8"}}>
@@ -59,14 +60,17 @@ class Bgchat extends Component {
                                 <Link to={`/profile/${this.props.user.username}/friends`}>Friends</Link>
                             </li>
                             <li>
-                                <Link to={`/profile/${this.props.user.username}/photos`}>Photos</Link>
+                                <Link to={`/profile/${this.props.user.username}/media`}>Media page</Link>
                             </li>
+                            {this.props.user.username === me? null:
                             <li className="active">
                                 <Link to={`/chat/${this.props.user.username}`}>Message</Link>
-                            </li>
+                            </li>}
+                            {this.props.user.username === me? null:
                             <li>
                                 <Link to={`/call/${this.props.user.username}`} target="_blank">Call</Link>
                             </li>
+                            }
                         </ul>
                         <ul className="nav navbar-nav navbar-right" style={{margin:"0px"}}>
                             {this.state.online?

@@ -22,7 +22,7 @@ import Conversation from "../extras/conversation"
 import Onlineusers from "../extras/onlineusers"
 import Intro from "../extras/intro"
 import Bgprofile from "../extras/bgprofile"
-import Photos from "./photos"
+import Media from "./media"
 import Timeline from './timeline';
 import About from "./about"
 import Friends from "./friends"
@@ -54,14 +54,16 @@ class Profile extends Component {
 
     }
     componentWillMount() {
-        var token = localStorage.getItem("jwToken")
+        var token = localStorage.getItem("kaytoken");
+        var username = localStorage.getItem("username")
         $.getJSON(`${apiUrl}/api/getuserbyid?id=${this.props.match.params.id}`, (res) => {
             if(res.user)
             this.setState({ user: res.user, isLoading: false });else this.setState({empty:true})
-        }) 
+        });
+       
     }
     render() {
-        var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
+
         return (
             <div className="row">
                 
@@ -72,10 +74,10 @@ class Profile extends Component {
                 <Bgprofile user={this.state.user} socket={this.props.socket}/>
                 
                 <Switch>
-                <Route  path={`${this.props.match.url}/about`} render={()=><About user={this.state.user}/>} />
-                <Route  path={`${this.props.match.url}/friends`} render={()=><Friends user={this.state.user}/>} />
-                <Route  path={`${this.props.match.url}/photos`} render={()=><Photos user={this.state.user}/>} />
-                <Route  path="/" render={()=><Timeline user={this.state.user}/>} />
+                <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user}/>} />
+                <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user}/>} />
+                <Route  path={`${this.props.match.url}/media`} render={(props)=><Media {...this.props}  user={this.state.user}/>} />
+                <Route  path="/" render={(props)=><Timeline  {...this.props} user={this.state.user} />} />
                 </Switch>
 
                 </div>

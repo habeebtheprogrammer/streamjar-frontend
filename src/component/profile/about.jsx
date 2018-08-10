@@ -13,12 +13,12 @@ class About extends Component {
         return (
             <div className="row">
              <div className="col-sm-4">
-             <Photos profile={this.props.user}/>
-             <Intro profile={this.props.user}/>
+             <Photos user={this.props.user} {...this.props}/>
+             <Intro user={this.props.user} {...this.props}/>
 
              </div>
               <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-                <Aboutcard user={this.props.user}/>
+                <Aboutcard user={this.props.user} {...this.props}/>
               </div>
             </div>
         );

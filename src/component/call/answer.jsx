@@ -18,10 +18,11 @@ class Answer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-     
+            connected:false
         }
         this.sendRemoteDesc = this.sendRemoteDesc.bind(this)
         this.success = this.success.bind(this)
+        this.close = this.close.bind(this)
     }
 
     componentDidMount() {
@@ -44,7 +45,7 @@ class Answer extends Component {
         var {socket} = this.props.socket
         console.log("remotedesc came in",remotedesc)
         var sturnserver = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]}
-        this.pc = new RTCPeerConnection(this.sturnserver);
+        this.pc = new RTCPeerConnection(sturnserver);
         this.pc.onicecandidate = (e)=>{
             console.log("remote pc is trying to reach me",e.candidate)
             // this.pc.addIceCandidate(
@@ -69,6 +70,11 @@ class Answer extends Component {
         { console.log("remote pc has added stream",e.stream)
             this.success(e.stream)
         }
+        socket.on(`addIceCandidate${this.props.auth.user.username}`,(data)=>{
+            console.log("candidate came in", data)
+            this.pc.addIceCandidate(new RTCIceCandidate(data))
+            this.setState({connected:true})
+        })
     }
 
     success(stream){
@@ -89,7 +95,10 @@ class Answer extends Component {
     addIceCandidate(candidate){
      console.log(candidate,"candidate came in. add now")
     }
-  
+    close(){
+        this.pc.close();
+         window.close()
+     }
     render() {
         var {socket} = this.props.socket;
          socket.on(`setRemoteDesc${this.props.auth.user.username}`,(desc)=>this.remoteuser(desc))
@@ -100,9 +109,15 @@ class Answer extends Component {
                     <video className="localVideo" ref={(ref)=>this.localVideo = ref} autoPlay muted></video>
                     <video className="remoteVideo"  ref={(ref)=>this.remoteVideo = ref}  autoPlay></video>
                     <div className="btn-div">
+                    {this.state.connected?
+                    <p><i className="fa fa-circle green-color"></i> <span className="white-text">Connected to {this.props.match.params.caller}</span></p>
                     
-                    <p><i className="fa fa-spinner fa-spin"></i> Waiting for connection</p>
-                    <button type="button" className="btn btn-call btn-danger"><i className="fa fa-phone"></i></button>
+                    :
+                    <p><i className="fa fa-spinner fa-spin white-text"></i> <span className="white-text">Waiting for connection</span></p>
+
+                    }
+
+                    <button type="button" className="btn btn-call btn-danger hangup"><i className="fa fa-phone"  onClick={this.close}></i></button>
                     <button type="button" className="btn btn-call"><i className="fa fa-microphone"></i></button>
                     <button type="button" className="btn btn-call"><i className="fa fa-video-camera"></i></button>
                     </div>

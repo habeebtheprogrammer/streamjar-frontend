@@ -78,6 +78,11 @@ io.on("connection", (socket) => {
         io.emit(`addIceCandidate${pc.username}`,pc.candidate);
         socket.broadcast.to('/campusconnect').emit('addIceCandidate',pc.candidate)
     })
+    socket.on("callingalert",(user)=>{
+        io.emit(`callingalert/${user.receiver}`,user.caller);
+        console.log("alert",user.caller,user.receiver)
+        socket.broadcast.to('/campusconnect').emit('callingalert',user)
+    })
     socket.on("disconnect", () => {
      users.removeUser(socket.id)
         console.log("user has disconnected")

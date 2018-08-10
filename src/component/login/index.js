@@ -26,7 +26,8 @@ class Login extends Component {
 
     componentWillMount() {
         var token = localStorage.getItem("kaytoken");
-        if(token) window.location.assign("/dashboard")
+        var username = localStorage.getItem("username")
+        if(token) window.location.assign(`/profile/${username}`)
         if (window.location.search) {
             axios.get(`${apiUrl}/api/success${window.location.search}`).then((res) => {
                 if (res.data.success) {
@@ -223,6 +224,10 @@ class Login extends Component {
 
                         </span>
                         <span className="pull-right"> Designed by <span style={{ color: "#D3450C" }}>Habeeb Abdulrahman</span>
+                        
+                        </span><br />
+                        <span className="pull-right"> Supervised by <span style={{ color: "#D3450C" }}>Mr Ayeni</span><br />
+                        
                         </span>
                         </div>
                     </div>

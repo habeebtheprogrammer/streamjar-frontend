@@ -24,10 +24,24 @@ class Callpage extends Component {
 
         this.sendRemoteDesc = this.sendRemoteDesc.bind(this)
         this.success = this.success.bind(this)
+        this.close = this.close.bind(this)
+
     }
 
+    componentWillMount() {
+        var {socket} = this.props.socket;
+        socket.emit(`callingalert`,{receiver:this.props.match.params.remoteuser,caller:this.props.auth.user.username})
+        
+    }
     componentDidMount() {
         var {socket} = this.props.socket;
+        setInterval(()=>{
+            if(this.state.connected){
+
+            }else{
+                this.success(this.localStream)
+            }
+        },5000)
         socket.on(`setCallerRemoteDesc${this.props.auth.user.username}`,(desc)=>this.setRemoteDesc(desc))
         window.RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
         var sturnserver = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]} // turns servers
@@ -36,20 +50,27 @@ class Callpage extends Component {
         this.pc.onicecandidate = (e)=>{ 
             this.localStream.getVideoTracks()[0].enabled = true
             console.log("pc is trying to reach remote user (pc2)",e.candidate)
-            if(e.candidate) socket.emit(`addIceCandidate`,{username:this.props.match.params.remoteuser,candidate:e.candidate})
+            if(e.candidate){
+
+            socket.emit(`addIceCandidate`,{username:this.props.match.params.remoteuser,candidate:e.candidate})
+            }
         }
 
         this.localuser();
 
         this.pc.onaddstream=(e)=>{
-            console.log("peer has added a stream",e.stream)
             this.remoteStream = e.stream;
         this.remoteVideo.src = URL.createObjectURL(e.stream);
-        console.log(this.localStream.getVideoTracks()[0],this.remoteStream.getVideoTracks()[0])
 
         this.setState({connected:true})
         }
-    
+        
+        socket.on(`addIceCandidate${this.props.auth.user.username}`,(data)=>{
+            console.log("candidate came in", data)
+            this.pc.addIceCandidate(new RTCIceCandidate(data))
+
+        })
+        
     }
     localuser(){
         navigator.mediaDevices.getUserMedia({audio:true,video:true}).then((stream)=>
@@ -81,7 +102,10 @@ class Callpage extends Component {
         socket.emit("setRemoteDesc",{username:this.props.match.params.remoteuser,desc:desc})
     }
  
-
+    close(){
+       this.pc.close();
+        window.close()
+    }
     render() {
       
         return (
@@ -97,7 +121,7 @@ class Callpage extends Component {
 
                     }
 
-                    <button type="button" className="btn btn-call btn-danger"><i className="fa fa-phone"></i></button>
+                    <button type="button" className="btn btn-call btn-danger hangup" onClick={this.close}><i className="fa fa-phone"></i></button>
                     <button type="button" className="btn btn-call"><i className="fa fa-microphone"></i></button>
                     <button type="button" className="btn btn-call"><i className="fa fa-video-camera"></i></button>
                     </div>

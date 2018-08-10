@@ -20,7 +20,8 @@ if (window.localStorage.kaytoken) {
     store.dispatch(setCurrentUser(decodedToken))
     console.log(decodedToken)
 }
-
+var username = window.localStorage.getItem("username")
+socket.on(`callingalert/${username}`,(caller)=>window.location.assign(`/answer/${caller}`))
 ReactDOM.render(<BrowserRouter>
     <Provider store={store}>
         <App socket={socket}/>

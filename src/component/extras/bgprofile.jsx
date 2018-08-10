@@ -60,7 +60,7 @@ componentWillMount() {
                                 <Link to={`/profile/${this.props.user.username}/friends`}>Friends</Link>
                             </li>
                             <li>
-                                <Link to={`/profile/${this.props.user.username}/photos`}>Photos</Link>
+                                <Link to={`/profile/${this.props.user.username}/media`}>Media page</Link>
                             </li>
                             {this.props.user.username === me? null:
                             <li className="active">
@@ -69,6 +69,10 @@ componentWillMount() {
                             {this.props.user.username === me? null:
                             <li>
                                 <Link to={`/call/${this.props.user.username}`} target="_blank">Call</Link>
+                            </li>}
+                            {this.props.user.username !== me? null:
+                            <li>
+                                <Link to={`/call/${this.props.user.username}`} >Create a community</Link>
                             </li>}
                         </ul>
                         <ul className="nav navbar-nav navbar-right" style={{margin:"0px"}}>

@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
 import apiUrl from "../../config"
-
+import axios from "axios"
 class Photos extends Component {
     constructor(props) {
         super(props);
         this.state ={
         relatedusers: [],
             rloader: true,
+            images:[],
+            empty:false
         }
     }
 
-componentWillMount() {
-  
-}
+    componentWillMount() {
+        var { match} = this.props
+
+        axios.get(`${apiUrl}/api/getImagesByUser?username=${match.params.id}`).then((res) => {
+            if (res.data.success) {
+                this.setState({ images: res.data.success })
+            }
+            else this.setState({ empty: true })
+
+        })
+    }
 
     render() {
-        var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
-        
         
         return (
             
@@ -25,25 +33,11 @@ componentWillMount() {
            <div className="content">
            
            <div className="row">
-               <div className="col-sm-4 zero">
-           <img src="../../images/genu.jpg" width="100%" class="img-responsive" alt="Image" />
-               </div>
-               <div className="col-sm-4 zero">
-           <img src="../../images/sonu.jpg" width="100%" class="img-responsive" alt="Image" />
-               </div>
-               <div className="col-sm-4 zero">
-           <img src="../../images/user.jpg" width="100%" class="img-responsive" alt="Image" />
-               </div>
-               <div className="col-sm-4 zero">
-           <img src="../../images/govinda.jpg" width="100%" class="img-responsive" alt="Image" />
-               </div>
-               <div className="col-sm-4 zero">
-           <img src="../../images/hritik.jpg" width="100%" class="img-responsive" alt="Image" />
-               </div>
-
-                  <div className="col-sm-4 zero">
-           <img src="../../images/pawandeep.jpg" width="100%" class="img-responsive" alt="Image" />
-               </div>
+           {this.state.images.map((image)=>(
+            <div className="col-sm-4 zero">
+            <img src={image.imgUrl} width="100%" class="img-responsive" alt="Image" />
+                </div>
+           ))}
            </div>
            
            

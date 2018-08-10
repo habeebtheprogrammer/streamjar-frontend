@@ -54,8 +54,9 @@ class Search extends Component {
     componentWillMount() {
         var token = localStorage.getItem("jwToken")
         $.getJSON(`${apiUrl}/api/getusers`,(users) => {
-            console.log(users)
-            this.setState(users)
+            var filter = users.users.filter((user)=>user.username !== this.props.auth.user.username);
+
+            this.setState({users:filter})
         })
         
     }
@@ -67,8 +68,9 @@ class Search extends Component {
             $.getJSON(`${apiUrl}/api/search?name=${this.state.name}`,(res) => {
                 setTimeout(() => {
                 if (res.result) {
+            var filter = res.result.filter((user)=>user.username !== this.props.auth.user.username);
                     
-                    this.setState({ result:res.result})
+                    this.setState({ result:filter})
                 }
 
                 this.setState({ searching: false,searched:true })

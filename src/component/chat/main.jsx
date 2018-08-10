@@ -147,11 +147,11 @@ class Chatpage extends Component {
         })
         var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
         return (
-            <div className="row">
+            <div className="row ">
                 {/* <Navbar /> */}
                 <Sidebar match={this.props.match}/>
                 
-                <div className="col-sm-9 x-right-grid">
+                <div className="col-sm-9 x-right-grid conversation">
 
                 <Bgchat user={this.state.user} socket={this.props.socket}/>
                     {/* <div className="second-nav" >
@@ -252,12 +252,11 @@ class Chatpage extends Component {
                     border-top:1px solid #eee;
                 }
                          input,
-input[type="text"],
-input[type="password"],
+.conversation input[type="text"],
+.input[type="password"],
 input[type="email"],
 input[type="number"],
-textarea,
-select {
+textarea{
     min-height:50px;
 	padding:  20px;
 	outline: none;
@@ -275,10 +274,6 @@ select {
 	border-radius: 3px;
 }
 
-select {
-	padding: 15px 18px;
-	cursor: pointer;
-}
 
 input {
 	-webkit-transition: all 0.1s ease-in-out;
@@ -354,6 +349,7 @@ input[type="radio"] {
                                 </button>
                             </div>
                         </div> */}
+                        <Footer />
             </div>
         );
     }

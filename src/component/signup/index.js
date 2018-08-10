@@ -151,7 +151,10 @@ class Signup extends Component {
                     <span className="pull-right"> Designed by
                         <span style={{ color: "#D3450C" }}>Habeeb Abdulrahman</span>
                     </span>
-
+                    <br />
+                        <span className="pull-right"> Supervised by <span style={{ color: "#D3450C" }}>Mr Ayeni</span><br />
+                        
+                        </span>
                     <style>
                         {`
                         body{

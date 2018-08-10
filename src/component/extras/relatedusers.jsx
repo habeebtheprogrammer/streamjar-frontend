@@ -15,8 +15,9 @@ class Relatedusers extends Component {
 componentWillMount() {
     $.getJSON(`${apiUrl}/api/relatedusers?dept=${this.props.auth.user.department}&uni=${this.props.auth.user.university}`, (res) => {
             if (res.result) {
+                var filter = res.result.filter((user)=>user.username !== this.props.auth.user.username);
 
-                this.setState({ relatedusers: res.result })
+                this.setState({ relatedusers: filter })
             }
 
             this.setState({ rloader: false })
