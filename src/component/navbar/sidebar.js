@@ -28,10 +28,31 @@ class Sidebar extends Component {
         return (
             <div className="col-sm-1 navbar-inverse hidden-xs zero x-left-grid">
                 <div className="x-sidebar">
-                    <div className="home-tab">
+                    <div className="sidebar-list">
+                            <Link to="/" className={classnames(window.location.pathname ===  "/"? "active" : null)}>
                         <center>
-                            <Link to="/"><i className="fa fa-home"></i></Link>
+                          
+                            <i className="fa fa-home">
+                            </i>
                         </center>
+
+                            </Link>
+                    </div>
+                    <div className="sidebar-list">
+                    <Link to="/community" className={classnames(window.location.pathname ===  "/community"? "active" : null)}>
+                    
+                            <center>
+                                <i className="fa fa-group"></i>
+                            </center>
+                            </Link>
+                    </div>
+                    <div className="sidebar-list">
+                    <Link to="/shoutout" className={classnames(window.location.pathname ===  "/shoutout"? "active" : null)}>
+                    
+                            <center>
+                                <i className="fa fa-bullhorn"></i>
+                            </center>
+                            </Link>
                     </div>
                     <div className="sidebar-list">
                         <Link to={`/profile/${username}`} className={classnames(this.props.match.path ===  "/profile/:id"? "active" : null)}>
@@ -48,6 +69,14 @@ class Sidebar extends Component {
                         </Link>
                     </div>
                     <div className="sidebar-list">
+                        <Link to="/chat" className={classnames(window.location.pathname === "/chat" ? "active" : null)}>
+                            <center>
+                                <i className="fa fa-comments"></i>
+                            </center>
+                        </Link>
+                    </div>
+                   
+                    <div className="sidebar-list">
                         <Link to="/video" className={classnames(window.location.pathname ==="/video"?"active":null)}>
                             <center>
                                 <i className="fa fa-camera"></i>
@@ -61,13 +90,7 @@ class Sidebar extends Component {
                             </center>
                         </Link>
                     </div>
-                    <div className="sidebar-list">
-                        <Link to="/chat" className={classnames(window.location.pathname === "/chat" ? "active" : null)}>
-                            <center>
-                                <i className="fa fa-comments"></i>
-                            </center>
-                        </Link>
-                    </div>
+                  
                     <div className="sidebar-list">
                         <a href="" className="">
                             <center>
@@ -75,13 +98,7 @@ class Sidebar extends Component {
                             </center>
                         </a>
                     </div>
-                    <div className="sidebar-list">
-                        <a href="" className="">
-                            <center>
-                                <i className="fa fa-group"></i>
-                            </center>
-                        </a>
-                    </div>
+                  
                     <div className="sidebar-list">
                     <Link to="/dashboard/edit" className={classnames(window.location.pathname === "/edit" ? "active" : null)}>
 

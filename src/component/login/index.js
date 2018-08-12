@@ -60,7 +60,14 @@ class Login extends Component {
                     console.log(e)
                 }
             });
-
+            $(".username").keyup((e)=>{
+               if(e.key==="Enter")
+               {
+                $(".step-one").addClass('bounceOutLeft').removeClass('bounceInLeft');
+                $('.step-two').show();
+                $('.step-two').addClass('bounceInRight').removeClass('bounceOutRight');
+               }
+            })
             // $('.username').on("keydown", function () {
             //     if ($(this).val() != "") {
             //         next.disabled = false
@@ -76,7 +83,7 @@ class Login extends Component {
         })
     }
 
-    login(e) {
+    login(e) { console.log("yeah")
         e.preventDefault();
         this.setState({ isLoading: true, error:"" })
         axios.post(`${apiUrl}/api/login`,this.state).then((res) => {
@@ -93,7 +100,8 @@ class Login extends Component {
                         localStorage.setItem("kaytoken", res.data.token);
                         localStorage.setItem("username", data.username);
                         setAuthorizationToken(res.data.token);
-                        window.location.assign(`/profile/${data.username}`)
+                        window.location.assign(`/`)
+                        // window.location.assign(`/profile/${data.username}`)
                     }
                 }
                 this.setState({ isLoading: false })
@@ -173,7 +181,7 @@ class Login extends Component {
                                     <img src={dp || "../../../../images/govinda.jpg"} className="img-responsive x-govinda" width="100px" alt="Image" />
 
                                     <div className="input-group" style={{ padding: "31px 0px 0px" }}>
-                                        <input name="username" min="3" onChange={this.typing} type="text" className="form-control username" id="exampleInputAmount" placeholder="Username" style={{ borderLeft: "none", borderRadius: "0px", marginLeft: "-3px" }} />
+                                        <input name="username" onChange={this.typing} type="text" className="form-control username" id="exampleInputAmount" placeholder="Username" style={{ borderLeft: "none", borderRadius: "0px", marginLeft: "-3px" }} />
                                         <span className="input-group-btn">
 
                                             <button type="button" className="btn btn-default next" required disabled={this.state.steptwo ? false : true} id="next" style={{ marginLeft: "-13px", borderRadius: "100%" }}>

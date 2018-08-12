@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import Intro from "../extras/intro"
 import Photos from "../extras/photos"
 import Friendscard from "../extras/friendscard"
-class About extends Component {
+import Requestsent from "../extras/requestsent"
+class Friends extends Component {
     constructor(props) {
         super(props);
 
     }
-    render() {
+    render() { console.log(this.props)
         return (
             <div className="row">
              <div className="col-sm-4">
@@ -23,4 +24,4 @@ class About extends Component {
     }
 }
 
-export default About;
+export default Friends;

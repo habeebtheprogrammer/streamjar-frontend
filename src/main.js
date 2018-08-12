@@ -13,7 +13,8 @@ import Join from "./join"
 import Edit from './component/dashboard/edit';
 import Call from "./component/call/index"
 import Answer from "./component/call/answer"
-
+import Newsfeed from "./component/home/index"
+import Community from './component/community';
 class Main extends Component {
 
     render() {
@@ -23,8 +24,10 @@ class Main extends Component {
                 {/* <Join /> */}
                 <Switch>
                     
-                    <Route exact path="/" component={Login} />
                     <Route exact path="/login" component={Login} />
+                    <Privateroute exact path="/" socket={this.props.socket} component={Newsfeed} />
+                    <Privateroute exact path="/community" socket={this.props.socket} component={Community} />
+
                     <Privateroute  path="/profile/:id" socket={this.props.socket} component={Profile} />
 
                     <Privateroute exact path="/dashboard" socket={this.props.socket} component={Dashboard} />
@@ -37,7 +40,7 @@ class Main extends Component {
                     <Privateroute exact path="/answer/:caller" socket={this.props.socket} component={Answer} />
                     
                     <Route exact path="/signup" socket={this.props.socket} component={Signup} />
-                    {/* <Route exact path="*" component={Notfound} /> */}
+                    <Privateroute exact path="*" socket={this.props.socket} component={Newsfeed} />
                 </Switch>
             </div>
         );

@@ -12,6 +12,9 @@ body{
     background: linear-gradient(to right,#2f323e,#692F2F)
     
 }
+.font-xs{
+font-size: 0.9em;
+}
 nav.navbar{
     margin-bottom: 0px;
     border-radius: 0px

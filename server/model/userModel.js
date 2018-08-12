@@ -30,8 +30,6 @@ var userSchema = mongoose.Schema({
     dpUrl: {
         type: String
     },
-    dpID: String,
-    bgID: String,
     bgUrl: {
         type: String
     },
@@ -64,6 +62,10 @@ var userSchema = mongoose.Schema({
     },
     state: {
         type: String
+    },
+    privacy:{
+        type: String,
+        default: "public"
     }
 })
 userSchema.index({ fullName: 'text', department: 'text', university: 'text', gender: 'text', city: 'text', state: 'text',location:"text", about: 'text' });

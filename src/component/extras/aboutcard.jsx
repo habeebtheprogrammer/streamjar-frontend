@@ -18,7 +18,7 @@ componentWillMount() {
         
         return (
             <div className="aboutcard white">
-            <div className="title" > <i className="fa fa-user" style={{color:"grey",padding:"0px 0px 5px"}}></i> About me </div>
+            <div className="title" >  About me </div>
                
                <div className="row content">
                    <div className="col-sm-4 zero left-content">

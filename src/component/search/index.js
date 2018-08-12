@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from "../navbar/index"
 import Footer from "../footer/index"
+import Sidebar from "../navbar/sidebar"
 import { Player } from 'video-react';
 import axios from "axios"
 import apiUrl from "../../config"
@@ -14,12 +15,12 @@ import { setUserProfile, editUserProfile } from "../../actions/index"
 import FileUpload from "react-fileupload"
 import moment from "moment"
 import $ from "jquery"
-import Sidebar from "../navbar/sidebar"
 import Shuffle from "shuffle-array"
 import Relatedusers from "../extras/relatedusers"
 import Conversation from "../extras/conversation"
 import Onlineusers from "../extras/onlineusers"
 import Bgchat from "../extras/bgchat"
+import jwt from "jsonwebtoken"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -42,23 +43,25 @@ class Search extends Component {
             name:"",
             users:[],
             result: [], 
-           
+           friends:[],
             isLoading:false,
             searching: false,
             searched:false
 
         }
         this.typing = this.typing.bind(this)
+        this.sendRequest = this.sendRequest.bind(this)
 
     }
     componentWillMount() {
         var token = localStorage.getItem("jwToken")
         $.getJSON(`${apiUrl}/api/getusers`,(users) => {
             var filter = users.users.filter((user)=>user.username !== this.props.auth.user.username);
-
             this.setState({users:filter})
         })
-        
+        axios.get(`${apiUrl}/api/getFriendRequest?username=${this.props.auth.user.username}`,(res)=>{
+            this.setState({friends:res.data.friends})
+        })
     }
 
     typing(e) {
@@ -76,6 +79,17 @@ class Search extends Component {
                 this.setState({ searching: false,searched:true })
                 }, 1000);
             });
+        })
+    }
+
+    sendRequest(user){
+        var {id,username} = this.props.auth.user;
+        var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
+        var token = jwt.sign(data,"o1l2a3m4i5d6e");
+        axios.post(`${apiUrl}/api/sendFriendRequest`,{token:token}).then((res)=>{
+            if(res.data.success){
+              this.setState({sentRequest:{username}})
+            }
         })
     }
     render() {
@@ -140,7 +154,7 @@ class Search extends Component {
                                                                     </div>
                                                                     <div className="col-sm-3">
                                                                     
-                                                                    <button type="button" className="btn btn-default" style={{fontSize:"0.9em"}}>Add friend</button>
+                                                                    <button type="button" className="btn btn-default" onClick={()=>this.sendRequest(member)} style={{fontSize:"0.9em"}}>Add friend</button>
                                                                     
                                                                     </div>
                                                                 </div>
@@ -161,7 +175,7 @@ class Search extends Component {
                                                                 </div>
                                                                 <div className="col-sm-3">
                                                                 
-                                                                <button type="button" className="btn btn-default">Add friend</button>
+                                                                <button type="button" onClick={()=>this.sendRequest(member)} className="btn btn-default">Add friend</button>
                                                                 
                                                                 </div>
                                                             </div>

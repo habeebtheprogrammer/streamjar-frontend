@@ -10,13 +10,16 @@ var video = mongoose.Schema({
     date: {
         type: String
     },
-    dpID: String,
     views: {
         type: Number,
         default: 0
     },
     youtubelink:{
         type: String
+    },
+    privacy:{
+        type: String,
+        default: "public"
     }
 });
 

@@ -40,7 +40,7 @@ class Photocard extends Component {
         return (
             
             <div className="photocard white">
-               <div className="title"> <i className="fa fa-photo"></i> Photos 
+               <div className="title">  Photos 
                {me === this.props.user.username?  <button className="pull-right btn btn-default btn-xs grey-color" onClick={()=>this.setState({modal:true})}>upload images</button>:null}
 
                </div>

@@ -5,7 +5,9 @@ var User = require('../model/userModel');
 var Newsletter = require('../model/newsletter');
 var Message = require("../model/message")
 var Picture = require('../model/pictures');
+var Post = require('../model/post');
 var Video = require('../model/videos');
+var Friends = require('../model/friends');
 var moment = require('moment')
 var generator = require("generate-password")
 var jwt = require('jsonwebtoken');
@@ -14,7 +16,9 @@ var fs = require("fs")
 var cloudinary = require("cloudinary")
 var dotenv = require('dotenv')
 var path  = require ('path')
+
 dotenv.config();
+
 cloudinary.config({
   cloud_name: 'afrikal',
   api_key: '345824351715158',
@@ -66,7 +70,7 @@ router.post('/api/login', function (req, res, next) {
     User.findOne({username:username}).then((user)=>{
       if(user) return res.json({error:"This username is not available"})
       User.findOne({ email: email }).then((user) => {
-        if (user) return res.json({ error: { email: "This email address is not available" } })
+        if (user) return res.json({ error:  "This email address is not available"})
         bcrypt.hash(password, 10).then((hash) => {
 
           User.create({
@@ -94,7 +98,7 @@ router.post('/api/login', function (req, res, next) {
                 });
                 // setup email data with unicode symbols
                 let mailOptions = {
-                  from: '"Campus Connect 👻" <info@campusconnect.com>', // sender address
+                  from: '"Campus Connect 👻" <info@kampuskonnect.com>', // sender address
                   to: `${email}`, // list of receivers
                   subject: 'Account Registration ✔', // Subject line
                   text: 'Hello?', // plain text body
@@ -105,7 +109,7 @@ router.post('/api/login', function (req, res, next) {
                       ]
                     }
                   },
-                  html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Bidders</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Congratulations! your  account has successfully been Verified</small></p><h2>Logon to your dashboard</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to login to your dashboard.</small></p><p style="margin: 30px"> <a href="https://Biddersserver.herokuapp.com/login" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Login </a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto">Atavist | Brooklyn, New York, 11201 | Copyright © 2015 | All rights reserved</div></body>' // html body
+                  html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Bidders</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Congratulations! your  account has successfully been Verified</small></p><h2>Logon to your dashboard</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to login to your dashboard.</small></p><p style="margin: 30px"> <a href="https://kampuskonnect.herokuapp.com/login" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Login </a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto">Tanke | , Ilorin, 224230 | Copyright © 2018 | All rights reserved</div></body>' // html body
                 };
 
                 // send mail with defined transport object
@@ -119,6 +123,15 @@ router.post('/api/login', function (req, res, next) {
                   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
                 });
                 // });
+                Friends.create({username:user.username,userID:user._id})
+                .then((succ)=>{
+                  console.log(succ)
+                }).catch((err)=>console.log(err))
+                Post.create({username:user.username,userID:user._id})
+                .then((succ)=>{
+                  console.log(succ)
+                }).catch((err)=>console.log(err))
+
                 res.json({ "success": "Account Created Successfully" })
 
               }
@@ -342,17 +355,70 @@ router.post("/api/conversation", (req, res, next) => {
     })
   })
   .get("/api/getTimeline", (req, res, next) => {
+    // var media = []
+    // Video.find({username: req.query.username}).sort({ _id: -1 }).then((videos) => {
+    //     media.push({videos})
+        
+    // })
+    Post.findOne({username: req.query.username}).then((post) => {
+      // media.push({pictures})
+      if(post)
+      res.json({ post: post })
+  })
+  })
+  .get("/api/getNewsFeed", (req, res, next) => {
     var media = []
-    Video.find({username: req.query.username}).sort({ _id: -1 }).then((videos) => {
+    Video.find().sort({ _id: -1 }).then((videos) => {
         media.push({videos})
-        Picture.find({username: req.query.username}).sort({ _id: -1 }).then((pictures) => {
+        Picture.find().sort({ _id: -1 }).then((pictures) => {
             media.push({pictures})
             res.json({ media: media })
         })
     })
     
   })
-  
+  .get("/api/getFriends", (req, res, next) => {
+    Friends.findOne({username:req.query.username}).then((friends)=>{
+      res.json({friends:friends})
+    })
+    
+  })
+   .post("/api/sendFriendRequest", (req, res, next) => {
+    var check = jwt.verify(req.body.token,"o1l2a3m4i5d6e");
+    if(check){
+    var items = jwt.decode(req.body.token);
+    var {id,username, university,department,fullName,gender,
+      rUsername, rID,rFullName, rUniversity,rDepartment,rGender} = items
+    
+    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ sent:{userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+    .then((succ)=>{
+      // if(succ)res.send({success:true})
+    }).catch((err)=>console.log(err))
+    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ request:{userID:id,fullName,department,university,gender,username}}})
+            .then((succ)=>{
+              if(succ)res.send({success:true})
+            }).catch((err)=>console.log(err))
+    }
+    
+  })
+  .post("/api/acceptRequest", (req, res, next) => {
+    var check = jwt.verify(req.body.token,"o1l2a3m4i5d6e");
+    if(check){
+    var items = jwt.decode(req.body.token);
+    var {id,username, university,department,fullName,gender,
+      rUsername, rID,rFullName, rUniversity,rDepartment,rGender} = items
+    
+    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ friends:{userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+    .then((succ)=>{
+      // if(succ)res.send({success:true})
+    }).catch((err)=>console.log(err))
+    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ friends:{userID:id,fullName,department,university,gender,username}}})
+            .then((succ)=>{
+              if(succ)res.send({success:true})
+            }).catch((err)=>console.log(err))
+    }
+    
+  })
   //request from dashboard
   .post('/api/uploadDp', (req, res, next) => {
     var newform = new formidable.IncomingForm();
@@ -396,32 +462,23 @@ router.post("/api/conversation", (req, res, next) => {
     var newform = new formidable.IncomingForm();
     newform.keepExtensions = true;
     newform.parse(req, (err, fields, files) => {
-      let errorFields = {}
-      // if (fields.caption === "") errorFields.caption = "This field is required";
-      // if (errorFields.caption) res.json({ error: { caption: errorFields.caption } });
-      // else 
       if (files.picture)
         cloudinary.uploader.upload(files.picture.path, function (result) {
           if (result.url) {
             let userData = jwt.decode(fields.token)
             let time = new Date();
-            var publicid = result.public_id + "." + result.format
-            let uploadedPicture = new Picture({
-              userID: userData.id,
-              username: userData.username,
-              imgUrl: result.url,
-              imgID: publicid,
-              date: time,
-              description: fields.description
-            });
             var ulimit = files.picture.size/1000000
             User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
-
-            uploadedPicture.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
+            Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
+              type: "image",
+              imgUrl: result.url,
+              date: time,
+              description: fields.description
+            }}
+          }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) })
           } else {
             res.json({ error: "Error uploading the image" }); console.log("error uploading to cloudinary")
           }
-          // Picture.update({ userID: userData.id, url: result.url })
         }); else res.json({ error: "Please choose an image to upload" });
     })
   })
@@ -429,56 +486,26 @@ router.post("/api/conversation", (req, res, next) => {
   .post('/api/uploadVideo', (req, res, next) => {
     var newform = new formidable.IncomingForm();
     newform.keepExtensions = true;
-    var tmpFile, nFile, result,fsize, cname; let fields2 = {}; var files2 = {}
-
+    var fsize
     newform.parse(req, (err, fields, files) => {
-      cname = generator.generate({
-        length: 15,
-        numbers: true
-      });
-      Object.assign(fields2, fields)
-      Object.assign(files2, files)
-      
-      cname += ".mp4"
-      tmpFile = files.video.path;
-      fsize = files.video.size;
-      nFile = path.join(__dirname, '..', '..', 'public/video', cname)
-
-
-    })
-    newform.on("end", function () {
-      // if(files2.size > 10550210)
-      // return res.json({ error: { server: "Video size should not be above 10mb" } });
-      fs.rename(tmpFile, nFile, (err) => {
-        if (err) console.log(err,"rename err")
-        let errorFields = {}
-        // if (fields2.description === "") errorFields.description = "Description field is required";
-        // if ( errorFields.description) res.json({ error:  errorFields.title||errorFields.description });
-        // else 
-        if (files2.video)
-          cloudinary.v2.uploader.upload(nFile, { resource_type: "video" }, function (error, result) {
-            if (result) {
-              var ulimit = fsize/1000000;
-              let userData = jwt.decode(fields2.token)
-              let time = new Date();
-              let uploadedVideo = new Video({
-                userID: userData.id,
-                username: userData.username,
-                videoUrl: result.url,
-                date: time,
-                title: fields2.title,
-                description: fields2.description,
-                video2Url: cname
-              });
-              User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
-              uploadedVideo.save().then().then((success) => { res.json({ url: result.url, success: "uploaded successfully" }) })
-            } else {
-
-              res.json({ error:  "Error uploading file" }); console.log("error uploading to cloudinary")
-            }
-            // Picture.update({ userID: userData.id, url: result.url })
-          }); else res.json({ error: "Please choose a file to upload"  });
-      })
+      if (files.video)
+      cloudinary.v2.uploader.upload(files.video.path, { resource_type: "video" }, function (error, result) {
+        if (result) {
+          var ulimit = fsize/1000000;
+          let userData = jwt.decode(fields.token)
+          let time = new Date();
+          User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
+          Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
+            type: "video",
+            imgUrl: result.url,
+            date: time,
+            description: fields.description
+          }}
+        }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) })
+        } else {
+          res.json({ error:  "Error uploading file" }); console.log("error uploading to cloudinary")
+        }
+      }); else res.json({ error: "Please choose a file to upload"  });
     })
   })
 module.exports = router;

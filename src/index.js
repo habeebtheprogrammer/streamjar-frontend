@@ -16,11 +16,14 @@ if (window.localStorage.kaytoken) {
     setAuthorizationToken(window.localStorage.kaytoken);
     var socket = socketIOClient(apiUrl);
     var decodedToken = jwt.decode(window.localStorage.kaytoken);
+    socket.on("connect",()=>{
     socket.emit("initialize", decodedToken.id, decodedToken.fullName, decodedToken.department,decodedToken.username)
+    })
     store.dispatch(setCurrentUser(decodedToken))
     console.log(decodedToken)
 }
 var username = window.localStorage.getItem("username")
+if(window.localStorage.kaytoken)
 socket.on(`callingalert/${username}`,(caller)=>window.location.assign(`/answer/${caller}`))
 ReactDOM.render(<BrowserRouter>
     <Provider store={store}>

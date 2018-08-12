@@ -45,7 +45,7 @@ typing(e) {
         return (
             
             <div className="photocard white">
-               <div className="title"> <i className="fa fa-video-camera"></i> Videos 
+               <div className="title"> Videos 
              {me === this.props.user.username?  <button className="pull-right btn btn-default btn-xs grey-color" onClick={()=>this.setState({modal:true})}> upload video</button>:null}
 
                </div>

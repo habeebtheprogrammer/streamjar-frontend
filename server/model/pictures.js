@@ -4,13 +4,16 @@ var picturesSchema = mongoose.Schema({
     userID: String,
     username:String,
     imgUrl: String,
-    imgID:String,    
     description:String,
     date: String,
     views: {
         type: Number,
         default: 0
     },
+    privacy: {
+        type: String,
+        default: "public"
+    }
 
 });
 

@@ -10,7 +10,7 @@ class Timeline extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            media:[],
+            post:{content:[]},
             isLoading: true,
 
         }
@@ -19,13 +19,14 @@ class Timeline extends Component {
     componentWillMount() {
         var {match} = this.props
         axios.get(`${apiUrl}/api/getTimeline?username=${match.params.id}`).then((res)=>{
-            this.setState({media:res.data.media})
+            console.log(res.data.post)
+            this.setState({post:res.data.post});
         })
     }
     arrangePost(){
     var div =[];
-        this.state.media.map((item)=>{
-            if(item.videos) return item.videos.map((video)=>{
+        this.state.post.content.map((item)=>{
+            if(item.type==="video") return item.videos.map((video)=>{
                 div.push(
                     <div className="x-post white">
                     <div className="">
@@ -53,7 +54,7 @@ class Timeline extends Component {
                 
                 );
             })
-            else if (item.pictures) return item.pictures.map((image)=>{
+            else if (item.type==="image") return item.pictures.map((image)=>{
                 div.push(
                     <div className="x-post white">
                     <div className="">

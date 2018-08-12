@@ -26,6 +26,8 @@ import Media from "./media"
 import Timeline from './timeline';
 import About from "./about"
 import Friends from "./friends"
+import Friendrequest from './friendrequest';
+import Private from "./private"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -61,6 +63,7 @@ class Profile extends Component {
             this.setState({ user: res.user, isLoading: false });else this.setState({empty:true})
         });
        
+       
     }
     render() {
 
@@ -76,6 +79,7 @@ class Profile extends Component {
                 <Switch>
                 <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user}/>} />
                 <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user}/>} />
+                <Private  path={`${this.props.match.url}/friendRequests`} component={Friendrequest} {...this.props} user={this.state.user}/> 
                 <Route  path={`${this.props.match.url}/media`} render={(props)=><Media {...this.props}  user={this.state.user}/>} />
                 <Route  path="/" render={(props)=><Timeline  {...this.props} user={this.state.user} />} />
                 </Switch>

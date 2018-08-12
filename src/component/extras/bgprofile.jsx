@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom"
+import axios from "axios"
+import apiUrl from "../../config"
+import Navtab from "../navbar/tab"
 class Bgprofile extends Component {
     constructor(props) {
         super(props);
@@ -7,17 +10,16 @@ class Bgprofile extends Component {
         relatedusers: [],
             rloader: true,
             online:false,
+            friends:{friends:[]}
+
         }
     }
 componentWillMount() {
-    var {socket} = this.props.socket
-    socket.emit("fetchuserlist")
-    socket.on("disconnect",()=> this.setState({online:false}))
-
-    socket.on("onlineusers", (onlineusers) => {
-       var check = onlineusers.findIndex((user)=>user.username===this.props.user.username);
-        if(check !== -1) this.setState({online:true})
-    })
+   
+    axios.get(`${apiUrl}/api/getFriends?username=${this.props.user.username}`).then((res)=>{
+        if(res.data.friends)
+         this.setState({friends:res.data.friends})
+     })
 }
     render() {
         var imglist = ["slide4.jpg", "bg.jpg", "banner2.jpg", "hustle-quotes.jpg"]
@@ -25,7 +27,7 @@ componentWillMount() {
         return (
                    <div className="row" style={{ border:"1px solid #e8e8e8 "}}>
                 <div className="col-sm-12">
-                <div className="profile-bg" style={{background:`url('../../images/${imglist[0]}')`}}>
+                <div className="profile-bg" style={{background:`url('../../images/${imglist[2]}')`}}>
                  <div className="row profile-img">
                  <div className="col-sm-2 zero" style={{border:"1px solid lightgrey"}}>
                  <img src={`${this.props.user.dpUrl ||'../../../../images/avatar.jpg'}`} width="160px" alt="" />
@@ -37,57 +39,17 @@ componentWillMount() {
                  <br />
                 <span>Studying {this.props.user.department} {this.props.user.university}</span>
                 {this.props.user.username === me? 
-                <button className="btn danger pull-right " style={{color:"black"}}>0 Followers</button>  
+                <button className="btn danger pull-right " style={{color:"black"}}> {this.state.friends.friends.length}  Friends</button>  
 
                 :
-                <button className="btn danger pull-right " style={{color:"black"}}>Follow</button>  
+                <button className="btn danger pull-right " style={{color:"black"}}>{this.state.friends.friends.length} Friends</button>  
                 }
                  </p>
                  </div>
                     </div>
                     </div>
-                <div className="profile-tab">
-                    
-                    <div className="navbar" style={{marginBottom:"0px"}}>
-                        <ul className="nav navbar-nav">
-                            <li className="active">
-                                <Link to={`/profile/${this.props.user.username}`}>Timeline</Link>
-                            </li>
-                            <li>
-                                <Link to={`/profile/${this.props.user.username}/about`}>About</Link>
-                            </li>
-                            <li className="active">
-                                <Link to={`/profile/${this.props.user.username}/friends`}>Friends</Link>
-                            </li>
-                            <li>
-                                <Link to={`/profile/${this.props.user.username}/media`}>Media page</Link>
-                            </li>
-                            {this.props.user.username === me? null:
-                            <li className="active">
-                                <Link to={`/chat/${this.props.user.username}`}>Message</Link>
-                            </li>}
-                            {this.props.user.username === me? null:
-                            <li>
-                                <Link to={`/call/${this.props.user.username}`} target="_blank">Call</Link>
-                            </li>}
-                            {this.props.user.username !== me? null:
-                            <li>
-                                <Link to={`/call/${this.props.user.username}`} >Create a community</Link>
-                            </li>}
-                        </ul>
-                        <ul className="nav navbar-nav navbar-right" style={{margin:"0px"}}>
-                            {this.state.online?
-                            <li>
-                                <Link to="#"><span className="online"><i className="fa fa-circle"></i> Online</span></Link>
-                            </li>:
-                             <li>
-                             <Link to="#"><span className="offline"><i className="fa fa-circle"></i> Offline</span></Link>
-                         </li>
-                            }
-                        </ul>
-                    </div>
-                    
-                </div>
+           <Navtab user={this.props.user} socket={this.props.socket}/>
+             
                 </div>
            
               </div>
