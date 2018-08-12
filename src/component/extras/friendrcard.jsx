@@ -22,8 +22,9 @@ componentWillMount() {
 }
 
 accept(user){
+    console.log(user)
     var {id,username} = this.props.auth.user;
-    var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
+    var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user.userID, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
     var token = jwt.sign(data,"o1l2a3m4i5d6e");
     axios.post(`${apiUrl}/api/acceptRequest`,{token:token}).then((res)=>{
         if(res.data.success){

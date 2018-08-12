@@ -96,7 +96,7 @@ class Answer extends Component {
      console.log(candidate,"candidate came in. add now")
     }
     close(){
-        this.pc.close();
+      if(this.pc)  this.pc.close();
          window.close()
      }
     render() {

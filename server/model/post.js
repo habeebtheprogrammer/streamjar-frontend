@@ -1,11 +1,11 @@
 var mongoose = require('../config/mongoose');
 
 var postSchema = mongoose.Schema({
-    userID: String,
+    userID: {type:String, ref:"users"},
     username:String,
     content:[
     {
-    type: String,
+    type: {type:String },
     imgUrl: String,
     videoUrl: String,
     description:String,

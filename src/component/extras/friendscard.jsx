@@ -14,6 +14,7 @@ class Friendscard extends Component {
 
 componentWillMount() {
     axios.get(`${apiUrl}/api/getFriends?username=${this.props.match.params.id}`).then((res)=>{
+        console.log(res.data.friends)
        if(res.data.friends)
         this.setState({friends:res.data.friends})
     })

@@ -59,6 +59,7 @@ class Profile extends Component {
         var token = localStorage.getItem("kaytoken");
         var username = localStorage.getItem("username")
         $.getJSON(`${apiUrl}/api/getuserbyid?id=${this.props.match.params.id}`, (res) => {
+            console.log(res.user)
             if(res.user)
             this.setState({ user: res.user, isLoading: false });else this.setState({empty:true})
         });

@@ -341,7 +341,7 @@ router.post("/api/conversation", (req, res, next) => {
 
   })
   .get("/api/getImagesByUser", (req, res, next) => {
-    Picture.find({username: req.query.username}).sort({ _id: -1 }).then((picture) => {
+    Picture.find({username: req.query.username}).sort({ _id: -1 }).populate("username").exec().then((picture) => {
       if (picture) {
         res.json({ success: picture })
       } else (res.json({ error: "There are no images available" }))
@@ -355,30 +355,22 @@ router.post("/api/conversation", (req, res, next) => {
     })
   })
   .get("/api/getTimeline", (req, res, next) => {
-    // var media = []
-    // Video.find({username: req.query.username}).sort({ _id: -1 }).then((videos) => {
-    //     media.push({videos})
-        
-    // })
-    Post.findOne({username: req.query.username}).then((post) => {
+
+    Post.findOne({username: req.query.username}).populate("userID").exec().then((post) => {
       // media.push({pictures})
       if(post)
       res.json({ post: post })
   })
   })
   .get("/api/getNewsFeed", (req, res, next) => {
-    var media = []
-    Video.find().sort({ _id: -1 }).then((videos) => {
-        media.push({videos})
-        Picture.find().sort({ _id: -1 }).then((pictures) => {
-            media.push({pictures})
-            res.json({ media: media })
-        })
-    })
+    Post.find().populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university"}).exec().then((posts) => {
+     
+      res.json({ posts: posts })
+  })
     
   })
   .get("/api/getFriends", (req, res, next) => {
-    Friends.findOne({username:req.query.username}).then((friends)=>{
+    Friends.findOne({username:req.query.username}).populate('userID',{fullName:"fullName",department:"department",university:"university"}).exec().then((friends)=>{
       res.json({friends:friends})
     })
     
@@ -407,13 +399,22 @@ router.post("/api/conversation", (req, res, next) => {
     var items = jwt.decode(req.body.token);
     var {id,username, university,department,fullName,gender,
       rUsername, rID,rFullName, rUniversity,rDepartment,rGender} = items
-    
-    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ friends:{userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+  
+    Friends.findOneAndUpdate({userID:id,username:username},
+      { $addToSet:{friends:{userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}},
+      $pull:{ request:{username:rUsername}}
+    }
+    )
     .then((succ)=>{
       // if(succ)res.send({success:true})
     }).catch((err)=>console.log(err))
-    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ friends:{userID:id,fullName,department,university,gender,username}}})
+    console.log(rID,rUsername,username)
+    Friends.findOneAndUpdate({username:rUsername,userID:rID},
+      { $addToSet:{ friends:{userID:id,fullName,department,university,gender,username}},
+      $pull:{ sent:{username:username}}
+    })
             .then((succ)=>{
+              console.log(succ)
               if(succ)res.send({success:true})
             }).catch((err)=>console.log(err))
     }
@@ -467,7 +468,8 @@ router.post("/api/conversation", (req, res, next) => {
           if (result.url) {
             let userData = jwt.decode(fields.token)
             let time = new Date();
-            var ulimit = files.picture.size/1000000
+            var ulimit = files.picture.size/1000000;
+            console.log(ulimit)
             User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
             Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
               type: "image",
@@ -475,7 +477,7 @@ router.post("/api/conversation", (req, res, next) => {
               date: time,
               description: fields.description
             }}
-          }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) })
+          }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) }).catch((err)=>console.log(err))
           } else {
             res.json({ error: "Error uploading the image" }); console.log("error uploading to cloudinary")
           }
@@ -491,17 +493,17 @@ router.post("/api/conversation", (req, res, next) => {
       if (files.video)
       cloudinary.v2.uploader.upload(files.video.path, { resource_type: "video" }, function (error, result) {
         if (result) {
-          var ulimit = fsize/1000000;
+          var ulimit = files.video.size/1000000;
           let userData = jwt.decode(fields.token)
           let time = new Date();
           User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
           Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
             type: "video",
-            imgUrl: result.url,
+            videoUrl: result.url,
             date: time,
             description: fields.description
           }}
-        }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) })
+        }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) }).catch((err)=>console.log(err))
         } else {
           res.json({ error:  "Error uploading file" }); console.log("error uploading to cloudinary")
         }

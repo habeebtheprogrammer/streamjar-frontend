@@ -6,7 +6,6 @@ import Marketplaceslider from "../slider/marketplaceslider"
 import { Link } from "react-router-dom"
 import Calendar from 'react-calendar';
 import validator from "validator"
-import { Row, Col, Input, Carousel } from "react-materialize"
 import Select from 'react-select';
 import apiUrl from "../../config"
 import classnames from "classnames"

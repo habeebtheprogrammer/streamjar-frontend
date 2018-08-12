@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from "../navbar/index"
 import Footer from "../footer/index"
-import { Icon } from 'react-materialize';
 class Notfound extends Component {
     render() {
         return (

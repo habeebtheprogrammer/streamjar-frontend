@@ -9,7 +9,6 @@ import Chat from "./component/chat/index"
 import Chatpage from "./component/chat/main"
 import Profile from "./component/profile/index"
 import Privateroute from "./container/privateroute"
-import Join from "./join"
 import Edit from './component/dashboard/edit';
 import Call from "./component/call/index"
 import Answer from "./component/call/answer"

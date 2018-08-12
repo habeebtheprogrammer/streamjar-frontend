@@ -1,7 +1,7 @@
 var mongoose = require('../config/mongoose');
 
 var picturesSchema = mongoose.Schema({
-    userID: String,
+    userID: {type:String,ref:"userModel"},
     username:String,
     imgUrl: String,
     description:String,

@@ -204,7 +204,7 @@ class Login extends Component {
 
                                 <center>
                                     <p>{this.state.error?this.state.error:null}</p>
-                                    Not a member?  <a href="/signup">Sign up</a>
+                                    Not a member?  <Link to="/signup">Sign up</Link>
                                     <br />
 
 

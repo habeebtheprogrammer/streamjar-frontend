@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom"
 import setAuthorizationToken from "../auth"
-import { SideNav, SideNavItem, Icon, Button } from "react-materialize"
 import classnames from "classnames"
 class Sidebar extends Component {
     constructor(props) {

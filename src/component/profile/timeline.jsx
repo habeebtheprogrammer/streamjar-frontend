@@ -14,6 +14,7 @@ class Timeline extends Component {
             isLoading: true,
 
         }
+        this.arrangePost = this.arrangePost.bind(this)
 
     }
     componentWillMount() {
@@ -24,9 +25,10 @@ class Timeline extends Component {
         })
     }
     arrangePost(){
+    var sorted= this.state.post.content.sort((a,b)=> moment(b.date).diff(a.date))
     var div =[];
-        this.state.post.content.map((item)=>{
-            if(item.type==="video") return item.videos.map((video)=>{
+        sorted.map((item)=>{
+            if(item.type==="video") 
                 div.push(
                     <div className="x-post white">
                     <div className="">
@@ -34,27 +36,26 @@ class Timeline extends Component {
                    <img src={`${this.props.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
                    </div> <div className="image-text">
                    <div className="title">{this.props.user.fullName}  uploaded a new video</div>
-                   <div style={{color:"grey"}}>{moment(video.date).format("ll")} at 4:03pm</div>
+                   <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
                    </div>
                    
                    </div>
       
                   <div className="clearfix"></div>
                         <div className="content">
-                    {video.description}
+                    {item.description}
                     <div className="post-img">
                     <Player
                           playsInline
-                            src={video.videoUrl}
+                            src={item.videoUrl}
                            />
                     </div>
                     </div>
                     </div>
                     </div>
                 
-                );
-            })
-            else if (item.type==="image") return item.pictures.map((image)=>{
+            )
+            else if (item.type==="image") 
                 div.push(
                     <div className="x-post white">
                     <div className="">
@@ -62,20 +63,19 @@ class Timeline extends Component {
                    <img src={`${this.props.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
                    </div> <div className="image-text">
                    <div className="title">{this.props.user.fullName} added a new photo</div>
-                   <div style={{color:"grey"}}>{moment(image.date).format("ll")} at 4:03pm</div>
+                   <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
                    </div>
                    
                    </div>
       
                   <div className="clearfix"></div>
                   <div className="content">
-                {image.description}
-                <div className="post-img"><img src={image.imgUrl} /></div>
+                {item.description}
+                <div className="post-img"><img src={item.imgUrl} /></div>
                 </div>
                     </div>
                     </div>
                    )
-            })
         });
      return div
     }

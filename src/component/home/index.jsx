@@ -23,76 +23,75 @@ class Home extends Component {
         super(props);
         this.state ={
             online:false,
-            media:[],
+            posts:[],
             user: {}
         }
+        this.arrangePost = this.arrangePost.bind(this)
     }
     componentWillMount() {
         var {match} = this.props
         axios.get(`${apiUrl}/api/getNewsFeed`).then((res)=>{
-            this.setState({media:res.data.media})
+            this.setState({posts:res.data.posts})
         })
         var username = localStorage.getItem("username")
         axios.get(`${apiUrl}/api/getuserbyid?id=${username}`).then((res) => {
             console.log(res.data)
-
             if(res.data.user)
             this.setState({ user: res.data.user, isLoading: false });else this.setState({empty:true})
         });
     }
-    arrangePost(){
-    var div =[];
-        this.state.media.map((item)=>{
-            if(item.videos) return item.videos.map((video)=>{
+    arrangePost(posts){
+    var sorted= posts.content.sort((a,b)=> moment(b.date).diff(a.date))
+        var div =[];
+        sorted.map((item)=>{
+            if(item.type==="video") 
                 div.push(
                     <div className="x-post white">
                     <div className="">
                    <div> <div className="image">
-                   <img src={`${this.state.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
+                   <img src={`${posts.userID.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
                    </div> <div className="image-text">
-                   <div className="title">{this.state.user.fullName}  uploaded a new video</div>
-                   <div style={{color:"grey"}}>{moment(video.date).format("ll")} at 4:03pm</div>
+                   <div className="title"><Link to={`/profile/${posts.userID.username}`}>{posts.userID.fullName}</Link>  uploaded a new video</div>
+                   <div style={{color:"grey"}}>{moment(item.date).calendar()} }</div>
                    </div>
                    
                    </div>
       
                   <div className="clearfix"></div>
                         <div className="content">
-                    {video.description}
+                    {item.description}
                     <div className="post-img">
                     <Player
                           playsInline
-                            src={video.videoUrl}
+                            src={item.videoUrl}
                            />
                     </div>
                     </div>
                     </div>
                     </div>
                 
-                );
-            })
-            else if (item.pictures) return item.pictures.map((image)=>{
+            )
+            else if (item.type==="image")
                 div.push(
                     <div className="x-post white">
                     <div className="">
                    <div> <div className="image">
-                   <img src={`${this.state.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
+                   <img src={`${posts.userID.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
                    </div> <div className="image-text">
-                   <div className="title">{this.state.user.fullName} added a new photo</div>
-                   <div style={{color:"grey"}}>{moment(image.date).format("ll")} at 4:03pm</div>
+                   <div className="title"><Link to={`/profile/${posts.userID.username}`}>{posts.userID.fullName}</Link> added a new photo</div>
+                   <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
                    </div>
                    
                    </div>
       
                   <div className="clearfix"></div>
                   <div className="content">
-                {image.description}
-                <div className="post-img"><img src={image.imgUrl} /></div>
+                {item.description}
+                <div className="post-img"><img src={item.imgUrl} /></div>
                 </div>
                     </div>
                     </div>
                    )
-            })
         });
      return div
     }
@@ -114,7 +113,11 @@ class Home extends Component {
 
             </div>
             <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-              { this.arrangePost() }
+              { 
+                  this.state.posts.map((post)=>(
+                    this.arrangePost(post) 
+                  ))
+                }
               </div>
             </div>
             </div>

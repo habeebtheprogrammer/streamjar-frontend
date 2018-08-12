@@ -88,6 +88,7 @@ class Search extends Component {
         var token = jwt.sign(data,"o1l2a3m4i5d6e");
         axios.post(`${apiUrl}/api/sendFriendRequest`,{token:token}).then((res)=>{
             if(res.data.success){
+                window.location.reload();
               this.setState({sentRequest:{username}})
             }
         })

@@ -2,7 +2,7 @@ var mongoose = require('../config/mongoose');
 //user schema
 var userSchema = mongoose.Schema({
   userID:{
-      type: String,
+     type: String,ref:"users"
   },
   username:{
       type: String,
@@ -13,7 +13,7 @@ var userSchema = mongoose.Schema({
   },
   friends:[
     { userID: {
-        type: String,
+        type: String,ref:"users"
     },
     fullName: {
         type: String,

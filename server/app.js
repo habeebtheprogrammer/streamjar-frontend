@@ -7,18 +7,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
-var config = require('./config/config');
-var crypto = require('crypto');
-var moment = require('moment');
 var index = require('./routes/index');
 var cors = require("cors")
 var app = express();
 var socketIO = require("socket.io")
-var http = require("http")
+var http = require("http");
 // var Users = require("./users")
 mongoose.Promise = global.Promise
 //cors
+require('dotenv').load();
 
 //helmet setup
 app.use(cors());  
