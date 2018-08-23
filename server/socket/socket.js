@@ -16,12 +16,12 @@ io.on("connection", (socket) => {
         io.emit("onlineusers", users.userslist)
         socket.broadcast.to('/campusconnect').emit('onlineusers', users.userslist)
     })
-    socket.on("sendmesg", (party,senderID,suname,receiverID,reuname,text) =>{
+    socket.on("sendmesg", (party,senderID,suname,receiverID,reuname,text,reference) =>{
         var date = new Date() 
 
         Message.findOne({party }).then((conversation)=>{
             if(conversation){
-                Message.update({ _id: conversation._id }, { $push: { messages: { text, date, from: senderID, to: receiverID} } }).then((conv)=>{
+                Message.update({ _id: conversation._id }, { $push: { messages: { text, date, from: senderID,reference, to: receiverID} } }).then((conv)=>{
                     Message.findOne({ party }).then((conversation) => {
                         io.emit(conversation.party, conversation)
                        var allmesg = [];

@@ -38,7 +38,7 @@ class Sidebar extends Component {
                             </Link>
                     </div>
                     <div className="sidebar-list">
-                    <Link to="/community" className={classnames(window.location.pathname ===  "/community"? "active" : null)}>
+                    <Link to="/community"  className={classnames(this.props.match.path ===  "/community/:id" || this.props.match.path ===  "/community" ? "active" : null)}>
                     
                             <center>
                                 <i className="fa fa-group"></i>

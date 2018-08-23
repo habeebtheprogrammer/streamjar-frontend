@@ -42,7 +42,7 @@ var userSchema = mongoose.Schema({
         default: 0
     },
     date: {
-        type: String
+        type: Date
     },
     views: {
         type: Number,

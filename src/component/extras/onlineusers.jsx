@@ -17,19 +17,14 @@ componentWillMount() {
     var username = localStorage.getItem("username")
     var {socket} = this.props.socket
     var decodedToken = jwt.decode(window.localStorage.kaytoken);
-    // socket.emit("fetchuserlist")
-    // socket.emit("initialize", decodedToken.id, decodedToken.fullName, decodedToken.department)
     socket.on("onlineusers", (onlineusers) => {
         var list = onlineusers.filter((user)=>user.username !== username)
         this.setState({ onlineusers:list })
     })
+    socket.on("disconnect",()=>this.setState({onlineusers:[]}))
 }
 
     render() {
-        
-        var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
-        
-      
         return (
             <div>
                 <div style={{ padding: "20px" }}>Members online</div>

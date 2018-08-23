@@ -5,7 +5,7 @@ var picturesSchema = mongoose.Schema({
     username:String,
     imgUrl: String,
     description:String,
-    date: String,
+    date: Date,
     views: {
         type: Number,
         default: 0

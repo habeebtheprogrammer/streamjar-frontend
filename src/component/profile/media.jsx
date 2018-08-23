@@ -5,7 +5,13 @@ import Videocard from '../extras/videocard';
 class Photos extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            images:[],
+            video:[]
+        }
+    }
+    componentWillMount() {
+ 
     }
     render() {
         return (
@@ -16,8 +22,8 @@ class Photos extends Component {
 
              </div>
               <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-              <Videocard {...this.props}/>
-              <Photocard {...this.props}/>
+              <Videocard {...this.props} />
+              <Photocard {...this.props} />
               </div>
             </div>
         );

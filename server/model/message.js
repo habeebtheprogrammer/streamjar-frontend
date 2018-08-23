@@ -24,8 +24,11 @@ var messageSchema = mongoose.Schema({
             type:String,
             default: false
         },
+        reference:{
+            type:String
+        },
         date: {
-            type: String
+            type: Date
         }
     }],
 })

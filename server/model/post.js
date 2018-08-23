@@ -9,7 +9,8 @@ var postSchema = mongoose.Schema({
     imgUrl: String,
     videoUrl: String,
     description:String,
-    date: String,
+    date: Date,
+    userID:{type:String,ref:"users"},
     views: {
         type: Number,
         default: 0

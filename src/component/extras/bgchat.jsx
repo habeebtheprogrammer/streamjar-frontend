@@ -12,15 +12,11 @@ class Bgchat extends Component {
         relatedusers: [],
             rloader: true,
             online:false,
-            friends:{friends:[]}
         }
     }
     componentWillMount() {
       
-        axios.get(`${apiUrl}/api/getFriends?username=${this.props.user.username}`).then((res)=>{
-            if(res.data.friends)
-             this.setState({friends:res.data.friends})
-         })
+       
     }
     render() {
         var imglist = ["banner2.jpg", "bg.jpg", "banner2.jpg", "hustle-quotes.jpg"]
@@ -29,7 +25,7 @@ class Bgchat extends Component {
         return (
                    <div className="row" style={{border:"1px solid #e8e8e8"}}>
                 <div className="col-sm-12 ">
-                <div className="chat-bg" style={{background:`url('../../images/${imglist[2]}')`,backgroundSize:"cover"}}>
+                <div className="chat-bg" style={{background:`url('../../images/banner2.jpg')`,backgroundSize:"cover"}}>
                  <div className="row profile-img">
                  <div className="col-sm-2 zero" style={{border:"1px solid lightgrey"}}>
                  <img src={`${this.props.user.dpUrl ||'../../../../images/avatar.jpg'}`}  width="160px" alt="" />
@@ -40,7 +36,7 @@ class Bgchat extends Component {
                  {this.props.user.fullName}
                 <br />
                 <span>Studying {this.props.user.department} {this.props.user.university}</span>
-                <button className="btn danger pull-right " style={{color:"black"}}>{this.state.friends.friends.length} Friends</button>  
+                <button className="btn danger pull-right " style={{color:"black"}}> Friends</button>  
                  
                  </p>
                  </div>

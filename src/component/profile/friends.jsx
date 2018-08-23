@@ -12,12 +12,12 @@ class Friends extends Component {
         return (
             <div className="row">
              <div className="col-sm-4">
-             <Intro user={this.props.user} {...this.props}/>
-             <Photos user={this.props.user} {...this.props}/>
+             <Intro  {...this.props}/>
+             <Photos {...this.props}/>
 
              </div>
               <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-                <Friendscard user={this.props.user} {...this.props}/>
+                <Friendscard  {...this.props}/>
               </div>
             </div>
         );

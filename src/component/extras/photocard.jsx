@@ -18,21 +18,16 @@ class Photocard extends Component {
             progress:"",
             images:[]
         }
+        this.typing = this.typing.bind(this)
     }
 
 
     componentWillMount() {
-        var { match} = this.props
-
-        axios.get(`${apiUrl}/api/getImagesByUser?username=${match.params.id}`).then((res) => {
-            if (res.data.success) {
-                this.setState({ images: res.data.success })
-            }
-            else this.setState({ empty: true })
-
-        })
+    
     }
-
+    typing(e) {
+        this.setState({ [e.target.name]: e.target.value })
+    }
     render() {
         var me =localStorage.getItem("username")
         var token =localStorage.getItem("kaytoken")
@@ -47,8 +42,8 @@ class Photocard extends Component {
            <div className="content">
            
            <div className="row">
-           {this.state.images.map((image)=>(
-            <div className="col-sm-3" style={{padding:"10px"}}>
+           {this.props.images.map((image)=>(
+            <div className="col-sm-4" style={{padding:"10px"}}>
             <img src={image.imgUrl} width="100%" class="img-responsive" alt="Image" />
                 </div>
            ))}

@@ -9,16 +9,12 @@ class Friendrcard extends Component {
         this.state ={
         relatedusers: [],
             rloader: true,
-            friends:{request:[]}
         }
         this.accept = this.accept.bind(this)
     }
 
 componentWillMount() {
-    axios.get(`${apiUrl}/api/getFriends?username=${this.props.auth.user.username}`).then((res)=>{
-       if(res.data.friends)
-        this.setState({friends:res.data.friends})
-    })
+  
 }
 
 accept(user){
@@ -48,7 +44,7 @@ accept(user){
             </div>
                
                <div className="row content">
-               {this.state.friends.request.map((user)=>(
+               {this.props.friends.list.map((user)=>(user.type==="request"?
      <div className="col-sm-12 " style={{margin:"10px 0px"}}>
      <div className="row" >
          <div className="col-sm-2 zero">
@@ -65,7 +61,7 @@ accept(user){
          </div>
      </div>
   
- </div>
+ </div>:null
                ))}
           
                </div>

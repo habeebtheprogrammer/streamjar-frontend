@@ -58,7 +58,7 @@ nav.navbar{
     color: grey;
 }
 
-.upload textarea{
+.upload textarea, .upload input{
     min-height:50px;
 	padding:  0px;
 	outline: none;
@@ -81,7 +81,7 @@ nav.navbar{
     margin-left:10px;
 }
 
-.upload textarea:focus {
+.upload textarea:focus,.upload input:focus {
 	color: #808080;
 	transition: box-shadow 0.2s !important;
 	box-shadow: none !important;
@@ -112,7 +112,7 @@ cursor: pointer;
     border-left:1px solid #e8e8e8
 }
 .wildcard{
-    margin: 15px 0px;
+    margin: 0px 0px 15px;
     padding: 15px;
     font-family: sans-serif;
     font-size: 0.9em;
@@ -157,7 +157,7 @@ cursor: pointer;
     float: left;
 }
 .x-post{
-    margin: 15px 0px;
+    margin: 0px 0px 15px;
     padding: 15px;
     font-family: sans-serif;
     font-size: 0.95em;
@@ -495,12 +495,21 @@ float:left; padding:0px
     -moz-transition: 0.2s ease-in  ;
     transition: 0.2s ease-in  ;
 }
+input{
+    -webkit-transition: 0.2s ease-in  !important;
+    -moz-transition: 0.2s ease-in  !important;
+    transition: 0.2s ease-in  !important;
+    box-shadow: none !important;
+   
+}
  input:focus{
     letter-spacing: 2px;
+	opacity: 1;
+    outline: none !important;
     box-shadow: none !important;
-      -webkit-transition: 0.2s ease-in  ;
-    -moz-transition: 0.2s ease-in  ;
-    transition: 0.2s ease-in  ;
+      -webkit-transition: 0.2s ease-in  !important;
+    -moz-transition: 0.2s ease-in  !important;
+    transition: 0.2s ease-in  !important;
 }
 .page-start .left-grid{
     overflow: auto;
@@ -512,6 +521,11 @@ button:hover{
           -webkit-transition: 0.2s ease-in  ;
     -moz-transition: 0.2s ease-in  ;
     transition: 0.2s ease-in  ; 
+}
+.x-sidebar{
+    position: fixed;
+    width: inherit;
+    background: #fff;
 }
 .x-sidebar .sidebar-list a{
     font-size: 1.3em;

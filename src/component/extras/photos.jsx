@@ -15,13 +15,7 @@ class Photos extends Component {
     componentWillMount() {
         var { match} = this.props
 
-        axios.get(`${apiUrl}/api/getImagesByUser?username=${match.params.id}`).then((res) => {
-            if (res.data.success) {
-                this.setState({ images: res.data.success })
-            }
-            else this.setState({ empty: true })
-
-        })
+    
     }
 
     render() {
@@ -33,7 +27,7 @@ class Photos extends Component {
            <div className="content">
            
            <div className="row">
-           {this.state.images.map((image)=>(
+           {this.props.images.map((image)=>(
             <div className="col-sm-4 zero">
             <img src={image.imgUrl} width="100%" class="img-responsive" alt="Image" />
                 </div>

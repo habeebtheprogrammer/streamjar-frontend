@@ -5,9 +5,11 @@ var User = require('../model/userModel');
 var Newsletter = require('../model/newsletter');
 var Message = require("../model/message")
 var Picture = require('../model/pictures');
+var Groupchat= require("../model/groupchat")
 var Post = require('../model/post');
 var Video = require('../model/videos');
 var Friends = require('../model/friends');
+var Groups = require('../model/groups');
 var moment = require('moment')
 var generator = require("generate-password")
 var jwt = require('jsonwebtoken');
@@ -16,7 +18,6 @@ var fs = require("fs")
 var cloudinary = require("cloudinary")
 var dotenv = require('dotenv')
 var path  = require ('path')
-
 dotenv.config();
 
 cloudinary.config({
@@ -109,7 +110,7 @@ router.post('/api/login', function (req, res, next) {
                       ]
                     }
                   },
-                  html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Bidders</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Congratulations! your  account has successfully been Verified</small></p><h2>Logon to your dashboard</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to login to your dashboard.</small></p><p style="margin: 30px"> <a href="https://kampuskonnect.herokuapp.com/login" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Login </a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto">Tanke | , Ilorin, 224230 | Copyright © 2018 | All rights reserved</div></body>' // html body
+                  html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Kampus Konnect</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Congratulations! your  account has successfully been Verified</small></p><h2>Logon to your dashboard</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to login to your dashboard.</small></p><p style="margin: 30px"> <a href="https://kampuskonnect.herokuapp.com/login" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Login </a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto">Tanke | , Ilorin, 224230 | Copyright © 2018 | All rights reserved</div></body>' // html body
                 };
 
                 // send mail with defined transport object
@@ -175,11 +176,11 @@ router.post('/api/reset', (req, res) => {
             <p>Thank you!</p>
           `;
       const mailOptions = {
-        from: `support@Bidders.com`, // sender address
+        from: `support@kampuskonnect.com`, // sender address
         to: `${email}`, // list of receivers
         subject: `Password Reset`, // Subject line
         // text: `${message}`, // plain text body
-        html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Bidders</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>You have successfully reset your password. Here is your new password for future reference</small></p><h2>' + password + '</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to change your password.</small></p><p style="margin: 30px"> <a href="https://Bidders.com/reset_password/' + token + '" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Change your password</a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="www.Bidders.com/faq" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto"> All rights reserved</div></body>' // html body
+        html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>kampus konnect</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>You have successfully reset your password. Here is your new password for future reference</small></p><h2>' + password + '</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to change your password.</small></p><p style="margin: 30px"> <a href="https://kampuskonnect.herokuapp.com/reset_password/' + token + '" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Change your password</a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="www.kampuskonnect.herokuapp.com/faq" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto"> All rights reserved</div></body>' // html body
         // html body
 
       };
@@ -334,7 +335,12 @@ router.post("/api/conversation", (req, res, next) => {
     .catch((err)=>console.log(err))
 
   })
+  .get("/api/searchGroup", (req, res, next) => {
+    var searchText = `${req.query.name}`
+    Groups.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).populate("creatorID",{fullName:"fullName",department:"department",username:"username",university:"university"}).exec().then((data) => { if (data) res.json({ result: data }) })
+    .catch((err)=>console.log(err))
 
+  })
    .get("/api/relatedusers", (req, res, next) => {
     var searchText = `${req.query.dept} ${req.query.uni}`
     User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { if (data) res.json({ result: data }) })
@@ -362,6 +368,14 @@ router.post("/api/conversation", (req, res, next) => {
       res.json({ post: post })
   })
   })
+  .get("/api/fetchGroupById", (req, res, next) => {
+
+    Groups.findById( req.query.id).populate("creatorID",{fullName:"fullName",department:"department",username:"username",university:"university"}).exec().then((group) => {
+      // media.push({pictures})
+      if(group)
+      res.json({ group:group })
+  })
+  })
   .get("/api/getNewsFeed", (req, res, next) => {
     Post.find().populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university"}).exec().then((posts) => {
      
@@ -370,7 +384,7 @@ router.post("/api/conversation", (req, res, next) => {
     
   })
   .get("/api/getFriends", (req, res, next) => {
-    Friends.findOne({username:req.query.username}).populate('userID',{fullName:"fullName",department:"department",university:"university"}).exec().then((friends)=>{
+    Friends.findOne({username:req.query.username}).populate("userID",{fullName:"fullName",department:"department",university:"university"}).exec().then((friends)=>{
       res.json({friends:friends})
     })
     
@@ -382,13 +396,29 @@ router.post("/api/conversation", (req, res, next) => {
     var {id,username, university,department,fullName,gender,
       rUsername, rID,rFullName, rUniversity,rDepartment,rGender} = items
     
-    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ sent:{userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
-    .then((succ)=>{
-      // if(succ)res.send({success:true})
+    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ list:{type:"sent",userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+    .then((succ)=>{ console.log(succ)
+      if(!succ){
+        Friends.create({userID:id,username:username}).then((done)=>{
+          if(done){
+            Friends.update({userID:id,username:username},{ $addToSet:{ list:{type:"sent",userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+            .then((update)=>{})
+          }
+        })
+      }
     }).catch((err)=>console.log(err))
-    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ request:{userID:id,fullName,department,university,gender,username}}})
-            .then((succ)=>{
-              if(succ)res.send({success:true})
+    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ list:{type:"request",userID:id,fullName,department,university,gender,username}}})
+            .then((succ)=>{ 
+              if(succ){
+                res.send({success:true})
+              }else{
+                Friends.create({username:rUsername,userID:rID}).then((done)=>{
+                  if(done){
+                    Friends.update({username:rUsername,userID:rID},{  $addToSet:{ list:{type:"request",userID:id,fullName,department,university,gender,username}}})
+                    .then((update)=>{if(update) res.send({success:true})})
+                  }
+                })
+              }
             }).catch((err)=>console.log(err))
     }
     
@@ -399,27 +429,56 @@ router.post("/api/conversation", (req, res, next) => {
     var items = jwt.decode(req.body.token);
     var {id,username, university,department,fullName,gender,
       rUsername, rID,rFullName, rUniversity,rDepartment,rGender} = items
-  
-    Friends.findOneAndUpdate({userID:id,username:username},
-      { $addToSet:{friends:{userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}},
-      $pull:{ request:{username:rUsername}}
-    }
-    )
-    .then((succ)=>{
-      // if(succ)res.send({success:true})
+    Friends.update({userID:id,username:username},
+      {  $addToSet:{ list:{type:"friend",userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}}
+    ).then((succ)=>{
     }).catch((err)=>console.log(err))
-    console.log(rID,rUsername,username)
-    Friends.findOneAndUpdate({username:rUsername,userID:rID},
-      { $addToSet:{ friends:{userID:id,fullName,department,university,gender,username}},
-      $pull:{ sent:{username:username}}
-    })
-            .then((succ)=>{
-              console.log(succ)
-              if(succ)res.send({success:true})
-            }).catch((err)=>console.log(err))
+    Friends.update({userID:id,username:username},
+    {  $pull:{ list:{userID:rID,type:"request"}}   }
+    ).then((succ)=>console.log(succ))
+    Friends.update({username:rUsername,userID:rID},
+      {$pull:{ list:{userID:id,type:"sent"}}
+    }) .then((succ)=>{  console.log(succ) }).catch((err)=>console.log(err))
+    Friends.update({username:rUsername,userID:rID},
+      { $addToSet:{ list:{type:"friend",userID:id,fullName,department,university,gender,username}}
+    }) .then((succ)=>{  if(succ)res.send({success:true})}).catch((err)=>console.log(err))
     }
-    
   })
+  .post("/api/sendGroupRequest", (req, res, next) => {
+    var check = jwt.verify(req.body.token,"o1l2a3m4i5d6e");
+    if(check){
+    var items = jwt.decode(req.body.token);
+    var {groupID, userID} = items
+    Groups.update({_id:groupID},
+      {  $addToSet:{ members:userID}}
+    ).then((succ)=>{
+      if(succ)res.send({success:true})
+    }).catch((err)=>console.log(err))
+  }
+} )
+
+  .post("/api/postShoutout",(req,res,next)=>{
+    let userData = jwt.decode(req.body.token)
+    let shoutout = req.body.shoutout
+    Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
+      type: "shoutout",
+      date: new Date(),
+      description: shoutout
+    }}
+  }).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/createGroup",(req,res,next)=>{
+  let userData = jwt.decode(req.body.token)
+  let title = req.body.title
+  Groups.create({title,creatorID:userData.id,members:userData.id,date: new Date()
+}).then((group) => { if(group){
+  res.json({ success: true })
+ } }).catch((err)=>console.log(err))
+})
+.get("/api/fetchGroups",(req,res,next)=>{
+  Groups.find().populate("creatorID",{fullName:"fullName",department:"department",username:"username",university:"university"}).exec().then((success) => { if(success)res.json({ success: success }) }).catch((err)=>console.log(err))
+})
+
   //request from dashboard
   .post('/api/uploadDp', (req, res, next) => {
     var newform = new formidable.IncomingForm();
@@ -458,7 +517,46 @@ router.post("/api/conversation", (req, res, next) => {
     })
   })
 
-
+  .post('/api/groupImagePost',(req,res,next)=>{
+    var newform = new formidable.IncomingForm();
+    newform.keepExtensions = true;
+    newform.parse(req, (err, fields, files) => {
+      if (files.picture)
+        cloudinary.uploader.upload(files.picture.path, function (result) {
+          if (result.url) {
+            let userData = jwt.decode(fields.token)
+            let time = new Date();
+            Grouppost.findOneAndUpdate({groupID:fields.groupID},{$addToSet:{posts:{
+              type: "image",
+              userID: userData.id,
+              imgUrl: result.url,
+              date: time,
+              description: fields.description
+            }}
+          }).then((success) => { 
+            if(success)res.json({ url: result.url, success: true})
+            else{
+              Grouppost.create({groupID:fields.groupID}).then((done)=>{
+                if(done){
+                  Grouppost.findOneAndUpdate({groupID:fields.groupID},{$addToSet:{posts:{
+                    type: "image",
+                    userID: userData.id,
+                    imgUrl: result.url,
+                    date: time,
+                    description: fields.description
+                  }}
+                }).then((succ)=>res.json({ url: result.url, success: true }))
+                }
+              })
+            } 
+          
+          }).catch((err)=>console.log(err))
+          } else {
+            res.json({ error: "Error uploading the image" }); console.log("error uploading to cloudinary")
+          }
+        }); else res.json({ error: "Please choose an image to upload" });
+    })
+  })
   .post('/api/uploadPictures', (req, res, next) => {
     var newform = new formidable.IncomingForm();
     newform.keepExtensions = true;
@@ -473,6 +571,7 @@ router.post("/api/conversation", (req, res, next) => {
             User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
             Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
               type: "image",
+              userID: userData.id,
               imgUrl: result.url,
               date: time,
               description: fields.description

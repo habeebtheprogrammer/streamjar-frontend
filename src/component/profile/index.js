@@ -30,16 +30,8 @@ import Friendrequest from './friendrequest';
 import Private from "./private"
 function mapStateToProps(state) {
     return {
-        auth: state.auth,
-        profile: state.profile.bioData,
-        media: state.profile.media
+        auth: state.auth
     }
-}
-function matchDispatchToProps(dispatch) {
-    return bindActionCreators({
-        setUserProfile: setUserProfile,
-        editUserProfile: editUserProfile
-    }, dispatch)
 }
 
 
@@ -51,6 +43,9 @@ class Profile extends Component {
             user: {},
             empty:false,
             isLoading: true,
+            images:[],
+            video:[],
+            friends:{list:[]}
 
         }
 
@@ -63,11 +58,21 @@ class Profile extends Component {
             if(res.user)
             this.setState({ user: res.user, isLoading: false });else this.setState({empty:true})
         });
-       
-       
+        axios.get(`${apiUrl}/api/getTimeline?username=${this.props.match.params.id}`).then((res)=>{
+            if(res.data.post) {
+                var images = res.data.post.content.filter((post)=>post.type ==="image")
+                var video = res.data.post.content.filter((post)=>post.type ==="video")
+            this.setState({video,images});
+            }
+        })
+        axios.get(`${apiUrl}/api/getFriends?username=${this.props.match.params.id}`).then((res)=>{
+           if(res.data.friends)
+            this.setState({friends:res.data.friends})
+        })
     }
     render() {
-
+        var {images,video} =this.state;
+        var {friends} = this.state;
         return (
             <div className="row">
                 
@@ -78,16 +83,16 @@ class Profile extends Component {
                 <Bgprofile user={this.state.user} socket={this.props.socket}/>
                 
                 <Switch>
-                <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user}/>} />
-                <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user}/>} />
-                <Private  path={`${this.props.match.url}/friendRequests`} component={Friendrequest} {...this.props} user={this.state.user}/> 
-                <Route  path={`${this.props.match.url}/media`} render={(props)=><Media {...this.props}  user={this.state.user}/>} />
-                <Route  path="/" render={(props)=><Timeline  {...this.props} user={this.state.user} />} />
+                <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user} images={images} /> } />
+                <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user} images={images} friends={friends} />} />
+                <Private  path={`${this.props.match.url}/friendRequests`} component={Friendrequest} {...this.props} images={images} friends={friends}  user={this.state.user} /> 
+                <Route  path={`${this.props.match.url}/media`} render={(props)=><Media {...this.props} images={images} videos={video} user={this.state.user}/> } />
+                <Route  path="/" render={(props)=><Timeline  {...this.props} user={this.state.user} images={images}/>} />
                 </Switch>
 
                 </div>
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
-                    <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 "}}>
+                    <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
                     <Relatedusers auth={this.props.auth}/>
                     <Conversation auth={this.props.auth} socket={this.props.socket}/>
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
@@ -109,4 +114,4 @@ class Profile extends Component {
     }
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Profile);
+export default connect(mapStateToProps)(Profile);

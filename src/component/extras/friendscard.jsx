@@ -6,18 +6,12 @@ class Friendscard extends Component {
     constructor(props) {
         super(props);
         this.state ={
-        relatedusers: [],
             rloader: true,
-            friends:{request:[],friends:[],sent:[]}
         }
     }
 
 componentWillMount() {
-    axios.get(`${apiUrl}/api/getFriends?username=${this.props.match.params.id}`).then((res)=>{
-        console.log(res.data.friends)
-       if(res.data.friends)
-        this.setState({friends:res.data.friends})
-    })
+    
 }
 
     render() {
@@ -32,7 +26,7 @@ componentWillMount() {
         :<div className="title" > Friends </div>}
                
                <div className="row content">
-               {this.state.friends.friends.map((user)=>(
+               {this.props.friends.list.map((user)=>( user.type ==="friend"?
      <div className="col-sm-6 " style={{margin:"10px 0px"}}>
      <div className="row" >
          <div className="col-sm-3 zero">
@@ -44,7 +38,7 @@ componentWillMount() {
          </div>
      </div>
   
- </div>
+ </div>:null
                ))}
           
                </div>

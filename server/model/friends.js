@@ -11,13 +11,14 @@ var userSchema = mongoose.Schema({
       type: String,
       default: "public"
   },
-  friends:[
+  list:[
     { userID: {
         type: String,ref:"users"
     },
     fullName: {
         type: String,
     },
+    type:{type: String},
     department: {
         type: String
     },
@@ -31,51 +32,7 @@ var userSchema = mongoose.Schema({
         type: String,
     },
 }
-  ],
-  request: [
-   {
-    userID: {
-           type: String,
-       },
-   fullName: {
-       type: String,
-   },
-   department: {
-       type: String
-   },
-   university: {
-       type: String,
-   },
-   gender: {
-       type: String,
-   },
-   username: {
-       type: String,
-   },
-}
-  ],
-  sent: [
-    {
-     userID: {
-            type: String,
-        },
-    fullName: {
-        type: String,
-    },
-    department: {
-        type: String
-    },
-    university: {
-        type: String,
-    },
-    gender: {
-        type: String,
-    },
-    username: {
-        type: String,
-    },
- }
-   ]
+  ]
 })
 userSchema.index({ fullName: 'text', department: 'text', university: 'text', gender: 'text' });
 var Friends = mongoose.model('friends', userSchema);

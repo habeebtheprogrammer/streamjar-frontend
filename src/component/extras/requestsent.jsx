@@ -8,16 +8,8 @@ class Requestsent extends Component {
         this.state ={
         relatedusers: [],
             rloader: true,
-            friends:{sent:[]}
         }
     }
-
-componentWillMount() {
-    axios.get(`${apiUrl}/api/getFriends?username=${this.props.auth.user.username}`).then((res)=>{
-       if(res.data.friends)
-        this.setState({friends:res.data.friends})
-    })
-}
 
     render() {
         var {user} = this.props
@@ -30,11 +22,11 @@ componentWillMount() {
             {/* <span> Friend Request +{this.state.friends.request.length}</span> */}
             {/* <span className="pull-right font-xs"><Link to={`/profile/${this.props.match.params.id}/friends`} > <b> Friends +1332</b> </Link> </span> */}
 
-            <span className="font-xs"> <b>{this.state.friends.sent.length} Sent request</b> </span>
+            <span className="font-xs"> <b> Sent request</b> </span>
             </div>
                
                <div className="row content">
-               {this.state.friends.sent.map((user)=>(
+               {this.props.friends.list.map((user)=>( user.type==="sent"?
      <div className="col-sm-6 " style={{margin:"10px 0px"}}>
      <div className="row" >
          <div className="col-sm-3 zero">
@@ -46,7 +38,7 @@ componentWillMount() {
          </div>
      </div>
   
- </div>
+ </div>:null
                ))}
           
                </div>

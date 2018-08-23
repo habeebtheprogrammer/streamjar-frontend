@@ -23,15 +23,7 @@ class Videocard extends Component {
         this.typing = this.typing.bind(this)
     }
     componentWillMount() {
-        var { match} = this.props
-
-        axios.get(`${apiUrl}/api/getVideosByUser?username=${match.params.id}`).then((res) => {
-            if (res.data.success) {
-                this.setState({ videos: res.data.success })
-            }
-            else this.setState({ empty: true })
-
-        })
+       
     }
 
 typing(e) {
@@ -52,7 +44,7 @@ typing(e) {
            <div className="content">
            
            <div className="row">
-           {this.state.videos.map((video)=>(
+           {this.props.videos.map((video)=>(
             <div className="col-sm-4" style={{padding:"10px"}}>
             
             <Player
@@ -151,9 +143,7 @@ typing(e) {
                                 float:right
                             }
                             .video-react-big-play-button.video-react-big-play-button-left{
-                                border:none !important;
-                                // position:inherit !important;
-        
+                               font-size:1em    
         
                             }
 
