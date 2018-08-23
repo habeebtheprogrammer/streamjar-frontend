@@ -15,8 +15,11 @@ class Posttimeline extends Component{
             fileName:"",
             progress:"",
         }
+        this.typing = this.typing.bind(this)
     }
-
+    typing(e) {
+        this.setState({ [e.target.name]: e.target.value })
+    }
     render(){
         var token = localStorage.getItem("kaytoken")
         return(
