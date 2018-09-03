@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Loading from "../loader"
-import Intro from "../extras/intro"
-import Photos from "../extras/photos"
-import moment from "moment"
-import Aboutcard from "../extras/aboutcard"
+import { Player } from 'video-react';
+
 class About extends Component {
     constructor(props) {
         super(props);
@@ -12,13 +9,8 @@ class About extends Component {
     render() {
         return (
             <div className="row">
-             <div className="col-sm-4">
-             {/* <Photos {...this.props}/>
-             <Intro {...this.props}/> */}
-
-             </div>
-              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-              <div className="aboutcard white">
+             
+              <div className="aboutcard white" >
             <div className="title" >  About me </div>
                
                <div className="row content">
@@ -35,8 +27,6 @@ class About extends Component {
                       </div> 
                        </div>
                </div>
-               
-         </div>
               </div>
             </div>
         );

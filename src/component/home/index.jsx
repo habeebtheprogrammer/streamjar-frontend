@@ -12,7 +12,10 @@ import moment from "moment"
 import axios from "axios"
 import { Player } from 'video-react';
 import apiUrl from "../../config"
-import Navtab from "../navbar/tab"
+import $ from "jquery"
+import Comments from "../extras/comments"
+import Navtab from "../navbar/profiletab"
+import Posttimeline from "../extras/posttimeline"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -24,11 +27,14 @@ class Home extends Component {
         this.state ={
             online:false,
             posts:[],
-            user: {}
+            user: {},
+            description:""
         }
         this.arrangePost = this.arrangePost.bind(this)
+     
     }
     componentWillMount() {
+       
         var {match} = this.props
         axios.get(`${apiUrl}/api/getNewsFeed`).then((res)=>{
             this.setState({posts:res.data.posts})
@@ -40,19 +46,20 @@ class Home extends Component {
             this.setState({ user: res.data.user, isLoading: false });else this.setState({empty:true})
         });
     }
+
+
     extractPost(posts){
         var all = []
         posts.map((userpost)=>{
             userpost.content.map((items)=>{
                 if(items.type!== "shoutout")
-              all.push({...items,fullName:userpost.userID.fullName,username: userpost.username,dpUrl:userpost.userID.dpUrl})
+              all.push({...items,fullName:userpost.userID.fullName,username: userpost.userID.username,dpUrl:userpost.userID.dpUrl})
             });
          })
          return all
     }
     arrangePost(posts){
       var allposts = this.extractPost(posts)
-    console.log(allposts)
     var sorted= allposts.sort((a,b)=> moment(b.date).diff(a.date))
         var div =[];
         sorted.map((item)=>{
@@ -104,6 +111,40 @@ class Home extends Component {
                     </div>
                     </div>
                    )
+                   else 
+                   div.push(
+                       <div className="x-post white">
+                       <div className="">
+                      <div> <div className="image">
+                      <img src={`${item.dpUrl ||"../../images/genu.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
+                      </div> <div className="image-text">
+                      <div className="title"><Link to={`/profile/${item.username}`}>{item.fullName}</Link> 
+                      
+                      
+                     <span className="pull-right" style={{cursor:"pointer"}}>
+                        <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i> <i className="fa fa-circle-o" style={{fontSize:"0.7em"}} ></i>   <i className="fa fa-circle-o" style={{fontSize:"0.8em"}}></i>
+                    
+                       </span>
+                      
+                      </div>
+                      <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
+                      </div>
+                      
+                      </div>
+         
+                     <div className="clearfix"></div>
+                     <div className="content">
+                   {item.description}
+                   {/* <div className="post-img"><img src={'../../../images/arjit.jpg'} /></div> */}
+
+                   </div>
+                 
+                   
+                       </div>
+                     <Comments item={item} auth={this.props.auth} />
+                       </div>
+                       
+                      )
         });
      return div
     }
@@ -138,11 +179,11 @@ class Home extends Component {
 
             <div className="row white" style={{marginTop:"15px"}}>
                 <div className="col-xs-12 zero">
-                    <img src="../../images/img.jpg" width="100%" alt=""/>
+                    <img src="../../images/china.jpg" width="100%" alt=""/>
                 </div>
                 
                 <div className="col-xs-12 "  style={{padding:"10px",fontSize:"0.9em",fontFamily:"sans-serif"}}>
-                <div>Advertise your business here</div>
+                <div>Advertise your business on Afrikal</div>
                     
                 </div>
                 
@@ -151,7 +192,9 @@ class Home extends Component {
             
             </div>
             <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-             
+             {/* <img src="../../images/slide3.jpg" height="300" className="img-responsive" alt="Image" /> */}
+            
+            {this.props.auth.user.username === me? <Posttimeline {...this.props} user={this.props.auth.user}/> :null}
                     {this.arrangePost(this.state.posts) }
               
               </div>

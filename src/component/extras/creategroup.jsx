@@ -42,11 +42,11 @@ typing(e) {
             <div className="wildcard white">
                <div  onClick={()=>this.setState({modal: true})} className="" style={{padding:"10px 10px",textAlign:"center",cursor:"pointer"}}>
            <p> <i className="fa fa-group fa-2x " > </i></p>
-            <p><b>CREATE GROUP</b></p>
+            <p><b>CREATE A PAGE</b></p>
             </div>
               <Modal showCloseIcon={false} open={this.state.modal} onClose={() => this.setState({ modal: false })} classNames={{ modal: "uploadmodal" }} little>
                             <div className="row white upload">
-                                <div className="col-sm-12" style={{border:"1px solid #e8e8e8",padding:"15px"}}> <b>Create a group</b>
+                                <div className="col-sm-12" style={{border:"1px solid #e8e8e8",padding:"15px"}}> <b>Create a page</b>
                                 {this.state.error !== "" ? <small className="grey-text pull-right"> {this.state.error} </small> : null}
 
                                 </div>

@@ -2,7 +2,7 @@ var mongoose = require('../config/mongoose');
 //user schema
 var userSchema = mongoose.Schema({
   userID:{
-     type: String,ref:"users"
+     type: mongoose.SchemaTypes.ObjectId,ref:"users"
   },
   username:{
       type: String,
@@ -13,28 +13,13 @@ var userSchema = mongoose.Schema({
   },
   list:[
     { userID: {
-        type: String,ref:"users"
+        type: mongoose.SchemaTypes.ObjectId,ref:"users"
     },
-    fullName: {
-        type: String,
-    },
-    type:{type: String},
-    department: {
-        type: String
-    },
-    university: {
-        type: String,
-    },
-    gender: {
-        type: String,
-    },
-    username: {
-        type: String,
-    },
+    type:{type: String}
+ 
 }
   ]
 })
-userSchema.index({ fullName: 'text', department: 'text', university: 'text', gender: 'text' });
 var Friends = mongoose.model('friends', userSchema);
 
 module.exports = Friends;

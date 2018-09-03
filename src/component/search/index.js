@@ -66,13 +66,13 @@ class Search extends Component {
                 if(res1.data.friends){
                     filter.map((user)=>{
                         res1.data.friends.list.map((friend)=>{
-                            if(friend.username===user.username && friend.type==="sent"){
+                            if(friend.userID.username===user.username && friend.type==="sent"){
                                 user.type = "sent";
                             }
-                            else if(friend.username===user.username && friend.type==="request"){
+                            else if(friend.userID.username===user.username && friend.type==="request"){
                             user.type = "request"
                            }
-                           else if(friend.username===user.username && friend.type==="friend"){
+                           else if(friend.userID.username===user.username && friend.type==="friend"){
                             user.type = "friend"
                            } 
                         })
@@ -101,13 +101,13 @@ class Search extends Component {
                     var alluser=[]; 
                    filter.map((user)=>{
                        this.state.friends.list.map((friend)=>{
-                        if(friend.username===user.username && friend.type==="sent"){
+                        if(friend.userID.username===user.username && friend.type==="sent"){
                             user.type = "sent";
                         }
-                        else if(friend.username===user.username && friend.type==="request"){
+                        else if(friend.userID.username===user.username && friend.type==="request"){
                         user.type = "request"
                        }
-                       else if(friend.username===user.username && friend.type==="friend"){
+                       else if(friend.userID.username===user.username && friend.type==="friend"){
                         user.type = "friend"
                        }
                        })
@@ -133,7 +133,7 @@ class Search extends Component {
     }
     accept(user){
         var {id,username} = this.props.auth.user;
-        var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user.userID, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
+        var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
         var token = jwt.sign(data,"o1l2a3m4i5d6e");
         axios.post(`${apiUrl}/api/acceptRequest`,{token:token}).then((res)=>{
             if(res.data.success){
@@ -145,7 +145,9 @@ class Search extends Component {
     action(member){
         if(member.type==="friend") null;
        
-        else if(member.type==="sent")return  <div className="pull-right" style={{color:"gray",fontSize:"0.9em"}}> Request sent</div>
+        else if(member.type==="sent")
+       return <button type="button" className="btn btn-default btn-sm pull-right" disabled> Request sent</button>
+        
         else if(member.type==="request")return <button type="button" className="btn btn-default pull-right" onClick={()=>this.accept(member)} style={{fontSize:"0.9em"}}>Accept</button>        
         else return  <button type="button" onClick={()=>this.sendRequest(member)} className="btn btn-default btn-sm pull-right" >Add friend</button>;
     }
@@ -153,7 +155,6 @@ class Search extends Component {
         var imglist =["john.jpg","sonu.jpg","genu.jpg","govinda.jpg"]
         return (
             <div className="row">
-                {/* <Navbar /> */}
                 <Sidebar match={this.props.match}/>
                 <div className="col-sm-9 x-right-grid">
                 <Navtab socket={this.props.socket} match={this.props.match}/>
@@ -203,7 +204,7 @@ class Search extends Component {
                                                                 </div>
                                                                 <div className="col-sm-10"  style={{padding:"20px 10px"}}>
                                                                 <div><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></div>
-                                                                <div style={{color:"gray",fontSize:"0.9em"}}>department of {member.department} {member.university} </div>
+                                                                <div style={{color:"gray",fontSize:"0.9em"}}>Studying {member.department} {member.university} </div>
                                                                 {this.action(member)}
                                                                 </div>
                                                             </div>
@@ -215,12 +216,12 @@ class Search extends Component {
                                                         Shuffle(this.state.users).map((member,key) => (
                                                             <div className="col-sm-12" style={{margin:"10px 0px",borderBottom:"1px solid #e8e8e8"}}>
                                                             <div className="row" >
-                                                                <div className="col-sm-2 zero">
+                                                                <div className="col-sm-2 ">
                                                                 <Link to={`/profile/${member.username}`}><img src={member.dpUrl || "../../../../images/avatar.jpg"} alt="" width="100%" /></Link>
                                                                 </div>
                                                                 <div className="col-sm-10"  style={{padding:"0px 10px 5px"}}>
                                                                 <div><Link to={`/profile/${member.username}`} style={{ textTransform: "capitalize" }}>{member.fullName} </Link></div>
-                                                                <div style={{color:"gray",fontSize:"0.9em",paddingTop:"15px"}}>department of {member.department} <br /> {member.university} </div>
+                                                                <div style={{color:"gray",fontSize:"0.9em",paddingTop:"15px"}}>Studying {member.department} <br /> {member.university} </div>
                                                               {/* {member.friendrequest?null:  <button type="button" onClick={()=>this.sendRequest(member)} className="btn btn-default btn-sm pull-right" >Add friend</button>} */}
                                                                 {this.action(member)}
                                                                 </div>

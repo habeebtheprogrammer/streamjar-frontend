@@ -17,12 +17,6 @@ class Photos extends Component {
     render() {
         return (
             <div className="row">
-             <div className="col-sm-4">
-             {/* <Photos profile={this.props.user}/> */}
-             {/* <Intro user={this.props.user} {...this.props}/> */}
-
-             </div>
-              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
               <div className="photocard white">
                <div className="title"> Videos 
                </div>
@@ -64,7 +58,6 @@ class Photos extends Component {
            </div>
 
               </div>
-            </div>
             </div>
             
         );

@@ -18,6 +18,7 @@ import Shuffle from "shuffle-array"
 import classnames from "classnames"
 import Creategroup from "../extras/creategroup"
 import jwt from "jsonwebtoken"
+
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -42,9 +43,11 @@ class Room extends Component {
         var {match} = this.props
         axios.get(`${apiUrl}/api/fetchGroups`).then((res)=>{
            if(res.data.success){
+               console.log(res.data)
             res.data.success.map((group)=>{
                 group.members.map((user)=>{
-                    if(user === this.props.auth.user.id) group.exists = true; 
+                    if(user.userID === this.props.auth.user.id && user.type=== "member") group.member = true;
+                    else if(user.userID === this.props.auth.user.id && user.type=== "request") group.request = true;
                 });
             })
           
@@ -79,7 +82,8 @@ class Room extends Component {
                 if(res.data.result){
                     res.data.result.map((group)=>{
                         group.members.map((user)=>{
-                            if(user === this.props.auth.user.id) group.exists = true; 
+                            if(user.userID === this.props.auth.user.id && user.type=== "member") group.member = true;
+                            else if(user.userID === this.props.auth.user.id && user.type=== "request") group.request = true;
                         });
                     })
                 this.setState({ searching: false,searched:true,result:res.data.result })
@@ -90,13 +94,17 @@ class Room extends Component {
     }
 
     checkgroup(group){
-        if(group.creatorID._id === this.props.auth.user.id)
+        if(group.creatorID._id === this.props.auth.user.id || group.member)
        return null 
-       else if(group.creatorID._id !== this.props.auth.user.id && group.exists === true)
-        return null;
+       else if(group.request)
+       return <button type="button" className="btn btn-default btn-sm pull-right" disabled> Request sent</button>
        else if(group.creatorID._id !== this.props.auth.user.id && group.exists !== null)
        return <button type="button" onClick={()=>this.sendRequest(group)} className="btn btn-default btn-sm pull-right"> Join Group</button>
 
+    }
+    countmembers(members){
+       var filter = members.filter((user)=>user.type === "member");
+       return filter.length
     }
     render() { 
         var me = localStorage.getItem("username")
@@ -133,7 +141,7 @@ class Room extends Component {
 
                                     <div className="col-sm-12 full-grid zero ">
                                         <div className="page-title" style={{ borderBottom: "none" }}>
-                                            <input type="text" name="name" onChange={this.typing} placeholder="Search for Groups/Community" className="form-control"  />
+                                            <input type="text" name="name" onChange={this.typing} placeholder="Search for Pages" className="form-control"  />
                                             
                                             {this.state.searching?<center style={{margin:"200px 0px"}}><i className="fa fa-spin fa-spinner"></i></center>:null}
                                             
@@ -153,7 +161,7 @@ class Room extends Component {
                                                                 <div><Link to={`/community/${group._id}`} style={{ textTransform: "capitalize" }}>{group.title} </Link></div>
                                                                 <div style={{color:"gray",fontSize:"0.9em",paddingTop:"15px"}}>created by <Link to={`/profile/${group.creatorID.username}`} >{group.creatorID.fullName}</Link> </div>
                                                                 <div style={{color:"gray",fontSize:"0.9em"}}> {group.creatorID.department} {group.creatorID.university}</div>
-                                                                <span style={{color:"gray",fontSize:"0.9em"}}>{group.members.length} members </span>
+                                                                <span style={{color:"gray",fontSize:"0.9em"}}>{this.countmembers(group.members)} members </span>
                                                                 {this.checkgroup(group)}
 
                                                                 </div>
@@ -164,7 +172,34 @@ class Room extends Component {
                                                             :
                                                     
                                                         Shuffle(this.state.groups).map((group,key) => (
-                                                            <div className="col-sm-12 " style={{margin:"10px 0px",borderBottom:"1px solid #e8e8e8"}}>
+ <div className="x-post white " >
+ <div className="">
+<div> <div className="image">
+<img src={`${group.img}||"../../images/genu.jpg`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
+</div> <div className="image-text">
+<div className="title"><Link to={`/community/${group.title}`}>{group.title}</Link>
+ {/* <i className="fa fa-check-circle" style={{color:"#337ab7"}}></i> <small>{item.username==="reactpro"?"C.E.O":"Follow"}</small> */}
+
+
+
+</div>
+<div style={{}}>{this.countmembers(group.members)} members {this.checkgroup(group)}</div>
+
+</div>
+
+</div>
+
+<div className="clearfix"></div>
+{/* <div className="content">
+No worries. There are a few unsecured networks, and as long as we can connect to one we’re usually good. So I connect to one and see this popup on my screen:
+</div>
+<div className="row" style={{padding:"10px 0px",borderTop:"1px solid #e8e8e8"}}>
+                        <Link to={`${this.props.location.pathname}/${section.url}`} type="button" className="btn btn-default btn-sm"><b>View </b></Link>
+                 </div> */}
+ </div>
+ </div>
+            ))}
+                                                            {/* <div className="col-sm-12 " style={{margin:"10px 0px",borderBottom:"1px solid #e8e8e8"}}>
                                                             <div className="row" >
                                                                 <div className="col-sm-2 zero">
                                                                 <Link to={`/community/${group._id}`}><img src={`../../images/img${key}.jpg`}  alt=""  width="100%" /></Link>
@@ -173,14 +208,14 @@ class Room extends Component {
                                                                 <div><Link to={`/community/${group._id}`} style={{ textTransform: "capitalize" }}>{group.title} </Link></div>
                                                                 <div style={{color:"gray",fontSize:"0.9em",paddingTop:"15px"}}>created by  <Link to={`/profile/${group.creatorID.username}`} > {group.creatorID._id === this.props.auth.user.id? "you":group.creatorID.fullName}</Link> </div>
                                                                 <div style={{color:"gray",fontSize:"0.9em"}}> {group.creatorID.department} {group.creatorID.university}</div>
-                                                                <span style={{color:"gray",fontSize:"0.9em"}}>{group.members.length} members </span>
+                                                                <span style={{color:"gray",fontSize:"0.9em"}}>{this.countmembers(group.members)} members </span>
                                                                 {this.checkgroup(group)}
                                                                 </div>
                                                               
                                                             </div>
                                                          
                                                         </div>
-                                                        ))}
+                                                        ))} */}
 
 
                                                 </div>

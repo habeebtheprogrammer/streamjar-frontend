@@ -54,6 +54,9 @@ nav.navbar{
 .white{
     background: #fff;
 }
+.skyblue{
+    color: #337ab7;
+}
 .grey-color{
     color: grey;
 }
@@ -75,18 +78,41 @@ nav.navbar{
 	opacity: 1;
 	border-radius: 3px;
 }
-.upload button{
+.forumupload textarea, .forumupload input,.forumupload select{
+	padding:  10px;
+	outline: none;
+	font-size: 1em;
+	color: #808080;
+	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	display: block;
+	background-color: #fff;
+	border: 1px solid #e8e8e8;
+	box-shadow: none;
+	font-weight: 500;
+	opacity: 1;
+	border-radius: 3px;
+}
+.forumupload textarea{
+    min-height:200px;
+
+}
+.upload button, .forumupload button.sendbtn{
     padding-left: 15px ;
     padding-right: 15px;
     margin-left:10px;
 }
 
-.upload textarea:focus,.upload input:focus {
+.upload textarea:focus,.upload input:focus, .forumupload select:focus {
 	color: #808080;
 	transition: box-shadow 0.2s !important;
 	box-shadow: none !important;
 	border: 0px !important;
 	opacity: 1;
+}
+ .forumupload select:focus {
+    border: 1px solid #e8e8e8 !important;
 }
 .edit-pencil{
 cursor: pointer;
@@ -179,6 +205,7 @@ cursor: pointer;
     margin-top: 10px;
     border-top: 1px solid #e8e8e8;
     font-size: 1.1em;
+    white-space: pre-wrap;
 }
 .x-post .title{
     font-size: 1.1em;
@@ -326,7 +353,7 @@ a{
    box-shadow:0 1px 20px 0 darkgrey;border:none
 }
 .btn-danger{
-    background:#f44336;
+    background:indianred;
 }
 .btn-primary{
     background:#1e88e5;
@@ -465,7 +492,7 @@ float:left;width:20%
 float:left; padding:0px 
 }
 .busy{
-    color:#f44336;font-size:0.8em
+    color:indianred;font-size:0.8em
 }
 .online{color: #3BDB3B;font-size:0.8em}
 
@@ -540,8 +567,22 @@ button:hover{
     color: #555
 }
 .x-sidebar .sidebar-list a.active{
-      background: #f44336;
-      color: #fff
+      background: indianred;
+      color: #fff;
+      
+}
+.changebg:hover{
+    background: indianred;
+    color:#fff;
+    -webkit-transition: 0.1s ease-in  ;
+    -moz-transition: 0.1s ease-in  ;
+    transition: 0.1s ease-in  ;
+}
+.changebg:hover a{
+    color:#fff;
+     -webkit-transition: 0.1s ease-in  ;
+    -moz-transition: 0.1s ease-in  ;
+    transition: 0.1s ease-in  ;
 }
 .x-left-grid{
     background:#fff;width:4.5%;

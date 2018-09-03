@@ -1,10 +1,12 @@
 var mongoose = require('../config/mongoose');
 
 var groupSchema = mongoose.Schema({
-    creatorID: {type:String, ref:"users"},
+    creatorID: {type:mongoose.SchemaTypes.ObjectId, ref:"users"},
     title:String,
     description:String,
-    date: Date,
+    date: {type:Date,
+        default: Date.now
+    },
     dpUrl: String,
     status:String,
     posts:[
@@ -14,13 +16,19 @@ var groupSchema = mongoose.Schema({
         videoUrl: String,
         description:String,
         date: String,
-        userID:{type:String,ref:"users"},
+        userID:{type:mongoose.SchemaTypes.ObjectId,ref:"users"},
         views: {
             type: Number,
             default: 0
         }
     }],
-    members:[String],
+    members:[
+        {userID:{type:mongoose.SchemaTypes.ObjectId,ref:"users"},
+        type:{type:String},
+        date: {type:Date,
+            default: Date.now
+        },
+    }],
     privacy: {
         type: String,
         default: "public"

@@ -23,68 +23,50 @@ class Navtab extends Component {
                 this.setState({ user: res.data.user, isLoading: false });else this.setState({empty:true})
             });
         }
-        socket.emit("fetchuserlist")
-        socket.on("disconnect",()=> this.setState({online:false}))
-        socket.on("onlineusers", (onlineusers) => {
-           var check = onlineusers.findIndex((user)=>user.username===username);
-            if(check !== -1) this.setState({online:true})
-        })
+      
         
     }
     render() {
         console.log(this.props)
         var me = localStorage.getItem("username")
-        var {socket} = this.props.socket
         var username = this.props.user?this.props.user.username : this.state.user.username
         return (
             <div className="profile-tab" >
-                      {/* {this.props.match?   <ul className={classnames("nav navbar-nav ")} style={{position:"absolute",left:0,fontWeight:"800",fontSize:"1.5em"}}>
+                      {this.props.match?   <ul className={classnames("nav navbar-nav ")} style={{position:"absolute",left:0,fontWeight:"800",fontSize:"1.5em"}}>
                             <li>
-                                <Link to="#"><div >Kampus<span style={{color:"red"}}>Konnect</span></div></Link>
+                                <Link to="#"><div >Afrikal<span style={{color:"red"}}> <i className="fa fa-opencart"></i>
+                                
+                                </span></div></Link>
                             </li>
                             
-                        </ul>:null} */}
+                        </ul>:null}
                     <div className="navbar " style={{marginBottom:"0px",borderBottom:"1px solid #e8e8e8"}}>
                         
                         <ul className="nav navbar-nav">
                             <li className="active">
-                                <Link to={`/profile/${username}`}>Timeline</Link>
+                                <Link to={`/forum/section`}>Sections</Link>
                             </li>
                             <li>
-                                <Link to={`/profile/${username}/about`}>About</Link>
+                                <Link to={`/followed_topics`}>Followed topics</Link>
                             </li>
                             <li className="active">
-                                <Link to={`/profile/${username}/friends`}>Friends</Link>
+                                <Link to={`/like_and_share`}>Likes and shares</Link>
                             </li>
-                            <li>
-                                <Link to={`/profile/${username}/media`}>Media page</Link>
-                            </li>
-                            {username === me? null:
-                            <li className="active">
-                                <Link to={`/chat/${username}`}>Message</Link>
-                            </li>}
-                            {username === me? null:
-                            <li>
-                                <Link to={`/call/${username}`} target="_blank">Call</Link>
-                            </li>}
+                         
+                            
                             {username !== me? null:
-                            <li>
-                                <Link to={`/groups`} > Groups</Link>
-                            </li>}
-                            {username !== me? null:
-                            <li>
-                                <Link to={`/notification`} > Notifications</Link>
-                            </li>}
+                        <li>
+                        <Link to={`/profile/fppost`}>NG <i className="caret"></i>
+                        </Link>
+                    </li>
+                        }
+                          
                         </ul>
                         <ul className="nav navbar-nav navbar-right" style={{margin:"0px"}}>
-                            {socket.connected?
+                        {username !== me? null:
                             <li>
-                                <Link to="#"><span className="online"><i className="fa fa-circle"></i> Online</span></Link>
-                            </li>:
-                             <li>
-                             <Link to="#"><span className="offline"><i className="fa fa-circle"></i> Offline</span></Link>
-                         </li>
-                            }
+                                <Link to={`/forum/section/post`} > <b> <i className="fa fa-pencil-square-o"></i> Post </b></Link>
+                            </li>}
                         </ul>
                     </div>
                     

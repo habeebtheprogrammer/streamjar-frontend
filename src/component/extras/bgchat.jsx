@@ -4,7 +4,7 @@ import classnames from "classnames"
 import apiUrl from "../../config"
 import {Link} from "react-router-dom"
 import axios from "axios"
-import Navtab from "../navbar/tab"
+import Navtab from "../navbar/profiletab"
 class Bgchat extends Component {
     constructor(props) {
         super(props);

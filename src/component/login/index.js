@@ -95,12 +95,12 @@ class Login extends Component {
                     var userData = jwt.verify(res.data.token, "h1a2b3e4e5b6")
                     if (userData) {
                         var data = jwt.decode(res.data.token,"h1a2b3e4e5b6");
-                        localStorage.setItem("dp", data.dp||"../../../images/avatar.jpg")
+                        localStorage.setItem("dp", data.dp||"../../../images/govinda.jpg")
                         localStorage.setItem("fullname", data.fullName)
                         localStorage.setItem("kaytoken", res.data.token);
                         localStorage.setItem("username", data.username);
                         setAuthorizationToken(res.data.token);
-                        window.location.assign(`/`)
+                        window.location.assign(`/forum`)
                         // window.location.assign(`/profile/${data.username}`)
                     }
                 }
@@ -141,9 +141,9 @@ class Login extends Component {
                                     </div>
                                     <div className="col-xs-4 zero" style={{ fontSize: "1.8em" }}>
                                         <center>
-                                            <button type="button" className="btn btn-default" style={{ background: "transparent", borderRadius: "100%", color: "#fff " }}>
-                                                <i className="fa fa-instagram fa-3x"></i>
-                                            </button>
+                                            {/* <button type="button" className="btn btn-default" style={{ background: "transparent", borderRadius: "100%", color: "#fff " }}> */}
+                                                <i className="fa fa-opencart fa-2x"></i>
+                                            {/* </button> */}
 
                                             <br /> </center>
                                     </div>
@@ -152,7 +152,7 @@ class Login extends Component {
                                     </div>
 
                                     <div className="col-xs-12 zero" style={{ fontSize: "1.8em" }}>
-                                        <center> {fullName? "Welcome Back "+fullName : "CAMPUSCONNECT"}</center>
+                                        <center> {fullName? "Welcome Back "+fullName : "AFRIKAL"}</center>
 
                                     </div>
 
@@ -204,12 +204,12 @@ class Login extends Component {
 
                                 <center>
                                     <p>{this.state.error?this.state.error:null}</p>
-                                    Not a member?  <Link to="/signup">Sign up</Link>
+                                    Not a member?  <Link to="/signup"> Sign up</Link>
                                     <br />
 
 
                                     <h4> Keep in touch with family and friends</h4>
-                                    <p>©2017 All Rights Reserved. CampusConnect is a social platform for 9ja students</p>
+                                    <p>©2018 All Rights Reserved. Afrikal is a social platform connecting africans</p>
                                 </center>
                             </div>
                         </div>
@@ -220,23 +220,19 @@ class Login extends Component {
                         <span>
                             Follow us on  <button type="button" className="btn btn-default x-sbutton" >
                                 <i className="fa fa-facebook"></i>
-                            </button>
-                            <button type="button" className="btn btn-default x-sbutton" >
+                            </button>    <button type="button" className="btn btn-default x-sbutton" >
                                 <i className="fa fa-twitter"></i>
-                            </button>
-                            <button type="button" className="btn btn-default x-sbutton" >
+                            </button>    <button type="button" className="btn btn-default x-sbutton" >
                                 <i className="fa fa-instagram"></i>
                             </button>
 
 
 
                         </span>
-                        <span className="pull-right"> Designed by <span style={{ color: "#D3450C" }}>Habeeb Abdulrahman</span>
-                        
-                        </span><br />
-                        <span className="pull-right"> Supervised by <span style={{ color: "#D3450C" }}>Mr Ayeni</span><br />
+                        <span className="pull-right"> Developed by <span style={{ color: "#D3450C" }}>DEVCON</span>
                         
                         </span>
+                      
                         </div>
                     </div>
 
@@ -244,7 +240,7 @@ class Login extends Component {
                 <style>
                     {`
                         .x-wrapper{
-                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 90%),url('./images/slide3.jpg');min-height:700px;background-size:cover;
+                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.1) 90%),url('./images/china.jpg');min-height:700px;background-size:cover;
                             background-attachment:fixed;
                         }
                         .x-password{

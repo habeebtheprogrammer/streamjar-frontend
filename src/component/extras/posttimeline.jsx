@@ -3,7 +3,7 @@ import React,{Component} from "react";
 import classnames from "classnames";
 import FileUpload from "react-fileupload"
 import apiUrl from "../../config"
-
+import axios from "axios"
 class Posttimeline extends Component{
     constructor(props){
         super(props);
@@ -16,10 +16,20 @@ class Posttimeline extends Component{
             progress:"",
         }
         this.typing = this.typing.bind(this)
+        this.submitPost = this.submitPost.bind(this)
     }
     typing(e) {
         this.setState({ [e.target.name]: e.target.value })
     }
+    submitPost(e){
+        e.preventDefault();
+        var token = window.localStorage.getItem("kaytoken");
+        axios.post(`${apiUrl}/api/postTimeline`,{token, username:this.props.auth.user.username,username:this.props.auth.user.username, userID: this.props.auth.user.id, description: this.state.description}).then((res)=>{
+            if(res.data.success) window.location.reload();
+            else this.setState({error:"an error has occured."})
+        })
+    }
+
     render(){
         var token = localStorage.getItem("kaytoken")
         return(
@@ -84,8 +94,10 @@ class Posttimeline extends Component{
                 }}>   
             
            <button  ref="chooseBtn"  className={classnames(this.state.fileName?"hide":"btn btn-default btn-xs")}>Choose image</button>
-           <button ref="uploadBtn" className="btn btn-danger btn-xs pull-right">Post</button> 
-
+           {this.state.fileName === ""?
+           <button onClick={this.submitPost} className="btn btn-danger btn-xs pull-right">Post</button> 
+            : 
+            <button ref="uploadBtn" className="btn btn-danger btn-xs pull-right">Post</button> }
             <button  className="btn btn-default btn-xs pull-right" >
             <i className="fa fa-globe"></i> Public 
             </button> 

@@ -80,33 +80,8 @@ class Grouptimeline extends Component {
     render() {
         var me = localStorage.getItem("username")
         return (
-            <div className="row">
-              <div className="col-sm-4">
-              <Groupintro {...this.props}/>
-              {/* <Photos {...this.props} /> */}
-  
-            <div className="white">
-            <Player
-                          playsInline
-                            src={"../../video/scott.mp4"}
-                           />
-                <div   style={{padding:"10px",fontSize:"0.9em",fontFamily:"sans-serif"}}>Advertise your business here</div>
-            </div>
-            <div className="row white" style={{marginTop:"15px"}}>
-                <div className="col-xs-12 zero">
-                    <img src="../../images/img.jpg" width="100%" alt=""/>
-                </div>
-                
-                <div className="col-xs-12 "  style={{padding:"10px",fontSize:"0.9em",fontFamily:"sans-serif"}}>
-                <div>Advertise your business here</div>
-                    
-                </div>
-                
-            </div>
-             
-              </div>
-              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-              <Grouppost {...this.props}/>
+            <div className="row" style={{marginTop:"15px"}}> 
+           
               { this.arrangePost() }
               <div className="x-post white">
             <div className="">
@@ -121,22 +96,12 @@ class Grouptimeline extends Component {
 
           <div className="clearfix"></div>
           <div className="content">
-        <div className="post-img"><img src={"../../images/town.jpg"} /></div>
+        <div className="post-img"><img src={"../../images/china.jpg"} /></div>
         </div>
             </div>
             </div>
               </div>
-              <style>
-                  {`
-                  .video-react-big-play-button.video-react-big-play-button-left.big-play-button-hide{
-                    font-size:1em !important
-                  }
-                  .video-react-big-play-button.video-react-big-play-button-left{
-                    font-size:1em !important
-                  }
-                  `}
-              </style>
-            </div>
+            
         );
     }
 }

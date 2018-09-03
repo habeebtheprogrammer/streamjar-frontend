@@ -13,6 +13,7 @@ import Edit from './component/dashboard/edit';
 import Call from "./component/call"
 import Answer from "./component/call/answer"
 import Newsfeed from "./component/home"
+import Forum from "./component/forum"
 import Group from './component/community';
 import Room from './component/community/room';
 import Shoutout from './component/shoutout';
@@ -26,9 +27,10 @@ class Main extends Component {
                     
                     <Route exact path="/login" component={Login} />
                     <Privateroute exact path="/" socket={this.props.socket} component={Newsfeed} />
+                    <Privateroute  path="/forum" socket={this.props.socket} component={Forum} />
                     <Privateroute exact path="/community" socket={this.props.socket} component={Group} />
                     <Privateroute  path="/community/:id" socket={this.props.socket} component={Room} />
-                    <Privateroute exact path="/shoutout" socket={this.props.socket} component={Shoutout} />
+                    {/* <Privateroute exact path="/shoutout" socket={this.props.socket} component={Shoutout} /> */}
 
                     <Privateroute  path="/profile/:id" socket={this.props.socket} component={Profile} />
 

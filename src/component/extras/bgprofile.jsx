@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Link} from "react-router-dom"
 import axios from "axios"
 import apiUrl from "../../config"
-import Navtab from "../navbar/tab"
+import Profiletab from "../navbar/profiletab"
 class Bgprofile extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ componentWillMount() {
      })
 }
     render() {
-        var imglist = ["slide4.jpg", "bg.jpg", "banner2.jpg", "hustle-quotes.jpg"]
+        var imglist = ["slide4.jpg", "bg.jpg", "banner2.jpg", "china.jpg"]
         var me = localStorage.getItem("username")
         return (
                    <div className="row" style={{ border:"1px solid #e8e8e8 "}}>
@@ -48,7 +48,7 @@ componentWillMount() {
                  </div>
                     </div>
                     </div>
-           <Navtab user={this.props.user} socket={this.props.socket}/>
+           <Profiletab user={this.props.user} socket={this.props.socket}/>
              
                 </div>
            

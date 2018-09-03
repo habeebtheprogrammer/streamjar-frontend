@@ -23,7 +23,7 @@ componentWillMount() {
         return (
                    <div className="row" style={{ border:"1px solid #e8e8e8 "}}>
                 <div className="col-sm-12">
-                <div className="profile-bg" style={{background:`url('../../images/town.jpg')`,backgroundSize:"cover"}}>
+                {/* <div className="profile-bg" style={{background:`url('../../images/town.jpg')`,backgroundSize:"cover"}}>
                  <div className="row profile-img">
                  <div className="col-sm-2 zero" style={{border:"1px solid lightgrey"}}>
                  <img src={`${this.props.group.dpUrl ||'../../../../images/img0.jpg'}`} width="160px" alt="" />
@@ -38,7 +38,7 @@ componentWillMount() {
                  </p>
                  </div>
                     </div>
-                    </div>
+                    </div> */}
            <Grouptab group={this.props.group} socket={this.props.socket} match={this.props.match}/>
              
                 </div>

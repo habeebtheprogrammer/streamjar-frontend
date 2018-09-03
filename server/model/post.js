@@ -9,12 +9,34 @@ var postSchema = mongoose.Schema({
     imgUrl: String,
     videoUrl: String,
     description:String,
-    date: Date,
-    userID:{type:String,ref:"users"},
+    date: {type:Date,default:Date.now},
+    userID:{type:mongoose.SchemaTypes.ObjectId,ref:"users"},
     views: {
         type: Number,
         default: 0
-    }
+    },
+    comments:[
+        {
+            userID:{type:mongoose.SchemaTypes.ObjectId, ref:"users"},
+            description:{type:String},
+            date: {type:Date,default:Date.now},
+            likes:[
+                {type:mongoose.SchemaTypes.ObjectId, ref:"users" }
+            ],
+            reply:[
+                {userID:{type:mongoose.SchemaTypes.ObjectId, ref:"users" },
+                description:String,
+                date: {type:Date,default:Date.now},
+
+            }
+
+            ]
+        }
+    ],
+    likes:[
+        {type:mongoose.SchemaTypes.ObjectId, ref:"users" }
+    ]
+
 }],
     privacy: {
         type: String,

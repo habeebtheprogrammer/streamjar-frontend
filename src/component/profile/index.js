@@ -5,28 +5,19 @@ import { Player } from 'video-react';
 import {Route ,Switch} from "react-router-dom"
 import axios from "axios"
 import apiUrl from "../../config"
-import { Link } from "react-router-dom"
 import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import classnames from "classnames"
-import Audio from 'react-audioplayer';
-import auth from "../../reducer/index"
-import { setUserProfile, editUserProfile } from "../../actions/index"
-import FileUpload from "react-fileupload"
-import moment from "moment"
 import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
-import Loading from "../loader"
 import Relatedusers from "../extras/relatedusers"
 import Conversation from "../extras/conversation"
 import Onlineusers from "../extras/onlineusers"
-import Intro from "../extras/intro"
 import Bgprofile from "../extras/bgprofile"
 import Media from "./media"
 import Timeline from './timeline';
 import About from "./about"
 import Friends from "./friends"
 import Friendrequest from './friendrequest';
+import Navtab from "../navbar/tab"
 import Private from "./private"
 function mapStateToProps(state) {
     return {
@@ -79,7 +70,8 @@ class Profile extends Component {
                 <Sidebar match={this.props.match}/>
                
                 <div className="col-sm-9 x-right-grid">
-             
+                {/* <Navtab socket={this.props.socket} match={this.props.match}/> */}
+
                 <Bgprofile user={this.state.user} socket={this.props.socket}/>
                 
                 <Switch>

@@ -48,13 +48,14 @@ class Navbar extends Component {
                 <div className="navbar-header" style={{ marginRight: "0px" }}>
                 
                     <a className="navbar-brand" href="/">
-                        <div className="brand-logo hidden-xs">
+                        {/* <div className="brand-logo hidden-xs">
                             <img src="../../../../images/admin-logo.png" alt="" />
-                        </div>
+                        </div> */}
                         <div className="brand-name" >
-                            <b>
-                                <span>Campus</span>
-                            </b>Connect</div>
+                        <Link to="/"><div style={{color:"white"}}>Afrikal<span > <i className="fa fa-opencart"></i>
+                                
+                                </span></div></Link>
+                            </div>
                     </a>
                 </div>
                 {this.props.auth.isAuthenticated?null:

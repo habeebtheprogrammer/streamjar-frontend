@@ -51,10 +51,11 @@ class Signup extends Component {
 
         return (
             <div className="x-swrapper signup">
+                   <Navbar />
                 <div className="row" className="form-horizontal" style={{ padding: "20px 10px", margin: "0" }}>
                     <div className=" col-sm-4 col-sm-offset-4 " style={{ overflow: "hidden" }}>
                         <form onSubmit={this.register}>
-                            <div className="row" style={{ padding: "30px 0px" }}>
+                            {/* <div className="row" style={{ padding: "30px 0px" }}>
                                 <div className="col-sm-4" style={{ paddingTop: "18px" }}>
                                     <div style={{ height: "1px", background: "#777", width: "100%" }} ></div>
                                 </div>
@@ -66,7 +67,7 @@ class Signup extends Component {
                                 }} >
                                     <div style={{ height: "1px", background: "#777", width: "100%" }}></div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="form-group has-feedback">
                                 <input name="fullName" type="text" onChange={this.typing} className="form-control" required="required" placeholder="Full Name" />
                                 <span className="form-control-feedback">
@@ -123,8 +124,7 @@ class Signup extends Component {
                             </div>
                         </form>
                         <hr />
-                        <center>Already a member?
-                            <a href="/login">Log in</a>
+                        <center>Already a member?   <Link to="/login" style={{color:"rgb(211, 69, 12)"}}>Log in</Link>
                         </center>
                     </div>
 
@@ -134,32 +134,24 @@ class Signup extends Component {
                 </div>
                 <div className="container" style={{ paddingTop: "100px" }}>
                     <span>
-                        Follow us on
-                            <button type="button" className="btn btn-default x-sbutton" >
+                        Follow us on <button type="button" className="btn btn-default x-sbutton" >
                             <i className="fa fa-facebook"></i>
-                        </button>
-                        <button type="button" className="btn btn-default x-sbutton" >
+                        </button>  <button type="button" className="btn btn-default x-sbutton" >
                             <i className="fa fa-twitter"></i>
-                        </button>
-                        <button type="button" className="btn btn-default x-sbutton" >
+                        </button>   <button type="button" className="btn btn-default x-sbutton" >
                             <i className="fa fa-instagram"></i>
                         </button>
 
 
 
                     </span>
-                    <span className="pull-right"> Designed by
-                        <span style={{ color: "#D3450C" }}>Habeeb Abdulrahman</span>
+                    <span className="pull-right"> Developed by <span style={{ color: "#D3450C" }}>DEVCON</span>
                     </span>
-                    <br />
-                        <span className="pull-right"> Supervised by <span style={{ color: "#D3450C" }}>Mr Ayeni</span><br />
-                        
-                        </span>
                     <style>
                         {`
                         body{
                             color:#eee;
-                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.6) 80%),url('./images/slide3.jpg');
+                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.1) 80%),url('./images/china.jpg');
                             min-height:662px;
                             background-size:cover;
                             background-attachment:fixed;
