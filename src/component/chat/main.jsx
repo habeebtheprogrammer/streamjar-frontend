@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from "../navbar/index"
+import Navbar from "../navbar/tab"
 import Footer from "../footer/index"
 import axios from "axios"
 import { Player } from 'video-react';
@@ -7,7 +7,6 @@ import apiUrl from "../../config"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import Audio from 'react-audioplayer';
 import auth from "../../reducer/index"
 import { setUserProfile, editUserProfile } from "../../actions/index"
 import FileUpload from "react-fileupload"
@@ -153,96 +152,34 @@ class Chatpage extends Component {
                 
                 <div className="col-sm-9 x-right-grid conversation">
 
-                <Bgchat user={this.state.user} socket={this.props.socket}/>
-                    {/* <div className="second-nav" >
-                        <ul className="nav navbar-nav hidden-xs">
-                            <li className="list text"> CHAT PAGE</li>
-
-                        </ul>
-                        <ul className="nav navbar-nav  right-nav ">
-                            <li className="list text" style={{ color: "#aaa" }}> Dashboard</li>
-                            <li className="list text slash" style={{ paddingLeft: "0%", paddingRight: "0px" }}> /</li>
-                            <li className="list text" style={{ color: "#f44336" }}> Chat Page</li>
-
-                            <li className="list  button hidden-xs"><button className="btn btn-primary btn-sm btn-round img-rounded">
-                                <i className="fa fa-share-alt"></i>
-                            </button></li>
-                        </ul>
-                        <div className="clearfix">
-
-                        </div>
-
-                    </div> */}
-
-
-                    <div className="row zero ">
-                        <div className="col-sm-12 zero">
-                            <div className="page-start ">
-
-                                <div className="row zero page-row">
-                                    {/* <div className=" col-sm-3 zero left-grid  ">
-                                        <div>
+                <Navbar user={this.state.user}  match={this.props.match}  socket={this.props.socket}/>
+                <div className="row  ">
+                        <div className="col-sm-4" style={{paddingRight:"15px"}}>
+                        <div className="white left-grid">
                                          <Conversation  socket={this.props.socket} auth={this.props.auth} />
                                         </div>
-                                    </div> */}
-
-                                    <div className="col-sm-12 zero">
-
-                                        <div className="row" style={{}}>
-                                            <div className="col-sm-12 zero" style={{}}>
-                                                {/* <div className="page-title">
-                                                    Chat Message
-                                                        <small><i className="fa fa-smile-o"></i></small>
-
-                                                </div> */}
-                                                <div id="chatRow" className="row chat-row" >
-
+                                    </div>
+                        <div className="col-sm-8 zero" style={{paddingRight:"15px"}}>
+                        <div className="white">
                                                     {this.matchmesg()}
-
-
-                                                  
-
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-xs-12 zero chat-input" >
                                                         <form onSubmit={this.submit}>
                                                             <input type="text" className="search-field chat-input" onChange={this.typing} placeholder="Type your message" name="text" id="" style={{ width: "100%" }} />
                                                         </form>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* <div className="col-sm-3" style={{ borderLeft: "1px solid #eee",fontFamily:"sans-serif" }}>
-
-                                                <img src="../../../../images/hustle-quotes.jpg" width="100%" className="img-responsive" alt="img" />
-                                                <div style={{ padding: "5px 0px", fontSize: "0.9em" }}><span>How to place an ad here</span> </div>
-                                                <img src="../../../../images/banner2.jpg" width="100%" className="img-responsive" alt="img" />
-                                                <div style={{ padding: "5px 0px", fontSize: "0.9em" }}><span>How to place an ad</span> </div>
-                                                <img src="../../../../images/14.jpg" width="100%" className="img-responsive" alt="img" />
-                                                <div style={{ padding: "5px 0px ", fontSize: "0.9em" }}><span>How to place an ad</span> </div>
-                                               
-                                            </div> */}
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
+                            </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white">
-                    <Relatedusers auth={this.props.auth}/>
+                    {/* <Relatedusers auth={this.props.auth}/> */}
                     <Conversation auth={this.props.auth}  socket={this.props.socket}/>
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>
                 <style>{`
                 body{
-                    background:#fff;
+                    // background:#fff;
                 }
                 .chat-row{
                     padding:10px 0px 0px;height:350px;position:relative;overflow:auto

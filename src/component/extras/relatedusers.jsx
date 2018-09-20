@@ -2,52 +2,113 @@ import React, { Component } from 'react';
 import $ from "jquery"
 import classnames from "classnames"
 import apiUrl from "../../config"
+import axios from "axios"
+import jwt from "jsonwebtoken"
 
+import {Link} from "react-router-dom"
 class Relatedusers extends Component {
     constructor(props) {
         super(props);
         this.state ={
         relatedusers: [],
             rloader: true,
+            friends:[]
         }
+        this.action = this.action.bind(this)
+
+        this.sendRequest = this.sendRequest.bind(this)
+        this.accept = this.accept.bind(this)
     }
 
 componentWillMount() {
-    $.getJSON(`${apiUrl}/api/relatedusers?dept=${this.props.auth.user.department}&uni=${this.props.auth.user.university}`, (res) => {
-            if (res.result) {
-                var filter = res.result.filter((user)=>user.username !== this.props.auth.user.username);
-
-                this.setState({ relatedusers: filter })
-            }
+    axios.get(`${apiUrl}/api/getFriends?username=${this.props.auth.user.username}`).then((res1)=>{
+        if(res1.data.friends)
+         this.setState({friends:res1.data.friends})
+    axios.get(`${apiUrl}/api/getusers`).then((res) => {
+        if(res.data.users) 
+        {
+                    var filter = res.data.users.filter((user)=>user.username !== this.props.auth.user.username);
+                    var alluser=[]; 
+                  if(res1.data.friends){
+                      filter.map((user)=>{
+                          res1.data.friends.list.map((friend)=>{
+                              if(friend.userID.username===user.username && friend.type==="sent"){
+                                  user.type = "sent";
+                              }
+                              else if(friend.userID.username===user.username && friend.type==="request"){
+                              user.type = "request"
+                             }
+                             else if(friend.userID.username===user.username && friend.type==="friend"){
+                              user.type = "friend"
+                             } 
+                          })
+                      })
+                  }
+                  this.setState({ relatedusers: filter })
+                  }
+                })
+            })
 
             this.setState({ rloader: false })
-    });
+  
 }
-
+action(member){
+    if(member.type==="friend") null;
+   
+    else if(member.type==="sent")
+   return  <button disabled className="btn btn-xs grey-color btn-default pull-right" style={{fontSize:"0.8em"}}><b>
+   <i className="fa fa-user"></i> sent </b></button>
+    else if(member.type==="request")return <button type="button" className="btn grey-color  btn-default btn-xs pull-right" onClick={()=>this.accept(member)} style={{fontSize:"0.8em"}}><i className="fa fa-user"></i>  Accept</button>        
+    else return  <button type="button" onClick={()=>this.sendRequest(member)} className="btn grey-color  btn-default btn-xs pull-right"style={{fontSize:"0.8em"}} ><i className="fa fa-user"></i>  Add friend</button>;
+}
+sendRequest(user){
+    var {id,username} = this.props.auth.user;
+    var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
+    var token = jwt.sign(data,"o1l2a3m4i5d6e");
+    axios.post(`${apiUrl}/api/sendFriendRequest`,{token:token}).then((res)=>{
+        if(res.data.success){
+            window.location.reload();
+        }
+    })
+}
+accept(user){
+    var {id,username} = this.props.auth.user;
+    var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
+    var token = jwt.sign(data,"o1l2a3m4i5d6e");
+    axios.post(`${apiUrl}/api/acceptRequest`,{token:token}).then((res)=>{
+        if(res.data.success){
+         window.location.reload();
+        }
+    })
+}
     render() {
         var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
         
         
         return (
-            <div>
-                <div style={{ padding: "20px" }}>People you may know</div>
-
+            <div className="white" style={{paddingBottom:"10px"}}>
+                <div style={{ margin:"0px 10px 5px",padding: "12px 0px", }}>Friends suggestion</div>
                 {this.state.rloader ? <center style={{ margin: "100px 0px" }}><i className="fa fa-spin fa-spinner"></i></center> : null}
                 {this.state.relatedusers.map((member, key) => (
-                    <a className={classnames(this.state.rloader ? "hide" : null)} href={`/profile/${member.username}`}>
-                        <div style={{padding:"5px"}}>
-                            <div className="img">
-                                <img src={member.dpUrl || "../../../../images/avatar.jpg"} width="70%" className="img-responsive img-rounded" alt="Image" />
+                        <div  className={classnames(this.state.rloader ? "hide" : null)}  style={{padding:"7px 12px"}}>
+                            <div className="img" style={{width:"11%",display:"inline-block"}}>
+                                <img src={member.dpUrl || "../../../../images/avatar.jpg"} width="100%" className="img-responsive img-rounded" alt="Image" />
                             </div>
-                            <div className="name">
-                                {member.fullName}<br />
-                                <small className="away"> {member.department}</small>
+                            <div className="name" style={{paddingLeft:"10px",display:"inline-block",width:"58%"}}>
+                    <a href={`/profile/${member.username}`}>
+                                {member.username}
+                    </a>
+                                <br />
+                                <small >{member.status}</small>
+                            </div>
+                            <div className="" style={{padding:"0px 5px",display:"inline-block",width:"31%"}}>
+                           <small> {this.action(member)}</small>
+                          
                             </div>
                             <div className="clearfix"> </div>
                         </div>
 
 
-                    </a>
                 ))}
             </div>
         );

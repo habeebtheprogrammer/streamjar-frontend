@@ -26,6 +26,7 @@ class Grouptab extends Component {
         
     }
     render() {
+        console.log(this.props)
         var me = localStorage.getItem("username")
         var {socket} = this.props.socket
         var username = this.props.user?this.props.user.username : this.state.user.username
@@ -36,19 +37,21 @@ class Grouptab extends Component {
                
                         <ul className="nav navbar-nav">
                             <li className="active">
-                                <Link to={`/community/${this.props.match.params.id}`}>Timeline</Link>
+                                <Link to={`/community/${this.props.match.params.id}`}>Active groups</Link>
                             </li>
+                           
                             <li>
-                                <Link to={`/community/${this.props.match.params.id}/about`}>About</Link>
+                                <Link to={`/forum/followed_posts`}>Followed Posts</Link>
+                            </li>
+                           
+                            <li className="active">
+                                <Link to={`/forum/likes`}>Likes</Link>
                             </li>
                             <li className="active">
-                                <Link to={`/community/${this.props.match.params.id}/members`}>Members</Link>
+                                <Link to={`/forum/commented_posts`}>Comments</Link>
                             </li>
-                            <li>
-                                <Link to={`/community/${this.props.match.params.id}/media`}>Media page</Link>
-                            </li>
-                            <li>
-                                <Link to={`/community/${this.props.match.params.id}/conversation`}>Conversation</Link>
+                            <li className="active">
+                                <Link to={`/forum/Notification`}>Notification</Link>
                             </li>
                         </ul>
                        

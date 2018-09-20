@@ -45,6 +45,7 @@ class Sidebar extends Component {
                             </center>
                             </Link>
                     </div>
+                   
                     <div className="sidebar-list">
                     <Link to="/community"  className={classnames(this.props.match.path ===  "/community/:id" || this.props.match.path ===  "/community" ? "active" : null)}>
                     
@@ -53,6 +54,7 @@ class Sidebar extends Component {
                             </center>
                             </Link>
                     </div>
+                  
                     <div className="sidebar-list">
                         <Link to={`/profile/${username}`} className={classnames(this.props.match.path ===  "/profile/:id"? "active" : null)}>
                             <center>
@@ -76,30 +78,23 @@ class Sidebar extends Component {
                             </center>
                         </Link>
                     </div>
-                   
+                    <div className="sidebar-list">
+                        <Link to="/" className={classnames(window.location.pathname ==="/globe"?"active":null)}>
+                            <center>
+                                <i className="fa fa-video-camera"></i>
+                            </center>
+                        </Link>
+                    </div>
                   
                     <div className="sidebar-list">
-                        <Link to="/globe" className={classnames(window.location.pathname ==="/globe"?"active":null)}>
+                        <Link to="/marketplace" className={classnames(window.location.pathname ==="/marketplace"?"active":null)}>
                             <center>
                                 <i className="fa fa-opencart"></i>
                             </center>
                         </Link>
                     </div>
                   
-                    <div className="sidebar-list">
-                        <Link to="/globe" className={classnames(window.location.pathname ==="/globe"?"active":null)}>
-                            <center>
-                                <i className="fa fa-camera"></i>
-                            </center>
-                        </Link>
-                    </div>
-                    <div className="sidebar-list">
-                        <a href="" className="">
-                            <center>
-                                <i className="fa fa-calendar-check-o"></i>
-                            </center>
-                        </a>
-                    </div>
+                 
                   
                     <div className="sidebar-list">
                     <Link to="/dashboard/edit" className={classnames(window.location.pathname === "/edit" ? "active" : null)}>

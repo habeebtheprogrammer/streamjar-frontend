@@ -37,7 +37,7 @@ componentWillMount() {
                                 <img src={member.dpUrl || "../../../../images/avatar.jpg"} width="70%" className="img-responsive img-rounded" alt="Image" />
                             </div>
                             <div className="name">
-                                {member.fullName}<br />
+                                {member.username}<br />
                                 <small className="online"> online</small>
                             </div>
                             <div className="clearfix"> </div>

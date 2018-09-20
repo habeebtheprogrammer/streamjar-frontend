@@ -10,15 +10,8 @@ class Friends extends Component {
     }
     render() { console.log(this.props)
         return (
-            <div className="row">
-             <div className="col-sm-4">
-             <Intro  {...this.props}/>
-             <Photos {...this.props}/>
-
-             </div>
-              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
+            <div className="row" style={{paddingRight:"15px"}}>
                 <Friendscard  {...this.props}/>
-              </div>
             </div>
         );
     }

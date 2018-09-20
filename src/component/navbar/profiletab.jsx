@@ -37,14 +37,7 @@ class Profiletab extends Component {
         var {socket} = this.props.socket
         var username = this.props.user?this.props.user.username : this.state.user.username
         return (
-            <div className="profile-tab" >
-                      {this.props.match?   <ul className={classnames("nav navbar-nav ")} style={{position:"absolute",left:0,fontWeight:"800",fontSize:"1.5em"}}>
-                            <li>
-                                <Link to="#"><div >Afrikal<span style={{color:"red"}}> <i className="fa fa-opencart"></i>
-                                </span></div></Link>
-                            </li>
-                            
-                        </ul>:null}
+            <div className="profile-tab" style={{paddingLeft:"180px"}}>
                     <div className="navbar " style={{marginBottom:"0px"}}>
                         
                         <ul className="nav navbar-nav">
@@ -70,22 +63,22 @@ class Profiletab extends Component {
                             <li>
                                 <Link to={`/call/${username}`} target="_blank">Call</Link>
                             </li>}
-                            {username !== me? null:
+                            {/* {username !== me? null:
                             <li>
                                 <Link to={`/groups`} > Groups</Link>
                             </li>}
                             {username !== me? null:
                             <li>
                                 <Link to={`/notification`} > Notifications</Link>
-                            </li>}
-                            {username !== me? null:
+                            </li>} */}
+                            {/* {username !== me? null:
                             <li>
                                 <Link to={`/profile/fppost`}>NG <i className="caret"></i>
                                 </Link>
                             </li>
-                        }
+                        } */}
                         </ul>
-                        <ul className="nav navbar-nav navbar-right" style={{margin:"0px"}}>
+                        {/* <ul className="nav navbar-nav navbar-right" style={{margin:"0px"}}>
                             {socket.connected?
                             <li>
                                 <Link to="#"><span className="online"><i className="fa fa-circle"></i> Online</span></Link>
@@ -94,7 +87,7 @@ class Profiletab extends Component {
                              <Link to="#"><span className="offline"><i className="fa fa-circle"></i> Offline</span></Link>
                          </li>
                             }
-                        </ul>
+                        </ul> */}
                     </div>
                     
                 </div>

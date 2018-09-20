@@ -68,7 +68,7 @@ var userSchema = mongoose.Schema({
         default: "public"
     }
 })
-userSchema.index({ fullName: 'text', department: 'text', university: 'text', gender: 'text', city: 'text', state: 'text',location:"text", about: 'text' });
+userSchema.index({ username: 'text',fullName:'text', location:"text"});
 var User = mongoose.model('users', userSchema);
 
 module.exports = User;

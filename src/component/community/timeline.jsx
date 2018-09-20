@@ -5,8 +5,10 @@ import Photos from "../extras/photos"
 import moment from "moment"
 import axios from "axios"
 import { Player } from 'video-react';
-import apiUrl from "../../config"
-import Grouppost from "./grouppost"
+import {Link} from "react-router-dom"
+import Comments from "../extras/groupcomment"
+import Title from "./titlehead"
+import $ from "jquery"
 class Grouptimeline extends Component {
     constructor(props) {
         super(props);
@@ -16,63 +18,49 @@ class Grouptimeline extends Component {
 
         }
         this.arrangePost = this.arrangePost.bind(this)
+
     }
     componentWillMount() {
       
     }
-  
+    jointext(e,text){
+     $(e.target).parent().parent().text(text)
+    }
+    cuttext(text,maxlength){
+        if(text.length > maxlength){
+            var newtext = text.slice(0,maxlength);
+            newtext += "..."
+            return <div>{newtext} <Link to="#" onClick={(e)=>this.jointext(e,text)}  style={{color:"black",fontWeight:"bold"}}><small>continue</small></Link></div>
+        }else return text
+    }
     arrangePost(){
-    var sorted= this.props.group.posts.sort((a,b)=> moment(b.date).diff(a.date))
+    var sorted= this.props.posts
     var div =[];
         sorted.map((item)=>{
-            if(item.type==="video") 
-                div.push(
-                    <div className="x-post white">
-                    <div className="">
-                   <div> <div className="image">
-                   <img src={`${this.props.group.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-                   </div> <div className="image-text">
-                   <div className="title">{this.props.user.fullName}  uploaded a new video</div>
-                   <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
-                   </div>
-                   
-                   </div>
-      
-                  <div className="clearfix"></div>
-                        <div className="content">
-                    {item.description}
-                    <div className="post-img">
-                    <Player
-                          playsInline
-                            src={item.videoUrl}
-                           />
-                    </div>
-                    </div>
-                    </div>
-                    </div>
+            div.push(
+                <div className="x-post white" style={{marginBottom:"15px"}}>
+                <Title post={item} auth={this.props.auth} creatorID={this.props.group.creatorID._id}/>
+              
+              <div className="content">
+              {/* <p><b>{item.title}</b></p> */}
+                   {this.cuttext(item.description,500,item._id)}
+                {item.type==="video"?
+                  <div className="post-img">
+                  <Player
+                        playsInline
+                          src={item.videoUrl}
+                         />
+                  </div>:null}
+                {item.type==="image"?
+                <div className="post-img"><img src={item.imgUrl} /></div>
+                :null}
+          
+            
+                </div>
+              <Comments item={item} auth={this.props.auth} match={{params:{}}}/>
+                </div>
                 
             )
-            else if (item.type==="image") 
-                div.push(
-                    <div className="x-post white">
-                    <div className="">
-                   <div> <div className="image">
-                   <img src={`${this.props.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-                   </div> <div className="image-text">
-                   <div className="title">{this.props.user.fullName} added a new photo</div>
-                   <div style={{color:"grey"}}>{moment(item.date).calendar('ll')}</div>
-                   </div>
-                   
-                   </div>
-      
-                  <div className="clearfix"></div>
-                  <div className="content">
-                {item.description}
-                <div className="post-img"><img src={item.imgUrl} /></div>
-                </div>
-                    </div>
-                    </div>
-                   )
         });
      return div
     }
@@ -80,26 +68,10 @@ class Grouptimeline extends Component {
     render() {
         var me = localStorage.getItem("username")
         return (
-            <div className="row" style={{marginTop:"15px"}}> 
+            <div className="row" style={{marginTop:"0px"}}> 
            
               { this.arrangePost() }
-              <div className="x-post white">
-            <div className="">
-           <div> <div className="image">
-           <img src={`${this.props.group.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-           </div> <div className="image-text">
-           <div className="title">{this.props.group.title} was created</div>
-           <div style={{color:"grey"}}>{moment(this.props.group.date).format("ll")} at 4:03pm</div>
-           </div>
-           
-           </div>
-
-          <div className="clearfix"></div>
-          <div className="content">
-        <div className="post-img"><img src={"../../images/china.jpg"} /></div>
-        </div>
-            </div>
-            </div>
+            
               </div>
             
         );

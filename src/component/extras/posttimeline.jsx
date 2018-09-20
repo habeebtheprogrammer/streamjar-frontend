@@ -24,7 +24,7 @@ class Posttimeline extends Component{
     submitPost(e){
         e.preventDefault();
         var token = window.localStorage.getItem("kaytoken");
-        axios.post(`${apiUrl}/api/postTimeline`,{token, username:this.props.auth.user.username,username:this.props.auth.user.username, userID: this.props.auth.user.id, description: this.state.description}).then((res)=>{
+        axios.post(`${apiUrl}/api/postToGroup`,{token,  userID: this.props.auth.user.id, description: this.state.description, groupID:this.props.match.params.id}).then((res)=>{
             if(res.data.success) window.location.reload();
             else this.setState({error:"an error has occured."})
         })
@@ -44,11 +44,11 @@ class Posttimeline extends Component{
             <div className="col-sm-12" style={{border:"1px solid #e8e8e8",padding:"15px"}}> 
                 <div className="row">
                 <div className="col-sm-2">
-                <img src={this.props.user.dpUrl||"../../images/avatar.jpg"} width="30px" />
+                <img src={this.props.auth.user.dpUrl||"../../images/avatar.jpg"} width="30px" />
 
                 </div>
                 <div className="col-sm-10 zero">
-                    <textarea name="description" onChange={this.typing}  >What is on your mind?</textarea>
+                    <textarea name="description" onChange={this.typing}  style={{height:"200px"}} >What is on your mind?</textarea>
                 </div>
           
                 
@@ -60,7 +60,7 @@ class Posttimeline extends Component{
                 <div><i className="fa fa-spin fa-spinner"></i></div>
             :
             <FileUpload options={{
-                    baseUrl: `${apiUrl}/api/uploadPictures`,
+                    baseUrl: `${apiUrl}/api/groupPostImage`,
                     param: {
                         fid: 0
                     },

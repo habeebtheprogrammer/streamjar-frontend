@@ -12,13 +12,14 @@ import moment from "moment"
 import axios from "axios"
 import { Player } from 'video-react';
 import apiUrl from "../../config"
-import Grouppost from "./grouppost"
 import Navtab from "../navbar/tab"
 import Shuffle from "shuffle-array"
 import classnames from "classnames"
 import Creategroup from "../extras/creategroup"
 import jwt from "jsonwebtoken"
-
+import Recentpost from "../extras/recentpost"
+import sections from "../extras/sections"
+import Navfooter from '../extras/navfooter';
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -97,9 +98,9 @@ class Room extends Component {
         if(group.creatorID._id === this.props.auth.user.id || group.member)
        return null 
        else if(group.request)
-       return <button type="button" className="btn btn-default btn-sm pull-right" disabled> Request sent</button>
+       return <button type="button" className="btn btn-default btn-xs pull-right grey-color" style={{fontSize:"0.8em"}} disabled> Request sent</button>
        else if(group.creatorID._id !== this.props.auth.user.id && group.exists !== null)
-       return <button type="button" onClick={()=>this.sendRequest(group)} className="btn btn-default btn-sm pull-right"> Join Group</button>
+       return <button type="button" onClick={()=>this.sendRequest(group)} className="btn btn-default btn-xs pull-right grey-color" style={{fontSize:"0.8em"}} > Join Group</button>
 
     }
     countmembers(members){
@@ -111,91 +112,100 @@ class Room extends Component {
         var imglist =["img2.jpg","img3.jpg","img4.jpg"]
         return (
             <div className="row">
+                          <Navtab socket={this.props.socket} match={this.props.match}/>
+            <div style={{paddingTop:"40px"}}>
                 
             <Sidebar match={this.props.match}/>
            
-            <div className="col-sm-9 x-right-grid">
-           <Navtab socket={this.props.socket} match={this.props.match}/>
-            
+            <div className="col-sm-9 x-right-grid" style={{paddingTop:"15px"}}>
+           
             <div className="row">
             <div className="col-sm-4">
-            <Intro {...this.props} user={this.state.user}/>
-            <Creategroup user={this.state.user} {...this.props} />
-            <div className="row white">
+            {/* <div className="row white" style={{marginBottom:"15px"}}>
                 <div className="col-xs-12 zero">
-                    <img src="../../images/img.jpg" width="100%" alt=""/>
+                    <img src="../../images/china.jpg" width="100%" alt=""/>
                 </div>
                 <div className="col-xs-12 "  style={{padding:"10px",fontSize:"0.9em",fontFamily:"sans-serif"}}>
                 <div>Advertise your business here</div>
                 </div>
+            </div> */}
+            {/* <Intro {...this.props} user={this.state.user}/> */}
+            <Creategroup user={this.state.user} {...this.props} />
+            <div className="left-grid white" >
+            <Relatedusers auth={this.props.auth}/>
             </div>
-             
+            {/* <Recentpost auth={this.props.auth} /> */}
+            <Navfooter />
+            {/* {Shuffle(sections).slice(0,5).map((section)=>(
+                <Link to={`/forum/section/${section.url}`}>
+                <div className="x-post white changebg" >
+                <div className="">
+                <div> <div className="image">
+                <img src={`${section.img}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
+                </div> <div className="image-text">
+                <div className="title"><Link to={`/forum/section/${section.url}`}>{section.title}</Link>
+                </div>
+                <div style={{color:"grey"}}>{section.description}</div>
+                </div>
+                </div>
+                <div className="clearfix"></div>
+                </div>
+                </div>
+                </Link>
+            ))} */}
             </div>
             <div className="col-sm-8 " style={{marginTop:"0px",paddingLeft:"0px"}}>
                             <div className="page-start  " >
-
                                 <div className="row zero page-row">
-                                    {/* <div className=" col-sm-3 zero left-grid hidden-xs ">
-                                     <Relatedusers auth={this.props.auth}/>
-                                    </div> */}
-
                                     <div className="col-sm-12 full-grid zero ">
-                                        <div className="page-title" style={{ borderBottom: "none" }}>
-                                            <input type="text" name="name" onChange={this.typing} placeholder="Search for Pages" className="form-control"  />
-                                            
+                                        {/* <div className="page-title" style={{ borderBottom: "none" ,marginBottom:"15px"}}>
+                                            <input type="text" name="name" onChange={this.typing} placeholder="Search for Communities" className="form-control"  />
                                             {this.state.searching?<center style={{margin:"200px 0px"}}><i className="fa fa-spin fa-spinner"></i></center>:null}
-                                            
-                                        </div>
-
+                                        </div> */}
                                         <div className={classnames(this.state.searching?"row hide":"row")}>
-                                            <div className="col-lg-12 col-md-12 zero">
+                                            <div className="col-lg-12  zero">
                                                 <div className="">
                                                         {this.state.searched ?
                                                             this.state.result.map((group, key) => (
-                                                                <div className="col-sm-12 " style={{margin:"10px 0px"}}>
-                                                                <div className="row" >
-                                                                <div className="col-sm-2 zero">
-                                                                <Link to={`/community/${group._id}`}><img src={`../../images/img${key}.jpg`}  alt=""  width="100%" /></Link>
+                                                                <div className="x-post white " style={{border:"0px",borderBottom:"1px solid #e8e8e8"}} >
+                                                                <div className="">
+                                                               <div> <div className="image">
+                                                               <img src={`../../../images/${"genu.jpg"}`} style={{width:"100%",borderRadius:"100%"}} alt="img" />
+                                                               </div> <div className="image-text">
+                                                               <div className="title" ><Link to={`/community/${group._id}`} style={{fontWeight:"normal"}}>{group.title}</Link>
+                                                                {/* <i className="fa fa-check-circle" style={{color:"#337ab7"}}></i> <small>{item.username==="reactpro"?"C.E.O":"Follow"}</small> */}
+                                                               </div>
+                                                               <div style={{}}><small>{this.countmembers(group.members)} members {this.checkgroup(group)} </small></div>
+                                                               
+                                                               </div>
+                                                               
+                                                               </div>
+                                                               
+                                                               <div className="clearfix"></div>
                                                                 </div>
-                                                                <div className="col-sm-10"  style={{padding:"5px 10px"}}>
-                                                                <div><Link to={`/community/${group._id}`} style={{ textTransform: "capitalize" }}>{group.title} </Link></div>
-                                                                <div style={{color:"gray",fontSize:"0.9em",paddingTop:"15px"}}>created by <Link to={`/profile/${group.creatorID.username}`} >{group.creatorID.fullName}</Link> </div>
-                                                                <div style={{color:"gray",fontSize:"0.9em"}}> {group.creatorID.department} {group.creatorID.university}</div>
-                                                                <span style={{color:"gray",fontSize:"0.9em"}}>{this.countmembers(group.members)} members </span>
-                                                                {this.checkgroup(group)}
-
                                                                 </div>
-                                                              
-                                                            </div>
-                                                            </div>
                                                             ))
                                                             :
                                                     
                                                         Shuffle(this.state.groups).map((group,key) => (
- <div className="x-post white " >
+ <div className="x-post white " style={{border:"0px",borderBottom:"1px solid #e8e8e8"}} >
  <div className="">
 <div> <div className="image">
-<img src={`${group.img}||"../../images/genu.jpg`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
+<img src={`../../../images/${"genu.jpg"}`} style={{width:"100%",borderRadius:"100%"}} alt="img" />
 </div> <div className="image-text">
-<div className="title"><Link to={`/community/${group.title}`}>{group.title}</Link>
+<div className="title" ><Link to={`/community/${group._id}`} style={{fontWeight:"normal"}}>{group.title}</Link>
  {/* <i className="fa fa-check-circle" style={{color:"#337ab7"}}></i> <small>{item.username==="reactpro"?"C.E.O":"Follow"}</small> */}
 
 
 
 </div>
-<div style={{}}>{this.countmembers(group.members)} members {this.checkgroup(group)}</div>
+<div style={{}}><small>{this.countmembers(group.members)} members {this.checkgroup(group)} </small></div>
 
 </div>
 
 </div>
 
 <div className="clearfix"></div>
-{/* <div className="content">
-No worries. There are a few unsecured networks, and as long as we can connect to one we’re usually good. So I connect to one and see this popup on my screen:
-</div>
-<div className="row" style={{padding:"10px 0px",borderTop:"1px solid #e8e8e8"}}>
-                        <Link to={`${this.props.location.pathname}/${section.url}`} type="button" className="btn btn-default btn-sm"><b>View </b></Link>
-                 </div> */}
  </div>
  </div>
             ))}
@@ -233,12 +243,12 @@ No worries. There are a few unsecured networks, and as long as we can connect to
             </div>
             <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
-                    <Relatedusers auth={this.props.auth}/>
+                    {/* <Relatedusers auth={this.props.auth}/> */}
                     <Conversation auth={this.props.auth} socket={this.props.socket}/>
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>
-            <Footer />
+            </div>
             </div>
         
         );

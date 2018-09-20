@@ -40,9 +40,17 @@ var postSchema = mongoose.Schema({
     likes:[
         {type:mongoose.SchemaTypes.ObjectId, ref:"users" }
     ]
-
+    ,
+    followers:[
+        {type:mongoose.SchemaTypes.ObjectId, ref:"users" }
+    ],
+    flag:{
+        users:Number,
+        userID:[mongoose.SchemaTypes.ObjectId]
+    }
 
 });
+postSchema.index({ title:'text'});
 
 var post = mongoose.model('sectionposts', postSchema);
 module.exports = post;

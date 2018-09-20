@@ -100,7 +100,7 @@ class Login extends Component {
                         localStorage.setItem("kaytoken", res.data.token);
                         localStorage.setItem("username", data.username);
                         setAuthorizationToken(res.data.token);
-                        window.location.assign(`/forum`)
+                        window.location.assign(`/`)
                         // window.location.assign(`/profile/${data.username}`)
                     }
                 }
@@ -126,7 +126,7 @@ class Login extends Component {
         var dp = window.localStorage.getItem("dp");
         var fullName = window.localStorage.getItem("fullname");
         return (
-            <div className="login" style={{ background: "#eee", color: " #eee" }}>
+            <div className="login avenir" style={{ background: "#eee", color: " #eee" }}>
                 <div className="x-wrapper">
 
                 <Navbar />

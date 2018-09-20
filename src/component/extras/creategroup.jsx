@@ -40,9 +40,11 @@ typing(e) {
         return (
             
             <div className="wildcard white">
-               <div  onClick={()=>this.setState({modal: true})} className="" style={{padding:"10px 10px",textAlign:"center",cursor:"pointer"}}>
-           <p> <i className="fa fa-group fa-2x " > </i></p>
-            <p><b>CREATE A PAGE</b></p>
+               <div  >
+           {/* <p> <i className="fa fa-group fa-2x " > </i></p> */}
+       <span onClick={()=>this.setState({modal: true})} className="" style={{cursor:"pointer"}}> <b>Create group</b>  </span>
+           <span className="pull-right"> <i className="fa fa-pencil"></i></span>
+            
             </div>
               <Modal showCloseIcon={false} open={this.state.modal} onClose={() => this.setState({ modal: false })} classNames={{ modal: "uploadmodal" }} little>
                             <div className="row white upload">

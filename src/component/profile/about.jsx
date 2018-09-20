@@ -11,15 +11,9 @@ class About extends Component {
     }
     render() {
         return (
-            <div className="row">
-             <div className="col-sm-4">
-             <Photos user={this.props.user} {...this.props}/>
+            <div className="row" style={{marginRight:"15px"}}>
              <Intro user={this.props.user} {...this.props}/>
 
-             </div>
-              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
-                <Aboutcard user={this.props.user} {...this.props}/>
-              </div>
             </div>
         );
     }

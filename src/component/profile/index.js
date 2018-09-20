@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from "../navbar/index"
 import Footer from "../footer/index"
 import { Player } from 'video-react';
-import {Route ,Switch} from "react-router-dom"
+import {Route ,Switch,Link} from "react-router-dom"
 import axios from "axios"
 import apiUrl from "../../config"
 import { connect } from "react-redux"
@@ -19,6 +19,9 @@ import Friends from "./friends"
 import Friendrequest from './friendrequest';
 import Navtab from "../navbar/tab"
 import Private from "./private"
+import Recentpost from "../extras/recentpost"
+import Navfooter from '../extras/navfooter';
+
 function mapStateToProps(state) {
     return {
         auth: state.auth
@@ -66,26 +69,52 @@ class Profile extends Component {
         var {friends} = this.state;
         return (
             <div className="row">
+                 <Navtab socket={this.props.socket} match={this.props.match}/>
+            <div style={{paddingTop:"40px"}}>
                 
-                <Sidebar match={this.props.match}/>
-               
-                <div className="col-sm-9 x-right-grid">
-                {/* <Navtab socket={this.props.socket} match={this.props.match}/> */}
+            <Sidebar match={this.props.match}/>
+           
+            <div className="col-sm-9 x-right-grid" style={{paddingTop:"15px"}}>
+           
+<div className="row">
+    <div className="col-sm-4 zero" style={{paddingLeft:"15px",paddingRight:"15px"}}>
+    <div className="" style={{position:"fixed",width:"24%",zIndex:"1023"}}>
+    <div className="wildcard white">
+               <div >
+           <Link to="/forum/post"> <b>Post a story</b>  </Link>
+           <span className="pull-right"> <i className="fa fa-pencil"></i></span>
+            
+            </div>
+            </div>
+            <div className="left-grid white" >
+            <Relatedusers auth={this.props.auth}/>
+            </div>
+    {/* <Recentpost auth={this.props.auth}/> */}
+    <Navfooter />
 
+            </div>  
+    </div>
+    <div className="col-sm-8 zero" style={{paddingLeft:"0px"}}>
                 <Bgprofile user={this.state.user} socket={this.props.socket}/>
-                
-                <Switch>
-                <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user} images={images} /> } />
-                <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user} images={images} friends={friends} />} />
+
+    <Switch>
+                <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user} /> } />
+                <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user}  friends={friends} />} />
                 <Private  path={`${this.props.match.url}/friendRequests`} component={Friendrequest} {...this.props} images={images} friends={friends}  user={this.state.user} /> 
                 <Route  path={`${this.props.match.url}/media`} render={(props)=><Media {...this.props} images={images} videos={video} user={this.state.user}/> } />
                 <Route  path="/" render={(props)=><Timeline  {...this.props} user={this.state.user} images={images}/>} />
                 </Switch>
+        </div>
+</div>
+
+                {/* <Bgprofile user={this.state.user} socket={this.props.socket}/> */}
+                
+          
 
                 </div>
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
-                    <Relatedusers auth={this.props.auth}/>
+                    {/* <Relatedusers auth={this.props.auth}/> */}
                     <Conversation auth={this.props.auth} socket={this.props.socket}/>
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
@@ -100,7 +129,7 @@ class Profile extends Component {
                         }
                         `}
                             </style>
-                            <Footer />
+            </div>
             </div>
         );
     }

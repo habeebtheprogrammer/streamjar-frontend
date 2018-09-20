@@ -1,10 +1,10 @@
 @font-face{
-    font-family: avenir;
-    src:url('../fonts/Avenir LT 65 Medium.ttf');
+    font-family: HelveticaN;
+    src:url('../fonts/Avenir\ LT\ 65\ Medium.ttf');
     
 }
 body{
-    font-family: avenir;
+    font-family: HelveticaN;
     background: rgb(237, 241, 245);
     /* background: #fff; */
 }
@@ -17,11 +17,45 @@ font-size: 0.9em;
 }
 nav.navbar{
     margin-bottom: 0px;
-    border-radius: 0px
+    border-radius: 0px;
+}
+
+.navsearch-btn{
+    position: absolute;
+    right: 0px;
+    top: 6px;
+    min-width: 50px;
+    padding-top: 5px;
+    /* padding-right: 5px; */
+    text-align: center;
+    height: 33px;
+    font-size: 0.9em;
+    /* border-right-style: solid; */
+    /* border-right-width: 1px; */
+    /* border-radius: 100px; */
+    cursor: pointer;
+}
+.filter select{
+    font-size: 1em;
+    min-width: 150px
+}
+.filter .btn{
+    border: none;
+    font-size: 0.95em;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: bolder;
+    height: 34px;
+}
+.filter select,.filter select:focus{
+    border: 0px;
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
 }
 .profile-bg{
     width: 100%;
-    height: 200px;
+    height: 150px;
     background-repeat: no-repeat !important;
     /* margin: 10px 0px 0px; */
     position: relative;
@@ -56,6 +90,11 @@ nav.navbar{
 }
 .skyblue{
     color: #337ab7;
+}
+.link:hover{
+    color: rgb(35, 82, 124);
+    text-decoration: underline;
+    cursor: pointer;
 }
 .grey-color{
     color: grey;
@@ -129,25 +168,30 @@ cursor: pointer;
     
 }
 .profile-tab{
-    min-height: 50px;
-    padding-left: 250px;
+    /* min-height: 50px; */
+    padding-left: 100px;
     background: #fff;
     
 }
+.showOptionBtn:hover,.showOptionBtn:focus,.showOptionBtn{
+background: none;
+border: none;
+}
+
 .profile-tab li{
-    border-left:1px solid #e8e8e8
+    /* border-left:1px solid #e8e8e8 */
 }
 .wildcard{
     margin: 0px 0px 15px;
     padding: 15px;
-    font-family: sans-serif;
-    font-size: 0.9em;
+    /* font-family: sans-serif; */
+    font-size: 0.95em;
     border:1px solid #e8e8e8
 }
 .aboutcard, .friendscard, .photocard{
     margin: 15px 0px;
     /* padding: 15px; */
-    font-family: sans-serif;
+    /* font-family: sans-serif; */
    border: 1px solid #e8e8e8;
 
 }
@@ -183,15 +227,44 @@ cursor: pointer;
     float: left;
 }
 .x-post{
-    margin: 0px 0px 15px;
-    padding: 15px;
-    font-family: sans-serif;
-    font-size: 0.95em;
-    border:1px solid #e8e8e8
+    /* margin: 0px 0px 15px; */
+    padding: 10px 15px;
+    /* font-family:  sans-serif; */
+    font-size: 1em;
+    border:1px solid #e8e8e8;
+    position: relative;
+}
+.x-post:hover{
+    background: #f9fafc;
 }
 .x-post .image{
-    width:6%;
+    width:5%;
     float: left;
+}
+.navbar-nav > li > a{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.primary-nav .navbar-nav > li > a{
+    padding-bottom: 12px;
+    padding-top: 12px;
+    font-weight: bold
+}
+.navbar {
+    min-height: inherit;
+    max-height: 41px !important;
+}
+.primary-nav .navbar {
+    min-height: 45px;
+    /* max-height: 41px !important; */
+}
+.x-inverse{
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8
+}
+.x-inverse a{
+    /* color: grey;
+    font-weight: bold */
 }
 .post-img{
     margin: 10px 0px;
@@ -204,16 +277,14 @@ cursor: pointer;
     padding: 10px 0px;
     margin-top: 10px;
     border-top: 1px solid #e8e8e8;
-    font-size: 1.1em;
     white-space: pre-wrap;
 }
 .x-post .title{
-    font-size: 1.1em;
     text-transform: capitalize;
-    font-weight: 700
+    font-weight: bold
 }
 .x-post .image-text{
-    width: 94%;
+    width: 95%;
     float: left;
     padding: 0px 10px;
 
@@ -269,9 +340,12 @@ cursor: pointer;
 .brand-logo{
     float: left;
 }
+.avenir{
+    font-family: avenir
+}
 .brand-name{
 float:left ;padding:4px 10px;font-size:1.2em;font-weight:100;
-font-family: Courier New, Courier, monospace;
+/* font-family: Courier New, Courier, monospace; */
 font-weight: 800;
 color: #EB7506
 }
@@ -295,16 +369,6 @@ nav ul.nav.navbar-nav li a{
     margin-bottom: 0px
 }
 
-.second-nav .active{
-    background: #337ab7;
-}
-.second-nav .active a{
-  color: #fff
-
-}
-.second-nav{
-    border-bottom:1px solid #eee;background:#fff;padding:0px 10px
-}
 nav input.form-control{
     border-radius: 40px;
     background: #eee;
@@ -325,15 +389,6 @@ nav input.form-control{
 }
 a{
     color: #000
-}
-/* .second-nav ul li.list{
-    padding: 15px
-}
-.second-nav ul li a:hover{
-    background: #fff;
-} */
-.second-nav ul li a{
-    padding: 20px
 }
 .list.text{
     padding: 20px 10px;
@@ -364,7 +419,7 @@ a{
     
 }
 .page-start{
-    background: #fff;
+    /* background: #fff; */
     
 }
 .unread{
@@ -372,54 +427,6 @@ a{
 }
 .unread>div{
     background: #ddd;
-}
-.page-start .left-grid a.active > div{
-    background: #287AC2;
-    color: #fff
-}
-.page-start .left-grid a:hover > div{
-    background: #f7fafc;
-    color: #596BA8;
-        -webkit-transition: 0.2s ease-in  ;
-    -moz-transition: 0.2s ease-in  ;
-    transition: 0.2s ease-in  ; 
-}
-.page-start .left-grid a > div{
-    padding:13px 15px;
-}
-.page-start .left-grid input.form-control{
-    border: none !important;
-    height: 60px !important;
-    padding: 10px 30px !important;
-    color: #aaa !important;
-    box-shadow: none !important;
-    border-bottom: 2px solid #eee !important;
-     -webkit-transition: 0.2s ease-in !important;
-    -moz-transition: 0.2s ease-in !important ;
-    transition: 0.2s ease-in !important ;
-}
-.page-start .left-grid input.form-control:focus{
-    border-bottom: 3px solid #FF5100 !important;
-    -webkit-transition: 0.2s ease-in !important ;
-    -moz-transition: 0.2s ease-in  !important;
-    transition: 0.2s ease-in  !important;
-}
-.page-start .right-grid input.form-control{
-    border: none !important;
-    height: 60px !important;
-    padding: 10px 30px !important;
-    color: #aaa !important;
-    box-shadow: none !important;
-    border-bottom: 2px solid #eee !important;
-     -webkit-transition: 0.2s ease-in  !important;
-    -moz-transition: 0.2s ease-in  !important;
-    transition: 0.2s ease-in  !important;
-}
-.page-start .right-grid input.form-control:focus{
-    border-bottom: 3px solid #FF5100 !important;
-    -webkit-transition: 0.2s ease-in  !important;
-    -moz-transition: 0.2s ease-in  !important;
-    transition: 0.2s ease-in  !important;
 }
 .page-start .full-grid input.form-control{
     border: none !important;
@@ -437,15 +444,6 @@ a{
     -webkit-transition: 0.2s ease-in  !important;
     -moz-transition: 0.2s ease-in  !important;
     transition: 0.2s ease-in  !important;
-}
-.page-start .left-grid{
-    width:20%;
-    /* border-right: 1px solid #eee; */
-}
-.page-title{
-    padding: 14px;
-    font-size: 1.5em;
-    border-bottom: 2px solid #eee;
 }
 
  .remoteVideo{
@@ -494,6 +492,11 @@ float:left; padding:0px
 .busy{
     color:indianred;font-size:0.8em
 }
+.primary-nav li:hover, .primary-nav li.active {
+  border-bottom: 2px solid indianred
+    
+}
+
 .online{color: #3BDB3B;font-size:0.8em}
 
 .away{color:#F1B00A;font-size:0.8em}
@@ -548,6 +551,11 @@ button:hover{
           -webkit-transition: 0.2s ease-in  ;
     -moz-transition: 0.2s ease-in  ;
     transition: 0.2s ease-in  ; 
+    background: #f9fafc !important;
+}
+button.nohover:hover,button.nohover{
+    background: indianred !important;
+    border: none;
 }
 .x-sidebar{
     position: fixed;
@@ -571,15 +579,22 @@ button:hover{
       color: #fff;
       
 }
+.indianred-color{
+    color: indianred
+}
 .changebg:hover{
-    background: indianred;
-    color:#fff;
+    background: #f9fafc;
+    /* color:#111; */
     -webkit-transition: 0.1s ease-in  ;
     -moz-transition: 0.1s ease-in  ;
     transition: 0.1s ease-in  ;
 }
+ li >  a:hover,li > a:focus {
+    color: black !important;
+    background-color: #f9fafc !important;
+  }
 .changebg:hover a{
-    color:#fff;
+    color:black;
      -webkit-transition: 0.1s ease-in  ;
     -moz-transition: 0.1s ease-in  ;
     transition: 0.1s ease-in  ;
@@ -592,23 +607,13 @@ button:hover{
     width:78.8%;padding:0
     /* width:95.5%;padding:0 */
 }
-   .second-nav ul.right-nav {
-       float: right
-    }
-    
+
 @media(max-width:768px){
     .brand-name{
         font-size: 1.1em;
     }
     .x-right-grid{
         width: 100%;
-    }
-    .second-nav ul.right-nav {
-        float: left;
-        padding: 0px 10px
-    }
-    .second-nav ul.right-nav li {
-       display: inline-block
     }
     .list.text{
     padding: 5px 10px;

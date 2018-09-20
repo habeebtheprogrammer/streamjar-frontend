@@ -50,7 +50,7 @@ class Signup extends Component {
         // const { username, password, completed, firstName, lastName, email, dob, tos, street, country, membership, city, state, phone, touchbyemail, touchbysms, contactedbynews, contactedbypromotion, contactedbyevent, missathing, importantstuff, donotcontact } = this.state
 
         return (
-            <div className="x-swrapper signup">
+            <div className="x-swrapper signup avenir">
                    <Navbar />
                 <div className="row" className="form-horizontal" style={{ padding: "20px 10px", margin: "0" }}>
                     <div className=" col-sm-4 col-sm-offset-4 " style={{ overflow: "hidden" }}>

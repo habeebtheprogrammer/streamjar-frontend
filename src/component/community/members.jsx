@@ -23,14 +23,14 @@ class Friends extends Component {
         return (
             <div className="row">
           
-              <div className="friendscard white">
+              <div className="friendscard white" style={{margin:"0px"}}>
             <div className="title"  style={{fontSize:"1em"}}>
             <b> Members </b>
             </div>
                
                <div className="row content">
                {this.props.members.map((user)=>( user.type==="member"?
-     <div className="col-sm-6 " style={{margin:"10px 0px"}}>
+     <div className="col-sm-6 ">
      <div className="row" >
          <div className="col-sm-3 zero">
          <Link to={`/profile/${user.userID.username}`}><img src={user.userID.dpUrl || "../../../../images/avatar.jpg"} alt="" width="100%" /></Link>

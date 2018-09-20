@@ -24,7 +24,7 @@ arrange(user){
         <Link to={`/profile/${user.userID.username}`}><img src={user.userID.dpUrl || "../../../../images/avatar.jpg"} alt="" width="100%" /></Link>
         </div>
         <div className="col-sm-6"  style={{padding:"20px 10px"}}>
-        <div><Link to={`/profile/${user.userID.username}`} style={{ textTransform: "capitalize" }}>{user.userID.fullName} </Link></div>
+        <div><Link to={`/profile/${user.userID.username}`} style={{ textTransform: "capitalize" }}>{user.userID.username} </Link></div>
         <div style={{color:"gray",fontSize:"0.9em"}}>department of {user.userID.department} {user.userID.university} </div>
         </div>
         <div className="col-sm-4">
@@ -37,7 +37,7 @@ arrange(user){
 accept(user){
     console.log(user)
     var {id,username} = this.props.auth.user;
-    var data = {...this.props.auth.user, rFullName:user.fullName,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
+    var data = {...this.props.auth.user,rUsername:user.username, rID:user._id, rUniversity:user.university,rDepartment:user.department,rGender: user.gender}
     var token = jwt.sign(data,"o1l2a3m4i5d6e");
     axios.post(`${apiUrl}/api/acceptRequest`,{token:token}).then((res)=>{
         if(res.data.success){

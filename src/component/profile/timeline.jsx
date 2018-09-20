@@ -8,12 +8,16 @@ import { Player } from 'video-react';
 import apiUrl from "../../config"
 import Posttimeline from "../extras/posttimeline"
 import {Link} from "react-router-dom"
-import Comments from "../extras/comments"
+import Comments from "../extras/forumcomment"
+import Title from "../forum/titlehead"
+import Recentpost from "../extras/recentpost"
+import Bgprofile from "../extras/bgprofile"
+
 class Timeline extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post:{content:[]},
+            posts:[],
             isLoading: true,
 
         }
@@ -24,90 +28,36 @@ class Timeline extends Component {
         var {match} = this.props
         axios.get(`${apiUrl}/api/getTimeline?username=${match.params.id}`).then((res)=>{
             console.log(res.data.post)
-            this.setState({post:res.data.post});
+            this.setState({posts:res.data.posts});
         })
     }
   
     arrangePost(){
-    var sorted= this.state.post.content.sort((a,b)=> moment(b.date).diff(a.date))
+    var sorted= this.state.posts
     var div =[];
-    console.log(this.state.post)
         sorted.map((item)=>{
-            if(item.type==="video") 
                 div.push(
-                    <div className="x-post white">
-                    <div className="">
-                   <div> <div className="image">
-                   <img src={`${this.props.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-                   </div> <div className="image-text">
-                   <div className="title">{this.props.user.fullName}</div>
-                   <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
-                   </div>
-                   
-                   </div>
-      
-                  <div className="clearfix"></div>
-                        <div className="content">
-                    {item.description}
-                    <div className="post-img">
-                    <Player
-                          playsInline
-                            src={item.videoUrl}
-                           />
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                
-            )
-            else if (item.type==="image") 
-                div.push(
-                    <div className="x-post white">
-                    <div className="">
-                   <div> <div className="image">
-                   <img src={`${this.props.user.dpUrl ||"../../images/avatar.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-                   </div> <div className="image-text">
-                   <div className="title">{this.props.user.fullName}</div>
-                   <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
-                   </div>
-                   
-                   </div>
-      
-                  <div className="clearfix"></div>
-                  <div className="content">
-                {item.description}
-                <div className="post-img"><img src={item.imgUrl} /></div>
-                </div>
-                    </div>
-                    </div>
-                   )
-         else 
-            div.push(
-                <div className="x-post white">
-                <div className="">
-               <div> <div className="image">
-               <img src={`${item.userID.dpUrl ||"../../images/genu.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-               </div> <div className="image-text">
-               <div className="title"><Link to={`/profile/${item.userID.username}`}>{item.userID.fullName}</Link> <i className="fa fa-check-circle" style={{color:"#337ab7"}}></i> <small>{item.userID.username==="reactpro"?"C.E.O":"verified"}</small>
-              <span className="pull-right" style={{cursor:"pointer"}}>
-               <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i> <i className="fa fa-circle-o" style={{fontSize:"0.6em"}} ></i>   <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i>
-                </span>
-               
-               </div>
-               <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
-               </div>
-               
-               </div>
-  
-              <div className="clearfix"></div>
+                <div className="x-post white" style={{marginBottom:"15px"}}>
+                <Title post={item} auth={this.props.auth}/>
+              
               <div className="content">
-            {item.description}
-          
-            </div>
+              <p><Link to={`/forum/section/${item.section}/${item._id}`}><b>{item.title}</b></Link> </p>
+              {/* <p><b>{item.title}</b></p> */}
+                   {item.description}
+                {item.type==="video"?
+                  <div className="post-img">
+                  <Player
+                        playsInline
+                          src={item.videoUrl}
+                         />
+                  </div>:null}
+                {item.type==="image"?
+                <div className="post-img"><img src={item.imgUrl} /></div>
+                :null}
           
             
                 </div>
-              <Comments item={item} auth={this.props.auth} />
+              <Comments item={item} auth={this.props.auth} match={{params:{}}}/>
                 </div>
                 
                )
@@ -119,27 +69,12 @@ class Timeline extends Component {
         var me = localStorage.getItem("username")
         return (
             <div className="row">
-              <div className="col-sm-4">
-              <Intro {...this.props}/>
-              <Photos {...this.props} />
-              <div className="row white">
-                <div className="col-xs-12 zero">
-                    <img src="../../images/img.jpg" width="100%" alt=""/>
-                </div>
-                
-                <div className="col-xs-12 "  style={{padding:"10px",fontSize:"0.9em",fontFamily:"sans-serif"}}>
-                <div>Advertise your business on KampusKonnect</div>
-                    
-                </div>
-                
-            </div>
-             
-    
-              </div>
-              <div className="col-sm-8" style={{paddingLeft:"0px"}}>
+            
+              <div className="col-sm-12" style={{paddingLeft:"0px"}}>
               {/* <img src="../../images/slide1.jpg" width="100%" alt=""/> */}
+              {/* <Bgprofile user={this.props.auth.user} socket={this.props.socket}/> */}
 
-             {this.props.user.username === me? <Posttimeline {...this.props}/> :null}
+             {/* {this.props.user.username === me? <Posttimeline {...this.props}/> :null} */}
               { this.arrangePost() }
           
               </div>

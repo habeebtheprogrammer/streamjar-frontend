@@ -14,28 +14,6 @@ function mapStateToProps(state) {
 }
 class Navbar extends Component {
 
-    // componentDidMount() {
-    //   $(window).scroll(()=>{
-    //       var nav = document.getElementsByTagName("nav");
-    //       if (window.scrollY > 30) {
-    //           $("nav").removeClass("transparent")
-    //           $("nav").addClass("grey darken-4 slideInDown ")
-    //         //   nav[0].removeAttribute("class", "transparent")
-    //         //   nav[0].setAttribute("class", " grey darken-4 slideInDown ")
-    //           $(".setnav").addClass("navbar-fixed")
-    //       }else {
-    //           $("nav").removeClass("grey  darken-4 slideInDown")
-              
-    //         //   nav[0].removeAttribute("class", "grey  darken-4 slideInDown")
-              
-    //           window.location.pathname === "/" ? $("nav").addClass("transparent") : $("nav").addClass("grey darken-4")
-             
-    //       }
-    //   }
-       
-    //   )
-
-    // }
     logout() {
         localStorage.removeItem("jwToken");
         setAuthorizationToken(false);
@@ -46,14 +24,12 @@ class Navbar extends Component {
         return (
             <nav className={classnames("navbar  navbar-inverse ", window.location.pathname === "/login" || window.location.pathname === "/"|| window.location.pathname === "/signup" ?"container x-navinverse":null)} role="navigation" >
                 <div className="navbar-header" style={{ marginRight: "0px" }}>
-                
                     <a className="navbar-brand" href="/">
                         {/* <div className="brand-logo hidden-xs">
                             <img src="../../../../images/admin-logo.png" alt="" />
                         </div> */}
                         <div className="brand-name" >
                         <Link to="/"><div style={{color:"white"}}>Afrikal<span > <i className="fa fa-opencart"></i>
-                                
                                 </span></div></Link>
                             </div>
                     </a>
@@ -63,7 +39,6 @@ class Navbar extends Component {
                     {/* <ul className="nav navbar-nav navbar-right">
                         <li>
                             <a href="/login" className="navbar-link" style={{ color: "#fff" }}>
-
                                 <i className="fa fa-user"></i>
                                 <span> Login</span>
                         </a>
@@ -80,7 +55,13 @@ class Navbar extends Component {
                 }
                 <style>
                     {`
-                      
+                      .navbar-nav > li > a{
+                        padding-bottom: 15px;
+                        padding-top: 15px;
+                    }
+                    .navbar {
+                        min-height: 50px;
+                    }
                         .x-navinverse{
                             background:transparent;border:none; padding:10px
                         }

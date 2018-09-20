@@ -33,7 +33,6 @@ import classnames from "classnames"
                window.location.reload();
             }
         }).catch((err)=>this.setState({error:"An error has occured"}))
-    
     }
     postReplyComment(postID,commentID) {
         let token = localStorage.getItem("kaytoken")
@@ -132,11 +131,11 @@ import classnames from "classnames"
         var exist = likes.filter((like)=>like.username===this.props.auth.user.username)
         if( likes.length>2 && exist.length>0)
         return <div className="pull-left"> <i className="fa fa-thumbs-up skyblue"></i>
-        <Link to={"/profile/"+this.props.auth.user.username}> You</Link>, {likes[likes.length -1].username === this.props.auth.user.username?<Link to={"/profile/"+likes[likes.length -2].username}>{likes[likes.length -2].fullName}</Link>:<Link to={"/profile/"+likes[likes.length -1].username}>{likes[likes.length -1].fullName } </Link>} and {likes.length-2} others
+        <Link to={"/profile/"+this.props.auth.user.username}> You</Link>, {likes[likes.length -1].username === this.props.auth.user.username?<Link to={"/profile/"+likes[likes.length -2].username}>{likes[likes.length -2].username}</Link>:<Link to={"/profile/"+likes[likes.length -1].username}>{likes[likes.length -1].username } </Link>} and {likes.length-2} others
         </div>
         else if( likes.length===2  && exist.length>0)
         return <div className="pull-left"> <i className="fa fa-thumbs-up skyblue"></i>
-        <Link to={"/profile/"+this.props.auth.user.username}> You</Link> and {likes[likes.length-1].username === this.props.auth.user.username?<Link to={"/profile/"+likes[likes.length -2].username}>{likes[likes.length -2].fullName}</Link> :<Link to={"/profile/"+likes[likes.length -1].username}>{likes[likes.length -1].fullName } </Link>}
+        <Link to={"/profile/"+this.props.auth.user.username}> You</Link> and {likes[likes.length-1].username === this.props.auth.user.username?<Link to={"/profile/"+likes[likes.length -2].username}>{likes[likes.length -2].username}</Link> :<Link to={"/profile/"+likes[likes.length -1].username}>{likes[likes.length -1].username } </Link>}
         </div>
          else if( likes.length===1  && exist.length>0)
          return <div className="pull-left"> <i className="fa fa-thumbs-up skyblue"></i>
@@ -144,17 +143,17 @@ import classnames from "classnames"
          </div>
            else if( likes.length===1 && exist.length===0)
            return <div className="pull-left"> <i className="fa fa-thumbs-up skyblue"></i>
-           <Link to={"/profile/"+likes[likes.length-1].username}> {likes[likes.length-1].fullName}</Link> 
+           <Link to={"/profile/"+likes[likes.length-1].username}> {likes[likes.length-1].username}</Link> 
            </div>
             else if( likes.length >1 && exist.length===0)
             return <div className="pull-left"> <i className="fa fa-thumbs-up skyblue"></i>
-            <Link to={"/profile/"+likes[likes.length-1].username}> {likes[likes.length-1].fullName}</Link>  and {likes.length -1} others
+            <Link to={"/profile/"+likes[likes.length-1].username}> {likes[likes.length-1].username}</Link>  and {likes.length -1} others
             </div>
     }
     render(){
         var {item,auth} = this.props
         return(
-            <div>
+            <div style={{fontSize:"0.95em"}}>
                   <div className="" style={{padding:"5px 0px 10px"}} >
                      {this.checkMe(item.likes)} 
                     
@@ -165,7 +164,7 @@ import classnames from "classnames"
                       
                        </div>
                  
-                 <div className="row" style={{padding:"10px 0px",borderTop:"1px solid #e8e8e8",borderBottom:"1px solid #e8e8e8",}}>
+                 <div className="row" style={{padding:"10px 0px 0px",borderTop:"1px solid #e8e8e8"}}>
                      <div className="col-xs-4">
                         {this.likeButton(item)}
                         
@@ -176,28 +175,30 @@ import classnames from "classnames"
                         
                      </div>
                  </div>
+              {this.props.match.params.id?
+              <div style={{marginTop:"10px",borderTop:"1px solid #e8e8e8"}}>
                  {item.comments?
-                    item.comments.slice(-2).map((comment)=>(
+                    item.comments.map((comment)=>(
                         <div className="row" style={{padding:"10px 0px"}}>
                                     
                         <div className="col-xs-1 zero">
-                        <img src={`${comment.userID.dpUrl ||"../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                        <img src={`${comment.userID.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
                             </div>
                             <div className="col-xs-11" style={{background:"#eff1f3",padding:"7px 10px 7px",borderRadius:"30px",marginLeft:"-15px",width:"auto"}}>
-                            <Link to={`/profile/${comment.userID.username}`} style={{color:"#23527c"}}>{comment.userID.fullName}</Link> {comment.description} {this.checkLikeComment(comment.likes)}
+                            <Link to={`/profile/${comment.userID.username}`} style={{color:"#23527c"}}>{comment.userID.username}</Link> {comment.description} {this.checkLikeComment(comment.likes)}
                             </div>
                             <div className="col-sm-1"></div>
                             <div className="col-sm-11  "><small className="" style={{color:"grey",paddingLeft:'35px'}}>
                             {this.likeCommentLink(item,comment,comment.likes)} <Link to="#" style={{paddingLeft:"10px"}} onClick={(e)=>this.setReply(e,item._id,comment._id)}> Reply </Link>- {moment(comment.date).fromNow()}</small>
                             {comment.reply?
-                    comment.reply.slice(-2).map((reply)=>(
+                    comment.reply.map((reply)=>(
                             <div className="row" style={{padding:"10px 0px 0px 20px"}}>
                                     
                                     <div className="col-xs-1 zero">
-                                    <img src={`${reply.userID.dpUrl ||"../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                                    <img src={`${reply.userID.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
                                         </div>
                                         <div className="col-xs-11" style={{background:"#eff1f3",padding:"7px 10px 7px",borderRadius:"30px",marginLeft:"-15px",width:"auto"}}>
-                                        <Link to={`/profile/${reply.userID.username}`} style={{color:"#23527c"}}>{reply.userID.fullName}</Link> {reply.description} 
+                                        <Link to={`/profile/${reply.userID.username}`} style={{color:"#23527c"}}>{reply.userID.username}</Link> {reply.description} 
                                         </div>
                                         <div className="col-sm-1"></div>
                                         <div className="col-sm-11  "><small className="" style={{color:"grey",paddingLeft:'25px'}}>
@@ -207,7 +208,7 @@ import classnames from "classnames"
                    {this.state.reply.postID === item._id&& this.state.reply.commentID===comment._id && this.state.reply.display?
                    <div className="row" style={{borderTop:"1px solid #e8e8e8",paddingTop:"10px",paddingLeft:"20px"}}>
                    <div className="col-xs-1 zero">
-                      <img src={`${item.dpUrl ||"../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                      <img src={`${item.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
                    </div>
                    <form onSubmit={(e)=>{e.preventDefault();  this.postReplyComment(item._id,comment._id)}}>
                    <div className="col-xs-11 " >
@@ -222,10 +223,10 @@ import classnames from "classnames"
                     ))
                  
                 :null}
-                       <div className="row" style={{borderTop:"1px solid #e8e8e8",paddingTop:"10px"}}>
+                       <div className="row" style={{paddingTop:"10px"}}>
                    
                    <div className="col-xs-1 zero">
-                      <img src={`${item.dpUrl ||"../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                      <img src={`${item.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
                    </div>
                    <form onSubmit={(e)=>{e.preventDefault();  this.postComment(item)}}>
                 
@@ -241,6 +242,76 @@ import classnames from "classnames"
                    </form>
                        
                    </div>
+                   </div>:null}
+                   {this.props.match.path==="/"||this.props.match.path==="/trending"? 
+              <div style={{marginTop:"10px",borderTop:"1px solid #e8e8e8"}}>
+                 {item.comments?
+                    item.comments.slice(-2).map((comment)=>(
+                        <div className="row" style={{padding:"10px 0px"}}>
+                                    
+                        <div className="col-xs-1 zero">
+                        <img src={`${comment.userID.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                            </div>
+                            <div className="col-xs-11" style={{background:"#eff1f3",padding:"7px 10px 7px",borderRadius:"30px",marginLeft:"-15px",width:"auto"}}>
+                            <Link to={`/profile/${comment.userID.username}`} style={{color:"#23527c"}}>{comment.userID.username}</Link> {comment.description} {this.checkLikeComment(comment.likes)}
+                            </div>
+                            <div className="col-sm-1"></div>
+                            <div className="col-sm-11  "><small className="" style={{color:"grey",paddingLeft:'35px'}}>
+                            {this.likeCommentLink(item,comment,comment.likes)} <Link to="#" style={{paddingLeft:"10px"}} onClick={(e)=>this.setReply(e,item._id,comment._id)}> Reply </Link>- {moment(comment.date).fromNow()}</small>
+                            {comment.reply?
+                    comment.reply.slice(-1).map((reply)=>(
+                            <div className="row" style={{padding:"10px 0px 0px 20px"}}>
+                                    
+                                    <div className="col-xs-1 zero">
+                                    <img src={`${reply.userID.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                                        </div>
+                                        <div className="col-xs-11" style={{background:"#eff1f3",padding:"7px 10px 7px",borderRadius:"30px",marginLeft:"-15px",width:"auto"}}>
+                                        <Link to={`/profile/${reply.userID.username}`} style={{color:"#23527c"}}>{reply.userID.username}</Link> {reply.description} 
+                                        </div>
+                                        <div className="col-sm-1"></div>
+                                        <div className="col-sm-11  "><small className="" style={{color:"grey",paddingLeft:'25px'}}>
+                                         {moment(reply.date).fromNow()}</small>
+                            </div></div> 
+                    )):null}         
+                   {this.state.reply.postID === item._id&& this.state.reply.commentID===comment._id && this.state.reply.display?
+                   <div className="row" style={{borderTop:"1px solid #e8e8e8",paddingTop:"10px",paddingLeft:"20px"}}>
+                   <div className="col-xs-1 zero">
+                      <img src={`${item.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                   </div>
+                   <form onSubmit={(e)=>{e.preventDefault();  this.postReplyComment(item._id,comment._id)}}>
+                   <div className="col-xs-11 " >
+                       <input type="text" name="text" onChange={(e)=>this.typingReply(e,item._id,comment._id)} placeholder="reply..." className="form-control description" style={{borderRadius:"30px",marginLeft:"-15px"}} />
+                       </div>
+                   </form>
+                       
+                   </div>:null}
+                            </div>
+                           
+                        </div>
+                    ))
+                 
+                :null}
+                       <div className="row" style={{paddingTop:"10px"}}>
+                   
+                   <div className="col-xs-1 zero">
+                      <img src={`${item.dpUrl ||"../../../../images/genu.jpg"}`} style={{width:"30px",borderRadius:"100%"}} alt="img" />
+                   </div>
+                   <form onSubmit={(e)=>{e.preventDefault();  this.postComment(item)}}>
+                
+                   <div className="col-xs-10 zero" >
+                       <input type="text" name="description" onChange={(e)=>this.typing(e,item)} placeholder="say something..." className="form-control description" style={{borderRadius:"30px",marginLeft:"-15px"}} />
+                       
+                       </div>
+                       <div className="col-xs-1 " style={{paddingTop:"10px"}}>
+                       
+                      <Link to="#" type="submit" onClick={(e)=>{e.preventDefault();  this.postComment(item)}}> <i className="fa fa-send"></i> </Link>
+                       
+                       </div>
+                   </form>
+                       
+                   </div>
+                   </div>:null}
+                 
             </div>
         )
     }

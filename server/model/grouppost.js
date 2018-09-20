@@ -1,16 +1,19 @@
 var mongoose = require('../config/mongoose');
 
 var postSchema = mongoose.Schema({
-    userID: {type:String, ref:"users"},
     username:String,
-    content:[
-    {
-    type: {type:String },
+    userID:{type:mongoose.SchemaTypes.ObjectId,ref:"users"},
+    groupID:{type:mongoose.SchemaTypes.ObjectId,ref:"group"},
+    type: {type:String},
     imgUrl: String,
     videoUrl: String,
     description:String,
+    section: String,
+    fp: {
+        type:Boolean,
+        default:false
+    },
     date: {type:Date,default:Date.now},
-    userID:{type:mongoose.SchemaTypes.ObjectId,ref:"users"},
     views: {
         type: Number,
         default: 0
@@ -36,14 +39,17 @@ var postSchema = mongoose.Schema({
     likes:[
         {type:mongoose.SchemaTypes.ObjectId, ref:"users" }
     ]
-
-}],
-    privacy: {
-        type: String,
-        default: "public"
+    ,
+    followers:[
+        {type:mongoose.SchemaTypes.ObjectId, ref:"users" }
+    ],
+    flag:{
+        users:Number,
+        userID:[mongoose.SchemaTypes.ObjectId]
     }
+
 });
 
-var post = mongoose.model('post', postSchema);
-module.exports = post;
+var Grouppost = mongoose.model('groupposts', postSchema);
+module.exports = Grouppost;
 

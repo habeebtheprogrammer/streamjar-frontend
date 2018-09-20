@@ -6,7 +6,7 @@ var Newsletter = require('../model/newsletter');
 var Message = require("../model/message")
 var Picture = require('../model/pictures');
 var Groupchat= require("../model/groupchat")
-var Post = require('../model/post');
+var Grouppost = require('../model/grouppost');
 var Video = require('../model/videos');
 var Friends = require('../model/friends');
 var Groups = require('../model/groups');
@@ -326,11 +326,50 @@ router.post("/api/conversation", (req, res, next) => {
     if (user) res.json({ status: req.body.status }); else res.json({ error: "An error has occured" })
   })
 })
+.post("/api/postGroupDescription", (req, res, next) => {
+  
+  let {description,groupID} = req.body
+  Groups.findOneAndUpdate({ _id: groupID}, { description}).then((success) => {
+    if (success) res.json({ success: true }); else res.json({ error: "An error has occured" })
+  })
+})
   .get("/api/search", (req, res, next) => {
-    var searchText = `${req.query.name}`
-    User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { if (data) res.json({ result: data }) })
-    .catch((err)=>console.log(err))
-
+    var searchText = `${req.query.query}`
+    var result ={}
+    if(req.query.type==="people"||req.query.type==="default"){
+      User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+        result.users = data
+        res.json({result})
+      }).catch((err)=>console.log(err))
+    }
+    else if(req.query.type==="posts"){
+      Sectionpost.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+        result.posts = data
+        res.json({result})
+      }).catch((err)=>console.log(err))
+    }
+    else if(req.query.type==="posts"){
+      Groups.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+        result.groups = data
+        res.json({result})
+      }).catch((err)=>console.log(err))
+    }
+    // User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+    //   if (data) result.users=data;
+    //   Sectionpost.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+    //     if (data) result.posts = data
+    //     Groups.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+    //       if (data) result.groups = data 
+    //       res.json({result})
+    //     })
+    //     .catch((err)=>console.log(err))
+       
+    //    })
+    //   .catch((err)=>console.log(err))
+    // })
+    // .catch((err)=>console.log(err))
+    
+  
   })
   .get("/api/searchGroup", (req, res, next) => {
     var searchText = `${req.query.name}`
@@ -358,25 +397,40 @@ router.post("/api/conversation", (req, res, next) => {
     })
   })
   .get("/api/getTimeline", (req, res, next) => {
-    Post.findOne({username: req.query.username}).populate("content.userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
-    .populate("content.comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
-    .populate("content.likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
-    exec().then((post) => { if(post)res.json({post})
+    Sectionpost.find({username: req.query.username}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+    exec().then((posts) => { if(posts)res.json({posts})
 })
   })
   .get("/api/fetchGroupById", (req, res, next) => {
 
-    Groups.findOne( {title:req.query.id}).populate("creatorID",{fullName:"fullName",department:"department",username:"username",university:"university"})
+    Groups.findById( req.query.id).populate("creatorID",{fullName:"fullName",department:"department",username:"username",university:"university"})
     .populate("members.userID",{fullName:"fullName",department:"department",username:"username",university:"university"}).exec().then((group) => {
       // media.push({pictures})
       if(group)
       res.json({ group:group })
   }).catch((err)=>console.log(err))
   })
-  .get("/api/getNewsFeed", (req, res, next) => {
-    Post.find().populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
-    .populate("content.comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
-    .populate("content.likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+  .get("/api/fetch5Groups", (req, res, next) => {
+    Groups.find().limit(5).then((groups) => {
+      if(groups)
+      res.json({groups})
+  }).catch((err)=>console.log(err))
+  })
+  .get("/api/fetch4Post", (req, res, next) => {
+    Sectionpost.find().sort({date:-1}).limit(2)
+    .populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .exec().then((posts) => {
+      if(posts)
+      res.json({posts})
+  }).catch((err)=>console.log(err))
+  })
+  .get("/api/fetchGroupPostNewsFeed", (req, res, next) => {
+    Grouppost.find({groupID:req.query.id}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => {
      
       res.json({ posts: posts })
@@ -388,18 +442,38 @@ router.post("/api/conversation", (req, res, next) => {
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => {
+      res.json({ posts: posts })
+  })
+  })
+  .get("/api/getSectionHomeFeeds", (req, res, next) => {
+    Sectionpost.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+    exec().then((posts) => {
      
       res.json({ posts: posts })
   })
   })
 
   .get("/api/getSectionFpFeeds", (req, res, next) => {
-    Sectionpost.find({fp:true}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Sectionpost.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.reply.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => {
       res.json({ posts: posts })
+  })
+  })
+  .get("/api/getSectionPostById", (req, res, next) => {
+    Sectionpost.findById(req.query.id).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("comments.reply.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+    exec().then((post) => {
+      if(post){
+        Sectionpost.update({_id:req.query.id},{$inc:{views:+1}}).then((suc)=>console.log(suc))
+        res.json({ post: post })
+      }
   })
   })
   .get("/api/getFriends", (req, res, next) => {
@@ -493,62 +567,157 @@ router.post("/api/conversation", (req, res, next) => {
   }
 } )
 
-  .post("/api/postComment",(req,res,next)=>{
-    let {description,userID,postID,creatorID} = req.body
-    Post.update({userID: creatorID,"content._id":postID},{$addToSet:{"content.$.comments":{
-      description, userID
-    }}
-  }).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
-})
 .post("/api/postReplyComment",(req,res,next)=>{
   let {text,userID,postID,commentID} = req.body
   Sectionpost.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.reply":{
     description:text, userID
   }}
-}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/postGroupReplyComment",(req,res,next)=>{
+  let {text,userID,postID,commentID} = req.body
+  Grouppost.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.reply":{
+    description:text, userID
+  }}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
 .post("/api/postForumComment",(req,res,next)=>{
-  let {description,userID,postID,creatorID} = req.body
-  console.log(postID,userID)
+  let {description,userID,postID} = req.body
   Sectionpost.update({_id:postID},{$addToSet:{"comments":{
     description, userID
   }}
-}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
-.post("/api/likeComment",(req,res,next)=>{
-    let {userID,postID,creatorID,commentID} = req.body
-    Post.update({userID: creatorID,"content._id":postID,"content.comments._id":commentID},{$addToSet:{"content.$.comments.likes":userID
-  }}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
-}) 
+.post("/api/postGroupComment",(req,res,next)=>{
+  let {description,userID,postID} = req.body
+  Grouppost.update({_id:postID},{$addToSet:{"comments":{
+    description, userID
+  }}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
 .post("/api/likeForumComment",(req,res,next)=>{
   let {userID,postID,creatorID,commentID} = req.body
   Sectionpost.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.likes":userID
-}}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 }) 
 .post("/api/unLikeForumComment",(req,res,next)=>{
   let {userID,postID,creatorID,commentID} = req.body
   Sectionpost.update({_id:postID,"comments._id":commentID},{$pull:{"comments.$.likes":userID
-}}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 }) 
-.post("/api/likePost",(req,res,next)=>{
-  let {userID,postID,creatorID} = req.body
-  Post.update({userID: creatorID,"content._id":postID},{$addToSet:{"content.$.likes":userID}
-}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+.post("/api/likeGroupComment",(req,res,next)=>{
+  let {userID,postID,creatorID,commentID} = req.body
+  Grouppost.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.likes":userID
+}}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}) 
+.post("/api/unLikeGroupComment",(req,res,next)=>{
+  let {userID,postID,creatorID,commentID} = req.body
+  Grouppost.update({_id:postID,"comments._id":commentID},{$pull:{"comments.$.likes":userID
+}}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}) 
+.post("/api/followPost",(req,res,next)=>{
+  let {followerID,postID} = req.body
+  Sectionpost.update({"_id":postID},{$addToSet:{"followers":followerID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/followGroupPost",(req,res,next)=>{
+  let {followerID,postID} = req.body
+  Grouppost.update({"_id":postID},{$addToSet:{"followers":followerID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/unFollowPost",(req,res,next)=>{
+  let {followerID,postID} = req.body
+  Sectionpost.update({"_id":postID},{$pull:{"followers":followerID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/unFollowGroupPost",(req,res,next)=>{
+  let {followerID,postID} = req.body
+  Grouppost.update({"_id":postID},{$pull:{"followers":followerID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/flagPost",(req,res,next)=>{
+  let {userID,postID} = req.body
+  Sectionpost.update({"_id":postID},{$addToSet:{"flag.userID":userID},$inc:{"flag.users":+1}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/unFlagPost",(req,res,next)=>{
+  let {userID,postID} = req.body
+  Sectionpost.update({"_id":postID},{$pull:{"flag.userID":userID},$inc:{"flag.users":-1}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.get("/api/getFollowedPost",(req,res,next)=>{
+  let {followerID} = req.query
+  Sectionpost.find({"followers":{$all:followerID}
+}).sort({date:-1})
+
+.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+.then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
+})
+.get("/api/getTrendingPost",(req,res,next)=>{
+  Sectionpost.find().limit(10).sort({views:-1})
+
+.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+.then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
+})
+.get("/api/get3TrendingPost",(req,res,next)=>{
+  Sectionpost.find().limit(3).sort({views:-1})
+
+.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+.then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
+})
+.get("/api/getGroupFollowedPost",(req,res,next)=>{
+  let {followerID} = req.query
+  Grouppost.find({"followers":{$all:followerID}
+}).sort({date:-1})
+
+.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+.then((posts) => { if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
+})
+.get("/api/getCommentedPost",(req,res,next)=>{
+  let {userID} = req.query
+  Sectionpost.find({"comments":{$elemMatch:{userID:userID}}
+}).sort({date:-1})
+.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+    then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
+})
+.get("/api/getLikesPost",(req,res,next)=>{
+  let {userID} = req.query
+  Sectionpost.find({likes:{$all:userID}
+}).sort({date:-1})
+.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+    .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+    then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
 })
 .post("/api/likeForumPost",(req,res,next)=>{
   let {userID,postID,creatorID} = req.body
   Sectionpost.update({userID: creatorID,_id:postID},{$addToSet:{"likes":userID}
-}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
-})
-.post("/api/unLikePost",(req,res,next)=>{
-  let {userID,postID,creatorID} = req.body
-  Post.update({userID: creatorID,"content._id":postID},{$pull:{"content.$.likes":userID}
-}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
 .post("/api/unLikeForumPost",(req,res,next)=>{
   let {userID,postID,creatorID} = req.body
   Sectionpost.update({userID: creatorID,_id:postID},{$pull:{"likes":userID}
-}).then((success) => {console.log(success); if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/likeGroupPost",(req,res,next)=>{
+  let {userID,postID,creatorID} = req.body
+  Grouppost.update({userID: creatorID,_id:postID},{$addToSet:{"likes":userID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/unLikeGroupPost",(req,res,next)=>{
+  let {userID,postID,creatorID} = req.body
+  Grouppost.update({userID: creatorID,_id:postID},{$pull:{"likes":userID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
 .post("/api/createGroup",(req,res,next)=>{
   let userData = jwt.decode(req.body.token)
@@ -558,21 +727,14 @@ router.post("/api/conversation", (req, res, next) => {
   res.json({ success: true })
  } }).catch((err)=>console.log(err))
 })
-.post("/api/postTimeline",(req,res,next)=>{
+.post("/api/postToGroup",(req,res,next)=>{
   let check = jwt.verify(req.body.token,"h1a2b3e4e5b6");
   var token;
   if(check){
      token = jwt.decode(req.body.token);
-     Post.update({userID:req.body.userID},{$addToSet:{content:{description: req.body.description,userID:req.body.userID,type:"text"}}})
-     .then((success)=>{
-       if(!success.nModified){
-        Post.create({userID:req.body.userID,username:req.body.username,content:{description: req.body.description,userID:req.body.userID,type:"text"}})
+        Grouppost.create({userID:req.body.userID,username:req.body.username,description: req.body.description,type:"text",groupID:req.body.groupID})
      .then((done)=>(res.json({success:true})))
     }  else res.json({success:true})
-       }
-     
-     )
-  }
 })
 .post("/api/sectionPost",(req,res,next)=>{
   var {userID,description,section,title,username} = req.body
@@ -633,31 +795,14 @@ router.post("/api/conversation", (req, res, next) => {
           if (result.url) {
             let userData = jwt.decode(fields.token)
             let time = new Date();
-            Grouppost.findOneAndUpdate({groupID:fields.groupID},{$addToSet:{posts:{
-              type: "image",
-              userID: userData.id,
-              imgUrl: result.url,
-              date: time,
-              description: fields.description
-            }}
-          }).then((success) => { 
-            if(success)res.json({ url: result.url, success: true})
-            else{
-              Grouppost.create({groupID:fields.groupID}).then((done)=>{
-                if(done){
-                  Grouppost.findOneAndUpdate({groupID:fields.groupID},{$addToSet:{posts:{
+                  Grouppost.create({groupID:fields.groupID,posts:{
                     type: "image",
                     userID: userData.id,
                     imgUrl: result.url,
                     date: time,
                     description: fields.description
-                  }}
+                  }
                 }).then((succ)=>res.json({ url: result.url, success: true }))
-                }
-              })
-            } 
-          
-          }).catch((err)=>console.log(err))
           } else {
             res.json({ error: "Error uploading the image" }); console.log("error uploading to cloudinary")
           }

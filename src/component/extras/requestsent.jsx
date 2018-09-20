@@ -33,7 +33,7 @@ class Requestsent extends Component {
          <Link to={`/profile/${user.userID.username}`}><img src={user.userID.dpUrl || "../../../../images/avatar.jpg"} alt="" width="100%" /></Link>
          </div>
          <div className="col-sm-9"  style={{padding:"20px 10px"}}>
-         <div><Link to={`/profile/${user.userID.username}`} style={{ textTransform: "capitalize" }}>{user.userID.fullName} </Link></div>
+         <div><Link to={`/profile/${user.userID.username}`} style={{ textTransform: "capitalize" }}>{user.userID.username} </Link></div>
          <div style={{color:"gray",fontSize:"0.9em"}}>department of {user.userID.department} {user.userID.university} </div>
          </div>
      </div>

@@ -26,23 +26,23 @@ componentWillMount() {
         var me = localStorage.getItem("username")
         return (
                    <div className="row" style={{ border:"1px solid #e8e8e8 "}}>
-                <div className="col-sm-12">
-                <div className="profile-bg" style={{background:`url('../../images/${imglist[2]}')`}}>
+                <div className="col-sm-12" style={{paddingLeft:"0px"}}>
+                <div className="profile-bg" style={{background:`url('../../images/${imglist[3]}')`,backgroundPosition:"bottom"}}>
                  <div className="row profile-img">
                  <div className="col-sm-2 zero" style={{border:"1px solid lightgrey"}}>
-                 <img src={`${this.props.user.dpUrl ||'../../../../images/avatar.jpg'}`} width="160px" alt="" />
+                 <img src={`${this.props.user.dpUrl ||'../../../../images/avatar.jpg'}`} width="110px" alt="" />
 
                  </div>
                  <div className="col-sm-9 ">
-                 <p className="profile-name" style={{ textTransform: "capitalize",paddingTop:"50px" }}>
-                 {this.props.user.fullName}
-                 <br />
-                <span>Studying {this.props.user.department} {this.props.user.university}</span>
+                 <p className="profile-name" style={{ textTransform: "capitalize",marginTop:"25px"}}>
+                 <small>{this.props.user.username}</small>
+                 {/* <br /> */}
+                {/* <span>Studying {this.props.user.department} {this.props.user.university}</span> */}
                 {this.props.user.username === me? 
-                <button className="btn danger pull-right " style={{color:"black"}}> {this.state.friends.friends.length}  Friends</button>  
+                <button className="btn danger pull-right btn-sm" style={{color:"black"}}> {this.state.friends.friends.length}  Friends</button>  
 
                 :
-                <button className="btn danger pull-right " style={{color:"black"}}>{this.state.friends.friends.length} Friends</button>  
+                <button className="btn danger pull-right btn-sm" style={{color:"black"}}>{this.state.friends.friends.length} Friends</button>  
                 }
                  </p>
                  </div>

@@ -21,7 +21,7 @@ class Grouppost extends Component{
         var token = localStorage.getItem("kaytoken")
         var dpUrl = localStorage.getItem("dpUrl")
         return(
-            <div className="row white upload" >
+            <div className="row white upload" style={{marginBottom:"0px"}}>
          {this.state.fileName !== "" || this.state.error !== "" ?
             <div className="col-sm-12" style={{border:"1px solid #e8e8e8",padding:"15px"}}> 
              <small className="grey-text pull-right">You have choosen {this.state.fileName} </small> 

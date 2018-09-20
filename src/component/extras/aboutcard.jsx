@@ -23,14 +23,14 @@ componentWillMount() {
                <div className="row content">
                    <div className="col-sm-4 zero left-content">
                        <div> Overview</div>
-                       <div style={{color:"black"}}> Work and Education</div>
+                       <div style={{color:"black"}}> Description</div>
                        <div> Places his lived</div>
                        <div> Basic Contact</div>
                        <div> Life Event</div>
                    </div>
                    <div className="col-sm-8 zero right-content">
                    <div>
-                  <i className="fa fa-graduation-cap"></i> Studies {user.department} at {user.university}
+                   {user.status}
                       </div> 
                        </div>
                </div>

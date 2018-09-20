@@ -33,7 +33,7 @@ class Bgchat extends Component {
                  </div>
                  <div className="col-sm-9 ">
                  <p className="profile-name" style={{ textTransform: "capitalize",paddingTop:"50px" }}>
-                 {this.props.user.fullName}
+                 {this.props.user.username}
                 <br />
                 <span>Studying {this.props.user.department} {this.props.user.university}</span>
                 <button className="btn danger pull-right " style={{color:"black"}}> Friends</button>  

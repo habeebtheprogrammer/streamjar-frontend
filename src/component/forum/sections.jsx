@@ -6,6 +6,12 @@ import moment from "moment"
 import axios from "axios"
 import apiUrl from "../../config"
 import sections from "../extras/sections"
+import shuffle from "shuffle-array"
+import Title from "./titlehead"
+import Forumcomment from "../extras/forumcomment"
+import Navfooter from '../extras/navfooter';
+import Relatedusers from '../extras/relatedusers';
+
 class Section extends Component {
     constructor(props) {
         super(props);
@@ -34,29 +40,12 @@ class Section extends Component {
             this.setState({ user: res.data.user, isLoading: false });else this.setState({empty:true})
         });
     }
-    likePost(post) {
-        let token = localStorage.getItem("kaytoken")
-        axios.post(`${apiUrl}/api/likeForumPost`, { creatorID:post.userID, userID:this.props.auth.user.id, postID:post._id}).then((res) => {
-            if (res.data.success) {
-               window.location.reload();
-            }
-        }).catch((err)=>this.setState({error:"An error has occured"}))
-    
-    }
-    unLikePost(post) {
-        let token = localStorage.getItem("kaytoken")
-        axios.post(`${apiUrl}/api/unLikeForumPost`, { creatorID:post.userID, userID:this.props.auth.user.id, postID:post._id}).then((res) => {
-            if (res.data.success) {
-               window.location.reload();
-            }
-        }).catch((err)=>this.setState({error:"An error has occured"}))
-    
-    }
-    cuttext(text,maxlength){
+  
+    cuttext(text,maxlength,section,id){
         if(text.length > maxlength){
             var newtext = text.slice(0,maxlength);
             newtext += "..."
-            return <div>{newtext} <Link to="#"><small>continue</small></Link></div>
+            return <div>{newtext} <Link to={`/forum/section/${section}/${id}`} style={{color:"black",fontWeight:"bold"}}><small>view post</small></Link></div>
         }else return text
     }
     likeButton(posts){
@@ -66,38 +55,39 @@ class Section extends Component {
      else return  <button type="button" onClick={()=>this.likePost(posts)} className="btn btn-default btn-sm"><b><i className="fa fa-thumbs-o-up"></i> Like</b></button>
  
      }
+     likePost(post) {
+        let token = localStorage.getItem("kaytoken")
+        axios.post(`${apiUrl}/api/likeForumPost`, { creatorID:post.userID, userID:this.props.auth.user.id, postID:post._id}).then((res) => {
+            if (res.data.success) {
+               window.location.reload();
+            }
+        }).catch((err)=>this.setState({error:"An error has occured"}))
+    
+    }
+  
+     unLikePost(post) {
+        let token = localStorage.getItem("kaytoken")
+        axios.post(`${apiUrl}/api/unLikeForumPost`, { creatorID:post.userID, userID:this.props.auth.user.id, postID:post._id}).then((res) => {
+            if (res.data.success) {
+               window.location.reload();
+            }
+        }).catch((err)=>this.setState({error:"An error has occured"}))
+    
+    }
     arrangePost2(posts){
      
         var div =[];
-        posts.map((item)=>{
+        shuffle(posts).slice(0,3).map((item)=>{
                    div.push(
                        <div className="x-post white" >
-                       <div className="">
-                      <div> <div className="image">
-                      <img src={`${item.userID.dpUrl ||"../../images/genu.jpg"}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
-                      </div> <div className="image-text">
-                      <div className="title"><Link to={`/profile/${item.userID.username}`}>{item.userID.fullName}</Link>
-                     <span className="pull-right" style={{cursor:"pointer"}}>
-                     <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i> <i className="fa fa-circle-o" style={{fontSize:"0.7em"}} ></i>   <i className="fa fa-circle-o" style={{fontSize:"0.8em"}}></i>
-                       </span>
-                      </div>
-                      <div style={{color:"grey"}}>{moment(item.date).calendar()}</div>
-                      </div>
-                      
-                      </div>
-         
+                        <Title post={item} auth={this.props.auth}  />
                      <div className="clearfix"></div>
-                     <div className="content">
-                     <p><b>{item.title}</b></p>
-                     {this.cuttext(item.description,200)}
-                   {/* <div className="post-img"><img src={item.imgUrl} /></div> */}
+                     <div className="content" style={{borderTop:"0px",fontSize:"1em"}}>
+                     <p>» <Link to={`/forum/section/${item.section}/${item._id}`}><b>{item.title}</b></Link> </p>
+
                    </div>
-                   {/* <div className="row" style={{padding:"10px 0px 0px",borderTop:"1px solid #e8e8e8"}}>
-                       {this.likeButton(item)}
-                 </div> */}
+
                        </div>
-                       </div>
-                       
                       )
         });
      return div
@@ -108,26 +98,35 @@ class Section extends Component {
             
           
             <div className="col-sm-4">
-            {this.arrangePost2(this.state.posts)}
-
+            {/* <img src="../../../../../images/ads4.jpg" width="100%" alt=""/> */}
+            <div className="wildcard white">
+               <div >
+           <Link to="/forum/post"> <b>Post a story</b>  </Link>
+           <span className="pull-right"> <i className="fa fa-pencil"></i></span>
+            
+            </div>
+            </div>
+            <div className="left-grid white" >
+            <Relatedusers auth={this.props.auth}/>
+            </div>
+            {/* {this.arrangePost2(this.state.posts)} */}
+            <Navfooter />
             </div>
             <div className="col-sm-8" style={{paddingLeft:"0px"}}> 
             
-            <img src="../../images/china.jpg"className="img-responsive" alt="Image" />
+            {/* <img src="../../images/china.jpg"className="img-responsive" alt="Image" /> */}
+                   {/* <div style={{background:"url('../../../../../images/ads3.jpg')",height:"200px",backgroundSize:"cover",backgroundPosition:"center"}} ></div> */}
             
             {sections.map((section)=>(
  <Link to={`${this.props.location.pathname}/${section.url}`}>
- <div className="x-post white changebg" >
+ <div className="x-post white changebg" style={{borderBottom:"0px"}}>
  <div className="">
 <div> <div className="image">
 <img src={`${section.img}`} style={{width:"100%",borderRadius:"100px"}} alt="img" />
 </div> <div className="image-text">
-<div className="title"><Link to={`${this.props.location.pathname}/${section.url}`}>{section.title}</Link>
- {/* <i className="fa fa-check-circle" style={{color:"#337ab7"}}></i> <small>{item.username==="reactpro"?"C.E.O":"Follow"}</small> */}
-
+<div className="title" style={{fontWeight:"normal",paddingTop:"6px"}}><Link to={`/forum/section/${section.url}`}>{section.title}</Link>
 
 </div>
-<div style={{}}>{section.description}</div>
 </div>
 
 </div>

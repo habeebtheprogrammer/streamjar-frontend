@@ -11,7 +11,7 @@ class Groupintro extends Component {
             rloader: true,
             modal:false,
             uploading: false,
-            status:"",
+            description:"",
             error:""
             
         }
@@ -22,8 +22,8 @@ class Groupintro extends Component {
 postStatus(e) {
     e.preventDefault();
     let token = localStorage.getItem("kaytoken")
-    axios.post(`${apiUrl}/api/postGroupStatus`, { "status": this.state.status, "token": token }).then((res) => {
-        if (res.data.status) {
+    axios.post(`${apiUrl}/api/postGroupDescription`, { "description": this.state.description, groupID:this.props.group._id}).then((res) => {
+        if (res.data.success) {
            window.location.reload();
         }
     }).catch((err)=>this.setState({error:"An error has occured"}))
@@ -37,16 +37,16 @@ typing(e) {
     render() {
         return (
             
-            <div className="wildcard white">
-               <div className="title"> <i className="fa fa-globe"></i> Intro  {this.props.group.creatorID._id === this.props.auth.user.id?  <span className="edit-pencil pull-right" onClick={()=>this.setState({modal:true})}> <b><i className="fa fa-pencil"></i></b></span>:null}</div>
+            <div className="wildcard white" style={{margin:"0px"}}> 
+               <div className="title" style={{fontWeight:"bold",textAlign:"center"}}>{this.props.group.title}  {this.props.group.creatorID._id === this.props.auth.user.id?  <span className="edit-pencil pull-right" onClick={()=>this.setState({modal:true})}> <b><i className="fa fa-pencil"></i></b></span>:null}</div>
                     <div className="content" >
                     <center>
-                        {this.props.group.status}
+                        {this.props.group.description}
                     </center>
                     </div>
 
               <div className="content" style={{borderTop:"1px solid #d9d9d9"}}>
-             <div> <div className="icon"><i className="fa fa-home"></i> </div> <div className="icon-text">privacy public</div></div>
+             <div> <div className="icon"><i className="fa fa-home"></i> </div> <div className="icon-text">created by {this.props.group.creatorID.username}</div></div>
              <div> <div className="icon"><i className="fa fa-heart"></i> </div> <div className="icon-text">created on {moment(this.props.group.date).calendar()} </div></div>
              <div> <div className="icon"><i className="fa fa-users"></i> </div> <div className="icon-text">Followed by  {this.props.group.members.length} members</div></div>
              <div className="clearfix"></div>
@@ -64,7 +64,7 @@ typing(e) {
 
                                     </div>
                                     <div className="col-sm-10 zero">
-                                        <textarea name="status" onChange={this.typing}  > What is on your mind?</textarea>
+                                        <textarea name="description" onChange={this.typing}  > What is on your mind?</textarea>
                                     </div>
                               
                                     
