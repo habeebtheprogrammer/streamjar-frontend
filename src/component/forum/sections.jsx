@@ -99,13 +99,13 @@ class Section extends Component {
           
             <div className="col-sm-4">
             {/* <img src="../../../../../images/ads4.jpg" width="100%" alt=""/> */}
-            <div className="wildcard white">
+            {/* <div className="wildcard white">
                <div >
            <Link to="/forum/post"> <b>Post a story</b>  </Link>
            <span className="pull-right"> <i className="fa fa-pencil"></i></span>
             
             </div>
-            </div>
+            </div> */}
             <div className="left-grid white" >
             <Relatedusers auth={this.props.auth}/>
             </div>

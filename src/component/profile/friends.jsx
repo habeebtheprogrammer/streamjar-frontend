@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Intro from "../extras/intro"
+import Intro from "../extras/about"
 import Photos from "../extras/photos"
 import Friendscard from "../extras/friendscard"
 import Requestsent from "../extras/requestsent"

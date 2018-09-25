@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Loading from "../loader"
-import Intro from "../extras/intro"
+import Intro from "../extras/about"
 import Photos from "../extras/photos"
 import moment from "moment"
 import Aboutcard from "../extras/aboutcard"

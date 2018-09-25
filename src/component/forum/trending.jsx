@@ -84,7 +84,7 @@ class Home extends Component {
         var {posts} = this.state
         return (
             <div className="row">
-            <Navtab socket={this.props.socket} match={this.props.match}/>
+            <Navtab auth={this.props.auth} socket={this.props.socket} match={this.props.match}/>
             <div style={{paddingTop:"40px"}}>
                 
             <Sidebar socket={this.props.socket} match={this.props.match}/>
@@ -93,7 +93,7 @@ class Home extends Component {
            
             <div className="row" >
             <div className="col-sm-4">
-            <div className="" style={{position:"fixed",width:"24%",zIndex:"1023"}}>
+            <div className="" style={{position:"fixed",width:"24%",zIndex:"10"}}>
             {/* <img src="../../../../images/ads1.png" width="100%" /> */}
             {/* <div className="wildcard white">
                <div >

@@ -95,16 +95,6 @@ class Sidebar extends Component {
                     </div>
                   
                  
-                  
-                    <div className="sidebar-list">
-                    <Link to="/dashboard/edit" className={classnames(window.location.pathname === "/edit" ? "active" : null)}>
-
-                            <center>
-                                <i className="fa fa-cog"></i>
-                            </center>
-                    </Link>
-
-                    </div>
                     <div className="sidebar-list">
                         <a href="" className="" onClick={this.logout}>
                             <center>

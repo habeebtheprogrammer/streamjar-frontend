@@ -24,11 +24,10 @@ componentWillMount() {
     axios.get(`${apiUrl}/api/getFriends?username=${this.props.auth.user.username}`).then((res1)=>{
         if(res1.data.friends)
          this.setState({friends:res1.data.friends})
-    axios.get(`${apiUrl}/api/getusers`).then((res) => {
+    axios.get(`${apiUrl}/api/get6users`).then((res) => {
         if(res.data.users) 
         {
                     var filter = res.data.users.filter((user)=>user.username !== this.props.auth.user.username);
-                    var alluser=[]; 
                   if(res1.data.friends){
                       filter.map((user)=>{
                           res1.data.friends.list.map((friend)=>{
@@ -54,12 +53,9 @@ componentWillMount() {
 }
 action(member){
     if(member.type==="friend") null;
-   
-    else if(member.type==="sent")
-   return  <button disabled className="btn btn-xs grey-color btn-default pull-right" style={{fontSize:"0.8em"}}><b>
-   <i className="fa fa-user"></i> sent </b></button>
-    else if(member.type==="request")return <button type="button" className="btn grey-color  btn-default btn-xs pull-right" onClick={()=>this.accept(member)} style={{fontSize:"0.8em"}}><i className="fa fa-user"></i>  Accept</button>        
-    else return  <button type="button" onClick={()=>this.sendRequest(member)} className="btn grey-color  btn-default btn-xs pull-right"style={{fontSize:"0.8em"}} ><i className="fa fa-user"></i>  Add friend</button>;
+    else if(member.type==="sent") return  null
+    else if(member.type==="request")return  <button type="button" onClick={()=>this.accept(member)}  className="btn btn-round pull-right" style={{}}><i className="fa fa-user-plus"></i></button>
+    else return   <button type="button" onClick={()=>this.sendRequest(member)}  className="btn btn-round pull-right"><i className="fa fa-plus"></i></button>
 }
 sendRequest(user){
     var {id,username} = this.props.auth.user;

@@ -54,7 +54,7 @@ class Page extends Component {
         return (
             <div className="row">
             <div className="col-sm-4">
-            <div className="" style={{position:"fixed",width:"24%",zIndex:"1023"}}>
+            <div className="" style={{position:"fixed",width:"24%",zIndex:"10"}}>
             {/* <img src="../../../../images/ads1.png" width="100%" /> */}
             {/* <div className="wildcard white">
                <div >

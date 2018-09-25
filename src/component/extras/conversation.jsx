@@ -23,7 +23,7 @@ class Conversation extends Component {
     }
     componentDidMount() {
         var username = localStorage.getItem("username")
-        var {socket} = this.props.socket;
+        var socket = this.props.socket;
          socket.on(`conversation/${username}`, (mesg) => {
              // var allmsg = this.state.mesg.messages;
              this.setState({ allmesg: mesg })
@@ -31,15 +31,19 @@ class Conversation extends Component {
     }
     messages() {
         var div = [];
-        var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
+        if(this.state.allmesg.length===0) div.push(
+            <div className="changebg" style={{padding:"10px 10px",textAlign:"center"}}>
+            No new message
+            </div>
+        )
         this.state.allmesg.map((msg, key) => {
             var length = msg.messages.length;
             var lastmsg=msg.messages[length - 1].text;
             var read = msg.messages[length - 1].receipt;
             div.push(<a className={classnames(this.state.rloader ? "hide" : null, read === "false" ? "unread" : "")} href={`/chat/${ msg.user1 === this.props.auth.user.username ? msg.user2 : msg.user1}`}>
-                <div style={{padding:"5px"}}>
+                <div className="changebg" style={{padding:"10px 10px"}}>
                     <div className="img">
-                        <img src={`../../images/avatar.jpg`} width="70%" className="img-responsive img-rounded" alt="Image" />
+                        <img src={`../../images/avatar.jpg`} width="100%" className="img-responsive img-rounded" alt="Image" />
                     </div>
                     <div className="name">
                         {msg.user1===this.props.auth.user.username?msg.user2:msg.user1}<br />
@@ -61,7 +65,7 @@ class Conversation extends Component {
         // })
         return (
             <div className="">
-                <div style={{ padding: "20px" }} className="">Recent conversation</div>
+                {/* <div style={{ padding: "20px" }} className="">Recent conversation</div> */}
                 {this.state.rloader ? <center style={{ margin: "100px 0px" }}><i className="fa fa-spin fa-spinner"></i></center> : null}
                 {this.messages()}
             </div>

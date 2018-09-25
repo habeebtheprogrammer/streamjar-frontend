@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Intro from "../extras/intro"
+import Intro from "../extras/about"
 import Photos from "../extras/photos"
 import Footer from "../footer/index"
 import Sidebar from "../navbar/sidebar"
@@ -54,10 +54,10 @@ class Home extends Component {
    
     render() { 
         var me = localStorage.getItem("username")
-        
+        console.log(this.props)
         return (
             <div className="row">
-            <Navtab socket={this.props.socket} match={this.props.match}/>
+            <Navtab socket={this.props.socket} match={this.props.match} auth={this.props.auth}/>
             <div style={{paddingTop:"40px"}}>
                 
             <Sidebar match={this.props.match}/>
@@ -69,7 +69,7 @@ class Home extends Component {
                 <Route exact path={`${this.props.match.url}/followed_posts`} render={(props)=><Commentedpost {...this.props} current={props.match}/> } />
                 <Route exact path={`${this.props.match.url}/commented_posts`} render={(props)=><Commentedpost {...this.props} current={props.match}/> } />
                 <Route exact path={`${this.props.match.url}/likes`} render={(props)=><Commentedpost {...this.props} current={props.match}/> } />
-                <Route exact path={`${this.props.match.url}/post`} render={(props)=><Poststory {...this.props} /> } />
+                <Route exact path={`${this.props.match.url}/thread`} render={(props)=><Poststory {...this.props} /> } />
                 <Route exact path={`${this.props.match.url}/section/:id`} render={(props)=><Page {...this.props} current={props.match}/> } />
                 <Route path={`${this.props.match.url}/section/:id/:id`} render={(props)=><Readpost {...this.props} current={props.match}/> } />
                 <Route  path="/" render={(props)=><Frontpage  {...this.props} />} />
@@ -79,7 +79,7 @@ class Home extends Component {
             <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
                     {/* <Relatedusers auth={this.props.auth}/> */}
-                    <Conversation auth={this.props.auth} socket={this.props.socket}/>
+                    {/* <Conversation auth={this.props.auth} socket={this.props.socket}/> */}
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>

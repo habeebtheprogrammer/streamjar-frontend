@@ -13,33 +13,6 @@ class Title extends Component {
         }
         this.option = this.option.bind(this)
     }
-    followPost(postID) {
-        let token = localStorage.getItem("kaytoken")
-        axios.post(`${apiUrl}/api/followPost`, { postID,followerID:this.props.auth.user.id}).then((res) => {
-            if (res.data.success) {
-               window.location.reload();
-            }
-        }).catch((err)=>this.setState({error:"An error has occured"}))
-    
-    }
-    unFollowPost(postID) {
-        let token = localStorage.getItem("kaytoken")
-        axios.post(`${apiUrl}/api/unFollowPost`, { postID,followerID:this.props.auth.user.id}).then((res) => {
-            if (res.data.success) {
-               window.location.reload();
-            }
-        }).catch((err)=>this.setState({error:"An error has occured"}))
-    
-    }
-    flagPost(postID) {
-        let token = localStorage.getItem("kaytoken")
-        axios.post(`${apiUrl}/api/flagPost`, { postID,userID:this.props.auth.user.id}).then((res) => {
-            if (res.data.success) {
-               window.location.reload();
-            }
-        }).catch((err)=>this.setState({error:"An error has occured"}))
-    
-    }
     unFlagPost(postID) {
         let token = localStorage.getItem("kaytoken")
         axios.post(`${apiUrl}/api/unFlagPost`, { postID,userID:this.props.auth.user.id}).then((res) => {
@@ -47,12 +20,6 @@ class Title extends Component {
                window.location.reload();
             }
         }).catch((err)=>this.setState({error:"An error has occured"}))
-    }
-    filterFollowers(post,userID){
-        var exist = post.followers.filter((id)=>id===userID);
-           if(!exist.length) return <p onClick={()=>this.followPost(post)} >Follow post </p> 
-    else return <p onClick={()=>this.unFollowPost(post)} >Unfollow post </p> 
-
     }
     filterFlags(post,userID){
         var exist = post.flag.userID.filter((id)=>id===userID);
@@ -80,7 +47,7 @@ class Title extends Component {
                       <div className="title"><Link to={`/profile/${post.userID.username}`}>{post.userID.username}</Link> 
                       
                       
-                     <div className="pull-right btn btn-default showOptionBtn" onClick={this.option}  style={{cursor:"pointer",padding:"0px"}} >
+                     <div className="pull-right btn btn-default showOptionBtn" onClick={this.option}  style={{cursor:"pointer"}} >
                      <span>
                      <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i> <i className="fa fa-circle-o" style={{fontSize:"0.6em"}} ></i>   <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i>
                       </span>
@@ -88,9 +55,8 @@ class Title extends Component {
                   
                       </div>
                       <div className={classnames("option-menu",this.state.showOption?"":"hide")} style={{fontSize:"0.8em"}}>
-                        {this.filterFollowers(post,this.props.auth.user.id)}
+                        <p>Report user</p>
                         {this.filterFlags(post,this.props.auth.user.id)}
-                        {/* <p><Link to="">Report user </Link> </p> */}
                     </div>
                       <div style={{color:"grey",fontSize:"0.9em"}}>{moment(post.date).calendar()}</div>
                       </div>

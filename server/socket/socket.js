@@ -4,11 +4,11 @@ module.exports = (io)=> {
     let users = new Users
     
 io.on("connection", (socket) => {
-    socket.on("initialize", (id, fullName, dept, username) => {
+    socket.on("initialize", (id, fullName,  username) => {
         var exist = users.getUser(username);
         if(exist.length === 1) return false;
         socket.join('/campusconnect')
-        users.addUser(socket.id, id, fullName, dept, username, '/campusconnect')
+        users.addUser(socket.id, id, fullName,  username, '/campusconnect')
         io.emit("onlineusers", users.userslist)
         socket.broadcast.to('/campusconnect').emit('onlineusers', users.userslist)
     })
@@ -16,6 +16,7 @@ io.on("connection", (socket) => {
         io.emit("onlineusers", users.userslist)
         socket.broadcast.to('/campusconnect').emit('onlineusers', users.userslist)
     })
+    
     socket.on("sendmesg", (party,senderID,suname,receiverID,reuname,text,reference) =>{
         var date = new Date() 
 
@@ -50,15 +51,7 @@ io.on("connection", (socket) => {
             }
         }).catch((err)=>console.log(err))
     })
-    // socket.on("fetchconversation", (username) => {
-    //     var allmesg = []; console.log(username)
-    //     Message.find({ user1: username }).then((mesg) => {
-    //         Message.find({ user2: username }).then((mesg2) => {
-    //             allmesg = mesg.concat(mesg2)
-    //             socket.emit(`conversation/${username}`,allmesg)
-    //         })
-    //     })
-    // })
+    
     socket.on("setRemoteDesc",(remoteuser)=>{
        var pc2 = users.userslist.filter((user)=>user.username === remoteuser.username);
        console.log(`pc is trying to reach  ${remoteuser.username}`)

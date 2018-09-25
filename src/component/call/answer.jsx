@@ -26,7 +26,7 @@ class Answer extends Component {
     }
 
     componentDidMount() {
-        var {socket} = this.props.socket; console.log(this.props.auth.user.username)
+        var socket = this.props.socket; console.log(this.props.auth.user.username)
         window.RTCPeerConnection = window.RTCPeerConnection || window.webkitRTCPeerConnection;
 
             navigator.mediaDevices.getUserMedia({audio:true,video:true}).then((stream)=>
@@ -42,7 +42,7 @@ class Answer extends Component {
   // select  *  from userTable where username in not NULL;
   // usertable
     remoteuser(remotedesc){
-        var {socket} = this.props.socket
+        var socket = this.props.socket
         console.log("remotedesc came in",remotedesc)
         var sturnserver = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]}
         this.pc = new RTCPeerConnection(sturnserver);
@@ -89,7 +89,7 @@ class Answer extends Component {
 
  
     sendRemoteDesc(desc){
-        var {socket} = this.props.socket
+        var socket = this.props.socket
         socket.emit("setCallerRemoteDesc",{username:this.props.match.params.caller,desc:desc})
     }
     addIceCandidate(candidate){
@@ -100,7 +100,7 @@ class Answer extends Component {
          window.close()
      }
     render() {
-        var {socket} = this.props.socket;
+        var socket = this.props.socket;
          socket.on(`setRemoteDesc${this.props.auth.user.username}`,(desc)=>this.remoteuser(desc))
          socket.on(`addIceCandidate${this.props.auth.user.username}`,(candidate)=>this.addIceCandidate(candidate))
        

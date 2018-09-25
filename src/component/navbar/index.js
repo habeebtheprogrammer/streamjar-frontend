@@ -29,7 +29,7 @@ class Navbar extends Component {
                             <img src="../../../../images/admin-logo.png" alt="" />
                         </div> */}
                         <div className="brand-name" >
-                        <Link to="/"><div style={{color:"white"}}>Afrikal<span > <i className="fa fa-opencart"></i>
+                        <Link to="/"><div style={{color:"white"}}>IFlickr<span > <i className="fa fa-opencart"></i>
                                 </span></div></Link>
                             </div>
                     </a>

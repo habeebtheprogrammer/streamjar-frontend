@@ -32,7 +32,6 @@ class Chat extends Component {
     }
   
     render() {
-   
         return (
             <div className="row conversation">
                 {/* <Navbar /> */}
@@ -40,7 +39,7 @@ class Chat extends Component {
                 
                 <div className="col-sm-9 x-right-grid">
 
-                <Navbar user={this.props.auth.user} match={this.props.match} socket={this.props.socket}/>
+                <Navbar user={this.props.auth.user} auth={this.props.auth} match={this.props.match} socket={this.props.socket}/>
                     <div className="row  ">
                         <div className="col-sm-4" style={{paddingRight:"15px"}}>
                         <div className="white left-grid">
@@ -59,7 +58,7 @@ class Chat extends Component {
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 "}}>
                     {/* <Relatedusers auth={this.props.auth}/> */}
-                    <Conversation auth={this.props.auth}  socket={this.props.socket}/>
+                    {/* <Conversation auth={this.props.auth}  socket={this.props.socket}/> */}
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>

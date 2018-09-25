@@ -7,6 +7,7 @@ var Message = require("../model/message")
 var Picture = require('../model/pictures');
 var Groupchat= require("../model/groupchat")
 var Grouppost = require('../model/grouppost');
+var Newsfeed = require('../model/newsfeed');
 var Video = require('../model/videos');
 var Friends = require('../model/friends');
 var Groups = require('../model/groups');
@@ -76,8 +77,7 @@ router.post('/api/login', function (req, res, next) {
         bcrypt.hash(password, 10).then((hash) => {
 
           User.create({
-            username, password:hash, fullName, email, university, department,gender,
-            date: time,
+            username, password:hash, fullName, email,gender
           })
             // newUser.save()
             .then((user) => {
@@ -100,7 +100,7 @@ router.post('/api/login', function (req, res, next) {
                 });
                 // setup email data with unicode symbols
                 let mailOptions = {
-                  from: '"Campus Connect 👻" <info@kampuskonnect.com>', // sender address
+                  from: '"Iflickr 👻" <info@iflickr.com>', // sender address
                   to: `${email}`, // list of receivers
                   subject: 'Account Registration ✔', // Subject line
                   text: 'Hello?', // plain text body
@@ -111,7 +111,7 @@ router.post('/api/login', function (req, res, next) {
                       ]
                     }
                   },
-                  html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Kampus Konnect</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Congratulations! your  account has successfully been Verified</small></p><h2>Logon to your dashboard</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Please click on this button below to login to your dashboard.</small></p><p style="margin: 30px"> <a href="https://kampuskonnect.herokuapp.com/login" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Login </a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto">Tanke | , Ilorin, 224230 | Copyright © 2018 | All rights reserved</div></body>' // html body
+                  html: ' <body style="background:#f7f7f7"><div style="width:90%; background:#fff; margin:10px auto 20px;font-family:Verdana, Geneva, Tahoma, sans-serif"><div style="background:#F4EEE2; padding:10px;color:rgb(248, 150, 166)"><center><h3>Iflickr</h3></center></div><div style="padding:30px"><center><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small>Congratulations! your  account has successfully been Verified</small></p><h2>Please login to continue</h2><p style="font-family:Verdana, Geneva, Tahoma, sans-serif"><small> click the button below to login to your account.</small></p><p style="margin: 30px"> <a href="https://iflickr.herokuapp.com/login" style="font-size:0.9em;text-decoration:none;color:#000;border:1px solid #777;background:transparent;padding:10px 50px;font-family:Verdana"> Login </a></p></center></div><div style="background:#eee;height:2px;margin:10px 0px"></div><div style="padding:40px 20px;font-size:0.7em;color:#bbb"><center>Questions? Get your answers here: <a href="" style="color:blue">Help Center</a></a>.</center></div></div><div style="font-size:0.7em;text-align:center;color:#bbb;width:35%;margin:auto">Tanke | , Ilorin, 224230 | Copyright © 2018 | All rights reserved</div></body>' // html body
                 };
 
                 // send mail with defined transport object
@@ -129,7 +129,6 @@ router.post('/api/login', function (req, res, next) {
                 .then((succ)=>{
                   console.log(succ)
                 }).catch((err)=>console.log(err))
-               
                 res.json({ "success": "Account Created Successfully" })
 
               }
@@ -284,7 +283,14 @@ router.get("/api/getusers", (req, res, next) => {
 
   User.find().then((users) => {
     if (users) {
+      res.json({ users: users })
+    } else (res.json({ empty: "There are no users available" }))
+  }).catch((err) => console.log(err))
+})
+router.get("/api/get6users", (req, res, next) => {
 
+  User.find().limit(6).then((users) => {
+    if (users) {
       res.json({ users: users })
     } else (res.json({ empty: "There are no users available" }))
   }).catch((err) => console.log(err))
@@ -334,24 +340,28 @@ router.post("/api/conversation", (req, res, next) => {
   })
 })
   .get("/api/search", (req, res, next) => {
-    var searchText = `${req.query.query}`
+    var searchText = `${req.query.a||""} ${req.query.b||""} ${req.query.c||""}`
     var result ={}
-    if(req.query.type==="people"||req.query.type==="default"){
-      User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
+    var filter ={};
+    if(req.query.gender) filter.gender=req.query.gender;
+    console.log(req.query,filter)
+
+    if(req.query.type==="people"){
+      User.find({ ...filter,$text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
         result.users = data
-        res.json({result})
+        res.json({result,type:"users"})
       }).catch((err)=>console.log(err))
     }
-    else if(req.query.type==="posts"){
-      Sectionpost.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
-        result.posts = data
-        res.json({result})
+    else if(req.query.type==="thread"){
+      Sectionpost.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).then((data) => { 
+        result.threads = data
+        res.json({result,type:"thread"})
       }).catch((err)=>console.log(err))
     }
-    else if(req.query.type==="posts"){
+    else if(req.query.type==="community"){
       Groups.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
         result.groups = data
-        res.json({result})
+        res.json({result,type:"community"})
       }).catch((err)=>console.log(err))
     }
     // User.find({ $text: { $search: searchText }}, { score: { $meta: 'textScore' } }).sort({ score: { $meta: 'textScore' } }).then((data) => { 
@@ -397,7 +407,7 @@ router.post("/api/conversation", (req, res, next) => {
     })
   })
   .get("/api/getTimeline", (req, res, next) => {
-    Sectionpost.find({username: req.query.username}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Sectionpost.find({username: req.query.username}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => { if(posts)res.json({posts})
@@ -420,7 +430,7 @@ router.post("/api/conversation", (req, res, next) => {
   })
   .get("/api/fetch4Post", (req, res, next) => {
     Sectionpost.find().sort({date:-1}).limit(2)
-    .populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    .populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .exec().then((posts) => {
       if(posts)
@@ -428,7 +438,7 @@ router.post("/api/conversation", (req, res, next) => {
   }).catch((err)=>console.log(err))
   })
   .get("/api/fetchGroupPostNewsFeed", (req, res, next) => {
-    Grouppost.find({groupID:req.query.id}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Grouppost.find({groupID:req.query.id}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => {
@@ -438,7 +448,7 @@ router.post("/api/conversation", (req, res, next) => {
   })
 
   .get("/api/getSectionFeeds", (req, res, next) => {
-    Sectionpost.find({section:req.query.section}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Sectionpost.find({section:req.query.section}).sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => {
@@ -446,7 +456,7 @@ router.post("/api/conversation", (req, res, next) => {
   })
   })
   .get("/api/getSectionHomeFeeds", (req, res, next) => {
-    Sectionpost.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Sectionpost.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     exec().then((posts) => {
@@ -456,7 +466,7 @@ router.post("/api/conversation", (req, res, next) => {
   })
 
   .get("/api/getSectionFpFeeds", (req, res, next) => {
-    Sectionpost.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Sectionpost.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.reply.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
@@ -465,7 +475,7 @@ router.post("/api/conversation", (req, res, next) => {
   })
   })
   .get("/api/getSectionPostById", (req, res, next) => {
-    Sectionpost.findById(req.query.id).populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+    Sectionpost.findById(req.query.id).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.reply.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
@@ -477,7 +487,7 @@ router.post("/api/conversation", (req, res, next) => {
   })
   })
   .get("/api/getFriends", (req, res, next) => {
-    Friends.findOne({username:req.query.username}).populate("list.userID",{fullName:"fullName",username:"username",department:"department",university:"university"}).exec().then((friends)=>{
+    Friends.findOne({username:req.query.username}).populate("list.userID",{fullName:"fullName",username:"username"}).exec().then((friends)=>{
       res.json({friends:friends})
     })
   })
@@ -485,28 +495,28 @@ router.post("/api/conversation", (req, res, next) => {
     var check = jwt.verify(req.body.token,"o1l2a3m4i5d6e");
     if(check){
     var items = jwt.decode(req.body.token);
-    var {id,username, university,department,fullName,gender,
-      rUsername, rID,rFullName, rUniversity,rDepartment,rGender} = items
+    var {id,username,
+      rUsername, rID} = items
     
-    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ list:{type:"sent",userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+    Friends.findOneAndUpdate({userID:id,username:username},{ $addToSet:{ list:{type:"sent",userID:rID,username:rUsername}}})
     .then((succ)=>{ console.log(succ)
       if(!succ){
         Friends.create({userID:id,username:username}).then((done)=>{
           if(done){
-            Friends.update({userID:id,username:username},{ $addToSet:{ list:{type:"sent",userID:rID,fullName:rFullName,department:rDepartment,university:rUniversity,gender:rGender,username:rUsername}}})
+            Friends.update({userID:id,username:username},{ $addToSet:{ list:{type:"sent",userID:rID,username:rUsername}}})
             .then((update)=>{})
           }
         })
       }
     }).catch((err)=>console.log(err))
-    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ list:{type:"request",userID:id,fullName,department,university,gender,username}}})
+    Friends.findOneAndUpdate({username:rUsername,userID:rID},{ $addToSet:{ list:{type:"request",userID:id,username}}})
             .then((succ)=>{ 
               if(succ){
                 res.send({success:true})
               }else{
                 Friends.create({username:rUsername,userID:rID}).then((done)=>{
                   if(done){
-                    Friends.update({username:rUsername,userID:rID},{  $addToSet:{ list:{type:"request",userID:id,fullName,department,university,gender,username}}})
+                    Friends.update({username:rUsername,userID:rID},{  $addToSet:{ list:{type:"request",userID:id,username}}})
                     .then((update)=>{if(update) res.send({success:true})})
                   }
                 })
@@ -574,6 +584,13 @@ router.post("/api/conversation", (req, res, next) => {
   }}
 }).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
+.post("/api/postNfReplyComment",(req,res,next)=>{
+  let {text,userID,postID,commentID} = req.body
+  Newsfeed.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.reply":{
+    description:text, userID
+  }}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
 .post("/api/postGroupReplyComment",(req,res,next)=>{
   let {text,userID,postID,commentID} = req.body
   Grouppost.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.reply":{
@@ -584,6 +601,13 @@ router.post("/api/conversation", (req, res, next) => {
 .post("/api/postForumComment",(req,res,next)=>{
   let {description,userID,postID} = req.body
   Sectionpost.update({_id:postID},{$addToSet:{"comments":{
+    description, userID
+  }}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/postNfComment",(req,res,next)=>{
+  let {description,userID,postID} = req.body
+  Newsfeed.update({_id:postID},{$addToSet:{"comments":{
     description, userID
   }}
 }).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
@@ -600,9 +624,19 @@ router.post("/api/conversation", (req, res, next) => {
   Sectionpost.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.likes":userID
 }}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 }) 
+.post("/api/likeNfComment",(req,res,next)=>{
+  let {userID,postID,creatorID,commentID} = req.body
+  Newsfeed.update({_id:postID,"comments._id":commentID},{$addToSet:{"comments.$.likes":userID
+}}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}) 
 .post("/api/unLikeForumComment",(req,res,next)=>{
   let {userID,postID,creatorID,commentID} = req.body
   Sectionpost.update({_id:postID,"comments._id":commentID},{$pull:{"comments.$.likes":userID
+}}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+}) 
+.post("/api/unLikeNfForumComment",(req,res,next)=>{
+  let {userID,postID,creatorID,commentID} = req.body
+  Newsfeed.update({_id:postID,"comments._id":commentID},{$pull:{"comments.$.likes":userID
 }}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 }) 
 .post("/api/likeGroupComment",(req,res,next)=>{
@@ -645,20 +679,30 @@ router.post("/api/conversation", (req, res, next) => {
   Sectionpost.update({"_id":postID},{$pull:{"flag.userID":userID},$inc:{"flag.users":-1}
 }).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
+.get("/api/getNewsfeed", (req, res, next) => {
+   Newsfeed.find().sort({date:-1}).populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+  .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
+  .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+  populate("comments.reply.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
+  exec().then((posts) => {
+    res.json({ posts: posts })
+})
+})
 .get("/api/getFollowedPost",(req,res,next)=>{
   let {followerID} = req.query
   Sectionpost.find({"followers":{$all:followerID}
 }).sort({date:-1})
 
-.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+.populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
 .then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
 })
+
 .get("/api/getTrendingPost",(req,res,next)=>{
   Sectionpost.find().limit(10).sort({views:-1})
 
-.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+.populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
 .then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
@@ -666,7 +710,7 @@ router.post("/api/conversation", (req, res, next) => {
 .get("/api/get3TrendingPost",(req,res,next)=>{
   Sectionpost.find().limit(3).sort({views:-1})
 
-.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+.populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
 .then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
@@ -676,7 +720,7 @@ router.post("/api/conversation", (req, res, next) => {
   Grouppost.find({"followers":{$all:followerID}
 }).sort({date:-1})
 
-.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+.populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
 .then((posts) => { if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
@@ -685,7 +729,7 @@ router.post("/api/conversation", (req, res, next) => {
   let {userID} = req.query
   Sectionpost.find({"comments":{$elemMatch:{userID:userID}}
 }).sort({date:-1})
-.populate("userID",{fullName:"fullName",username:"username",department:"department",university:"university",dpUrl:"dpUrl"})
+.populate("userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("comments.userID",{fullName:"fullName",username:"username",dpUrl:"dpUrl"})
     .populate("likes",{fullName:"fullName",username:"username",dpUrl:"dpUrl"}).
     then((posts) => {console.log(posts); if(posts)res.json({ posts:posts }) }).catch((err)=>console.log(err))
@@ -707,6 +751,16 @@ router.post("/api/conversation", (req, res, next) => {
 .post("/api/unLikeForumPost",(req,res,next)=>{
   let {userID,postID,creatorID} = req.body
   Sectionpost.update({userID: creatorID,_id:postID},{$pull:{"likes":userID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/likeNfPost",(req,res,next)=>{
+  let {userID,postID,creatorID} = req.body
+  Newsfeed.update({userID: creatorID,_id:postID},{$addToSet:{"likes":userID}
+}).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
+})
+.post("/api/unLikeNfPost",(req,res,next)=>{
+  let {userID,postID,creatorID} = req.body
+  Newsfeed.update({userID: creatorID,_id:postID},{$pull:{"likes":userID}
 }).then((success) => { if(success)res.json({ success: true }) }).catch((err)=>console.log(err))
 })
 .post("/api/likeGroupPost",(req,res,next)=>{
@@ -732,13 +786,21 @@ router.post("/api/conversation", (req, res, next) => {
   var token;
   if(check){
      token = jwt.decode(req.body.token);
-        Grouppost.create({userID:req.body.userID,username:req.body.username,description: req.body.description,type:"text",groupID:req.body.groupID})
+        Grouppost.create({userID:req.body.userID,username:req.body.username,description: req.body.description,groupID:req.body.groupID})
      .then((done)=>(res.json({success:true})))
     }  else res.json({success:true})
 })
+
 .post("/api/sectionPost",(req,res,next)=>{
   var {userID,description,section,title,username} = req.body
      Sectionpost.create({userID,description,type:"sectionpost",title,section,username})
+     .then((success)=>{
+    res.json({success:true})
+  })
+})
+.post("/api/newsfeedPost",(req,res,next)=>{
+  var {userID,description,username} = req.body
+     Newsfeed.create({userID,description,username})
      .then((success)=>{
     res.json({success:true})
   })
@@ -753,35 +815,18 @@ router.post("/api/conversation", (req, res, next) => {
     var newform = new formidable.IncomingForm();
 
     newform.keepExtensions = true;
-    var tmpFile, nFile, result,fsize, cname; var fields2 = {}
     newform.parse(req, (err, fields, files) => {
-     
-      cname = generator.generate({
-        length: 15,
-        numbers: true
-      });
-      cname += ".jpg"
-      Object.assign(fields2, fields)
-      tmpFile = files.dp.path;
-      fsize = files.dp.size;
-      nFile = path.join(__dirname, '..', '..', 'public/images', cname)
-
-    })
-    newform.on("end", function () {
-       if(fsize > 4055021)
-      return res.json({ error: "Image size should not be above 4mb" });
-      var ulimit = fsize/1000000;
-      // fs.rename(tmpFile, nFile, (err) => {
-        cloudinary.uploader.upload(tmpFile, function (result) {
+      
+       if(files.dp.size > 1055021)
+      return res.json({ error: "Image size should not be above 1mb" });
+        
+      cloudinary.uploader.upload(files.dp.path, function (result) {
           if (result.url) {
-            let userData = jwt.decode(fields2.token)
-            var publicid = result.public_id + "." + result.format
-
-            User.findByIdAndUpdate(userData.id, {  $inc: { uploadLimit: +ulimit } , dpUrl: result.url, dpID: publicid, dp2Url: cname }).then((success) => { res.json({ dpUrl: result.url }); })
-          } else {igt 
+            let userData = jwt.decode(fields.token)
+            User.findByIdAndUpdate(userData.id,  {dpUrl: result.url}).then((success) => { res.json({ dpUrl: result.url }); })
+          } else {
             res.json({ error: "Error uploading to cloudinary" }); console.log("error uploading to cloudinary")
           }
-        // }).catch((err) => console.log(err))
       })
     })
   })
@@ -835,30 +880,36 @@ router.post("/api/conversation", (req, res, next) => {
         }); else res.json({ error: "Please choose an image to upload" });
     })
   })
-
-  .post('/api/uploadVideo', (req, res, next) => {
+  .post('/api/createCommunity', (req, res, next) => {
     var newform = new formidable.IncomingForm();
     newform.keepExtensions = true;
-    var fsize
     newform.parse(req, (err, fields, files) => {
-      if (files.video)
-      cloudinary.v2.uploader.upload(files.video.path, { resource_type: "video" }, function (error, result) {
-        if (result) {
-          var ulimit = files.video.size/1000000;
-          let userData = jwt.decode(fields.token)
-          let time = new Date();
-          User.update({ _id: userData.id }, { $inc: { uploadCounter: +ulimit } }).then((succ)=>console.log(succ))
-          Post.findOneAndUpdate({username:userData.username},{$addToSet:{content:{
-            type: "video",
-            videoUrl: result.url,
-            date: time,
-            description: fields.description
-          }}
-        }).then((success) => { if(success)res.json({ url: result.url, success: "uploaded successfully" }) }).catch((err)=>console.log(err))
-        } else {
-          res.json({ error:  "Error uploading file" }); console.log("error uploading to cloudinary")
-        }
-      }); else res.json({ error: "Please choose a file to upload"  });
+      if (files.picture)
+        cloudinary.uploader.upload(files.picture.path, function (result) {
+          if (result.url) {
+            let userData = jwt.decode(fields.token)
+            Groups.create({title:fields.title,creatorID:userData.id,dpUrl:result.url,members:{userID:userData.id,type:"member"}
+          }).then((success) => { if(success)res.json({ url: result.url, success: "created successfully" }) }).catch((err)=>console.log(err))
+          } else {
+            res.json({ error: "Error creating the group" }); console.log("error uploading to cloudinary")
+          }
+        }); else res.json({ error: "Please choose an image to upload" });
+    })
+  })
+  .post('/api/createThread', (req, res, next) => {
+    var newform = new formidable.IncomingForm();
+    newform.keepExtensions = true;
+    newform.parse(req, (err, fields, files) => {
+      if (files.picture)
+        cloudinary.uploader.upload(files.picture.path, function (result) {
+          if (result.url) {
+            let userData = jwt.decode(fields.token)
+            Sectionpost.create({userID:userData.id,title:fields.title,description:fields.description,section:fields.section,type:"sectionpost",username:userData.username,imgUrl:result.url})
+          .then((success) => { if(success)res.json({ url: result.url, success: "created successfully" }) }).catch((err)=>console.log(err))
+          } else {
+            res.json({ error: "Error creating the group" }); console.log("error uploading to cloudinary")
+          }
+        }); else res.json({ error: "Please choose an image to upload" });
     })
   })
 module.exports = router;

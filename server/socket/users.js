@@ -3,10 +3,10 @@ class Users {
     constructor(sockID,mongoID){
        this.userslist = []
     }
-    addUser(sockID, mongoID, fullName, dept,username, room){
+    addUser(sockID, mongoID, fullName,username, room){
         var exist = this.getUser(username);
         if(exist.username) return false;
-        var result = this.userslist.push({sockID,mongoID,fullName,dept,username,room});
+        var result = this.userslist.push({sockID,mongoID,fullName,username,room});
         return result
     }
     getUser(username){

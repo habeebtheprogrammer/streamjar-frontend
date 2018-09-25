@@ -11,16 +11,14 @@ var userSchema = mongoose.Schema({
     password: {
         type: String,
     },
-
-    department: {
-        type: String
-    },
-    university: {
-        type: String,
-    },
     location: {
         type: String,
     },
+    age:{
+        type:String
+    },
+    interest:[String],
+    knowledge:[String],
     gender: {
         type: String,
     },
@@ -42,7 +40,8 @@ var userSchema = mongoose.Schema({
         default: 0
     },
     date: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
     views: {
         type: Number,

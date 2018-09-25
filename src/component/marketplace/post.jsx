@@ -5,7 +5,7 @@ import FileUpload from "react-fileupload"
 import apiUrl from "../../config"
 import axios from "axios"
 import list from "../extras/sections"
-import Intro from "../extras/intro"
+import Intro from "../extras/about"
 import Navfooter from '../extras/navfooter';
 import Trendingwidget from '../extras/trending';
 import Relatedusers from '../extras/relatedusers';

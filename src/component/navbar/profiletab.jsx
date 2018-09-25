@@ -12,7 +12,7 @@ class Profiletab extends Component {
         }
     }
     componentWillMount() {
-        var {socket} = this.props.socket
+        var socket = this.props.socket
         var username; 
         if(this.props.user){
           username= this.props.user.username;
@@ -32,9 +32,8 @@ class Profiletab extends Component {
         
     }
     render() {
-        console.log(this.props)
         var me = localStorage.getItem("username")
-        var {socket} = this.props.socket
+        var socket = this.props.socket
         var username = this.props.user?this.props.user.username : this.state.user.username
         return (
             <div className="profile-tab" style={{paddingLeft:"180px"}}>

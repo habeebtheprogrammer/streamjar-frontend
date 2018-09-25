@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from "../navbar/tab"
 import Footer from "../footer/index"
 import axios from "axios"
 import { Player } from 'video-react';
@@ -14,19 +13,17 @@ import moment from "moment"
 import $ from "jquery"
 import Sidebar from "../navbar/sidebar"
 // import Conversation from "../extras/conversation"
+import classnames from "classnames"
 import socketIOClient from "socket.io-client"
 import Relatedusers from "../extras/relatedusers"
 import Conversation from "../extras/conversation"
 import Onlineusers from "../extras/onlineusers"
-import Bgchat from "../extras/bgchat"
+import Navtab from "../navbar/tab"
 function mapStateToProps(state) {
     return {
         auth: state.auth,
-        profile: state.profile.bioData,
-        media: state.profile.media
     }
 }
-
 
 class Chatpage extends Component {
     constructor(props) {
@@ -36,16 +33,21 @@ class Chatpage extends Component {
             mesg: { messages: [] },
             user: {},
             text: "",
+            online:false,
             empty: false,
             isLoading: true,
-
         }
         this.submit = this.submit.bind(this)
         this.typing = this.typing.bind(this)
     }
     componentWillMount() {
-        var token = localStorage.getItem("jwToken")
+        var socket = this.props.socket;
+        socket.on("onlineusers", (onlineusers) => {
+            var exist = onlineusers.filter((user)=>user.username === this.props.match.params.id)
+            this.setState({ online:exist.length?true:false })
+        })
 
+        var token = localStorage.getItem("jwToken")
         $.getJSON(`${apiUrl}/api/getuserbyid?id=${this.props.match.params.id}`, (res) => {
             if (res.user)
                 this.setState({ user: res.user, isLoading: false }); else this.setState({ empty: true });
@@ -72,7 +74,7 @@ class Chatpage extends Component {
         var suname = this.props.auth.user.username; var runame = this.state.user.username;
         var date = new Date()
         e.preventDefault()
-        var {socket} = this.props.socket;
+        var socket = this.props.socket;
         var party;
         if (moment(this.props.auth.user.regDate).isAfter(this.state.user.date)) {
             party = receiverID + senderID
@@ -83,7 +85,6 @@ class Chatpage extends Component {
         state.messages.push(obj)
         this.setState({ mesg: state }, () => this.scroll())
         socket.emit("fetchconversation", this.props.auth.user.username)
-        
     }
     scroll(){
         var box = $("#chatRow");
@@ -101,31 +102,44 @@ class Chatpage extends Component {
                 mesg.from === this.props.auth.user.id ?
                     <div className="col-sm-12 msg" id="msg">
                         <div className="row " style={{ marginBottom: "10px" }}>
-                            <div className="col-xs-1 dp pull-right">
-                                <img src={this.props.auth.user.dp || "../../../../images/avatar.jpg"} width="140px" className="img-responsive img-rounded" alt="Image" />
-                            </div>
-                            <div className="col-xs-11 zero">
+                            {/* <div className="col-xs-1 dp pull-right">
+                                <img src={this.props.auth.user.dp || "../../../../images/john.jpg"} width="140px" className="img-responsive img-rounded" alt="Image" />
+                            </div> */}
+                            <div className="col-xs-12 zero">
                                 <div className="chat-box pull-right">
-                                    {mesg.text}<br />
-                                    <small style={{ fontSize: "0.8em" }}>{moment(mesg.date).fromNow()}</small>
+                                    {mesg.text}
+                                    {/* <br />
+                                    <small style={{ fontSize: "0.8em" }}>{moment(mesg.date).fromNow()}</small> */}
                                 </div>
+                                
+                                <div className="clearfix">
+                                
+                                </div>
+                                
+                            {/* <div  className="pull-right grey-color"> 
+                                <small style={{ fontSize: "0.8em" }}>{moment(mesg.date).format("lll")}</small> 
+                                </div> */}
+
                             </div>
                         </div>
-
                     </div>
                     :
                     <div className="col-sm-12 msg" id="msg">
                         <div className="row " style={{ marginBottom: "10px" }}>
-                            <div className="col-xs-1 dp">
-                                <img src="../../../images/avatar.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
-                            </div>
+                            {/* <div className="col-xs-1 dp">
+                                <img src="../../../images/genu.jpg" width="140px" className="img-responsive img-rounded" alt="Image" />
+                            </div> */}
 
-                            <div className="col-xs-11 zero">
+                            <div className="col-xs-12 zero">
                                 <div className="chat-box">
-                                    {mesg.text}<br />
-                                    <small style={{ fontSize: "0.8em" }}>{moment(mesg.date).fromNow()}</small>
+                                    {mesg.text}
                                 </div>
-
+                                <div className="clearfix">
+                                
+                                </div>
+                                {/* <div  className="pull-left grey-color"> 
+                                <small style={{ fontSize: "0.8em" }}>{moment(mesg.date).format("lll")}</small> 
+                                </div> */}
                             </div>
                         </div>
 
@@ -146,34 +160,72 @@ class Chatpage extends Component {
         })
         var imglist = ["john.jpg", "sonu.jpg", "genu.jpg", "govinda.jpg"]
         return (
-            <div className="row ">
-                {/* <Navbar /> */}
-                <Sidebar match={this.props.match}/>
+            <div className="row cpage">
+                 <Navtab auth={this.props.auth} socket={this.props.socket} match={this.props.match}/>
+            <div style={{paddingTop:"45px"}}>
                 
-                <div className="col-sm-9 x-right-grid conversation">
+            <Sidebar match={this.props.match}/>
+            <div className="col-sm-9 x-right-grid">
+           
+                <div className="row  " >
+                        <div className="col-sm-3 zero" >
+                        {/* <img src="../../../images/genu.jpg" width="140px" className="img-responsive img-roundeda" alt="Image" /> */}
 
-                <Navbar user={this.state.user}  match={this.props.match}  socket={this.props.socket}/>
-                <div className="row  ">
-                        <div className="col-sm-4" style={{paddingRight:"15px"}}>
-                        <div className="white left-grid">
+                        <div className=" left-grid" style={{background:"#fff"}}>
                                          <Conversation  socket={this.props.socket} auth={this.props.auth} />
                                         </div>
                                     </div>
-                        <div className="col-sm-8 zero" style={{paddingRight:"15px"}}>
-                        <div className="white">
-                                                    {this.matchmesg()}
-                                                        <form onSubmit={this.submit}>
+                        <div className="col-sm-9  zero" style={{borderLeft:"1px solid #e8e8e8"}} >
+                       
+                        <div className="row">
+                        <div style={{position:"fixed",width:"59%",zIndex:"1",height:"100%",background:"#fff"}}>
+                        <div  className="row">
+                            <div className="row white"style={{borderBottom:"1px solid #e8e8e8",padding:"10px 0px"}} >
+                            <div className="col-xs-1">
+                                    <img src="../../../images/genu.jpg" width="50px" className="img-responsive img-rounded" alt="Image" />
+                                </div>
+                            <div className="col-xs-8">
+                            <span style={{fontSize:"1.2em",fontWeight:"bold",textTransform:"uppercase",fontFamily:"avenirBold"}}><Link to={`/profile/${this.state.user.username}`} >{this.props.match.params.id} </Link></span>
+                            <div style={{fontSize:"0.9em"}}><span className={classnames(this.state.online?"online":"offline")}>
+                            <i className="fa fa-circle"></i>
+                            </span> <span style={{fontWeight:"bold",fontFamily:"avenirBold",color:"grey"}}> {this.state.user.status}</span>
+                            </div>
+                            
+                            </div>
+                            
+                            <div className="col-xs-3">
+                            <button type="button"className="btn btn-round pull-right" style={{fontSize:"1.1em",padding:"8px 12px"}}><i className="fa fa-user-plus"></i></button>
+                            <button type="button" onClick={()=>window.location.assign(`/call/${this.state.user.username}`)} className="btn btn-round pull-right" style={{fontSize:"1.1em",padding:"8px 12px",margin:"0px 5px"}}><i className="fa fa-video-camera"></i></button>
+                            </div>
+                            
+    
+                            </div>
+                        </div>
+                        <div id="chatRow"  style={{position:"absolute",height:"74%",overflow:"auto",width:"-webkit-fill-available"}}>        
+                            {this.matchmesg()}
+                        </div>
+                                            <div style={{position:"fixed",bottom:"0",width:"72%"}}>
+                       {/* <input type="text" name="description" onChange={(e)=>this.typing} placeholder="say something..." className="form-control description" style={{borderRadius:"30px",marginLeft:"-15px"}} /> */}
+                       <form onSubmit={this.submit} style={{position:"fixed",bottom:"10px",width:"59%"}}> 
+                       <input type="text" className="search-field chat-input bggrey" onChange={this.typing} placeholder="Type your message" name="text" style={{marginLeft:"0px",height:"70px"}}  />
+                       </form>
+                                                    </div>
+                                                        {/* <form onSubmit={this.submit} style={{position:"fixed",bottom:"10px",width:"inherit"}}>
                                                             <input type="text" className="search-field chat-input" onChange={this.typing} placeholder="Type your message" name="text" id="" style={{ width: "100%" }} />
-                                                        </form>
+                                                        </form> */}
+                            </div>
+                            
+                            <div className="clearfix">
+                            
+                            </div>
+                            
                             </div>
                             </div>
                         </div>
                     </div>
 
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
-                    <div className="col-right white">
-                    {/* <Relatedusers auth={this.props.auth}/> */}
-                    <Conversation auth={this.props.auth}  socket={this.props.socket}/>
+                    <div className="col-right white" style={{borderLeft:"1px solid #e8e8e8"}}>
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>
@@ -188,105 +240,10 @@ class Chatpage extends Component {
                     border:0px;box-shadow:none; 
                     border-top:1px solid #eee;
                 }
-                         input,
-.conversation input[type="text"],
-.input[type="password"],
-input[type="email"],
-input[type="number"],
-textarea{
-    min-height:50px;
-	padding:  20px;
-	outline: none;
-	font-size: 15px;
-	color: #808080;
-	max-width: 100%;
-	width: 100%;
-	box-sizing: border-box;
-	display: block;
-	background-color: #fff;
-	border: none;
-	box-shadow: none;
-	font-weight: 500;
-	opacity: 1;
-	border-radius: 3px;
-}
-
-
-input {
-	-webkit-transition: all 0.1s ease-in-out;
-	-moz-transition: all 0.1s ease-in-out;
-	-o-transition: all 0.1s ease-in-out;
-	-ms-transition: all 0.1s ease-in-out;
-	transition: all 0.1s ease-in-out;
-}
-
-input:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-	color: #808080;
-	transition: box-shadow 0.2s !important;
-	box-shadow: none !important;
-	border: 0px !important;
-	opacity: 1;
-}
-
-input[type="submit"] {
-  border: none;
-  padding: 11px 18px;
-  width: auto;
-}
-
-input[type="checkbox"] { display: inline; }
-
-input[type="radio"] {
-	width: 15px;
-	height: 15px;
-	cursor: pointer;
-	box-shadow: none;
-}
-
-/* Input Placeholder Color */
-::-webkit-input-placeholder { /* WebKit browsers */
-	color: #888;
-	opacity: 1;
-}
-
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-	color: #888;
-	opacity: 1;
-}
-
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-	color: #888;
-	opacity: 1;
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-	color: #888;
-	opacity: 1;
-}
 
                 `}
                 </style>
-
-                {/* <div className="col-xs-12" style={{background:"#fff"}}>
-                            <div style="text-align:center;padding: 15px 0px;font-weight:400">
-                                2017 © Peer to Peer RTC Designed by Habeeb <br />
-                                <button className="btn btn-danger btn-sm btn-round" style="border-radius:100%;box-shadow:0 1px 10px 0 darkgrey;border:none">
-                                    <i className="fa fa-facebook"></i>
-                                </button>
-                                <button className="btn btn-danger btn-sm btn-round" style="border-radius:100%;box-shadow:0 1px 10px 0 darkgrey;border:none">
-                                    <i className="fa fa-instagram"></i>
-                                </button>
-                                <button className="btn btn-danger btn-sm btn-round" style="border-radius:100%; box-shadow:0 1px 10px 0 darkgrey;border:none">
-                                    <i className="fa fa-whatsapp"></i>
-                                </button>
-                            </div>
-                        </div> */}
-                        <Footer />
+            </div>
             </div>
         );
     }

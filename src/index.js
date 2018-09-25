@@ -17,10 +17,9 @@ if (window.localStorage.kaytoken) {
     var socket = socketIOClient(apiUrl);
     var decodedToken = jwt.decode(window.localStorage.kaytoken);
     socket.on("connect",()=>{
-    socket.emit("initialize", decodedToken.id, decodedToken.fullName, decodedToken.department,decodedToken.username)
+    socket.emit("initialize", decodedToken.id, decodedToken.fullName,decodedToken.username)
     })
     store.dispatch(setCurrentUser(decodedToken))
-    console.log(decodedToken)
 }
 var username = window.localStorage.getItem("username")
 if(window.localStorage.kaytoken)

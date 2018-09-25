@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Intro from "../extras/intro"
+import Intro from "../extras/about"
 import Photocard from '../extras/photocard';
 import { Player } from "video-react"
 import Videocard from '../extras/videocard';

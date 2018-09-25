@@ -29,12 +29,12 @@ class Callpage extends Component {
     }
 
     componentWillMount() {
-        var {socket} = this.props.socket;
+        var socket = this.props.socket;
         socket.emit(`callingalert`,{receiver:this.props.match.params.remoteuser,caller:this.props.auth.user.username})
         
     }
     componentDidMount() {
-        var {socket} = this.props.socket;
+        var socket = this.props.socket;
         setInterval(()=>{
             if(this.state.connected){
 
@@ -98,7 +98,7 @@ class Callpage extends Component {
     }
  
     sendRemoteDesc(desc){
-        var {socket} = this.props.socket
+        var socket = this.props.socket
         socket.emit("setRemoteDesc",{username:this.props.match.params.remoteuser,desc:desc})
     }
  

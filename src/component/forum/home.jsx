@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom"
 import axios from "axios"
 import apiUrl from "../../config"
-import Forumcomment from "../extras/forumcomment"
-import Title from "./titlehead"
+import NfComment from "../extras/newsfeedcomment"
+import Title from "./newsfeedhead"
 import Likebutton from "./likebutton"
 import { connect } from "react-redux"
 import Sidebar from "../navbar/sidebar"
@@ -35,7 +35,7 @@ class Home extends Component {
     }
     componentWillMount() {
         var {match} = this.props
-        axios.get(`${apiUrl}/api/getSectionHomeFeeds`).then((res)=>{console.log(res.data)
+        axios.get(`${apiUrl}/api/getNewsfeed`).then((res)=>{console.log(res.data)
            if(res.data.posts) this.setState({posts:res.data.posts})
         })
     }
@@ -57,18 +57,17 @@ class Home extends Component {
      return div
     }
     arrangePost(posts){
-        var img = ["","cropper.jpg","town.jpg","china.jpg","bg.jpg","banner2.jpg","4.jpg","slide3.jpg","slide4.jpg"]
+        var img = ["cropper.jpg","town.jpg","china.jpg","bg.jpg","banner2.jpg","4.jpg","slide3.jpg","slide4.jpg"]
         var div =[];
-        posts.map((post,key)=>{key===0?null:
+        posts.map((post,key)=>{
                    div.push( 
                    <div className="x-post white" style={{marginBottom:"15px"}}>
                    <Title post={post} auth={this.props.auth}/>
                 <div className="content">
-                <p><b>{post.title}</b></p>
                 {this.cuttext(post.description,200,post.section,post._id)}
               {1===1?<div className="post-img"><img src={`../../../../../images/${img[key]}`} /></div>:null}
               </div>
-              <Forumcomment item={post} auth={this.props.auth} match={this.props.match}/>
+              <NfComment item={post} auth={this.props.auth} match={this.props.match}/>
                   </div>
                      
                     )
@@ -86,7 +85,7 @@ class Home extends Component {
         var {posts} = this.state
         return (
             <div className="row">
-            <Navtab socket={this.props.socket} match={this.props.match}/>
+            <Navtab socket={this.props.socket} auth={this.props.auth} match={this.props.match}/>
             <div style={{paddingTop:"40px"}}>
                 
             <Sidebar socket={this.props.socket} match={this.props.match}/>
@@ -95,7 +94,7 @@ class Home extends Component {
            
             <div className="row" >
             <div className="col-sm-4">
-            <div className="" style={{position:"fixed",width:"24%",zIndex:"1023"}}>
+            <div className="" style={{position:"fixed",width:"24%",zIndex:"10"}}>
             {/* <img src="../../../../images/ads1.png" width="100%" /> */}
             {/* {this.arrangePost2(this.state.posts.slice(0,1))} */}
             
@@ -130,7 +129,7 @@ class Home extends Component {
           </div>
             <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
-                    <Conversation auth={this.props.auth} socket={this.props.socket}/>
+                    {/* <Conversation auth={this.props.auth} socket={this.props.socket}/> */}
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>

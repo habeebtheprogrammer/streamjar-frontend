@@ -80,7 +80,7 @@ class Title extends Component {
             <div className="title"><Link to={`/profile/${post.userID.username}`}>{post.userID.username}</Link> 
             
             
-           <div className="pull-right btn btn-default showOptionBtn" onClick={this.option}  style={{cursor:"pointer"}} >
+           <div className="pull-right btn btn-default showOptionBtn" onClick={this.option}  style={{cursor:"pointer",padding:"0px"}} >
            <span>
            <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i> <i className="fa fa-circle-o" style={{fontSize:"0.6em"}} ></i>   <i className="fa fa-circle-o" style={{fontSize:"0.6em"}}></i>
             </span>

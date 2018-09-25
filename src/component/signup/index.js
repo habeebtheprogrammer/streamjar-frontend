@@ -16,8 +16,6 @@ class Signup extends Component {
             username: "",
             fullName: "",
             password: "",
-            university: "",
-            department: "",
             gender: "",
             success:"",
             error:""
@@ -50,9 +48,9 @@ class Signup extends Component {
         // const { username, password, completed, firstName, lastName, email, dob, tos, street, country, membership, city, state, phone, touchbyemail, touchbysms, contactedbynews, contactedbypromotion, contactedbyevent, missathing, importantstuff, donotcontact } = this.state
 
         return (
-            <div className="x-swrapper signup avenir">
+            <div className="x-wrapper signup avenir">
                    <Navbar />
-                <div className="row" className="form-horizontal" style={{ padding: "20px 10px", margin: "0" }}>
+                <div className="row" className="form-horizontal" style={{ padding: "80px 10px 0px", margin: "0" }}>
                     <div className=" col-sm-4 col-sm-offset-4 " style={{ overflow: "hidden" }}>
                         <form onSubmit={this.register}>
                             {/* <div className="row" style={{ padding: "30px 0px" }}>
@@ -81,18 +79,6 @@ class Signup extends Component {
                                 </span>
                             </div>
 
-                            <div className="form-group has-feedback">
-                                <input name="department" type="text" onChange={this.typing}  className="form-control" required="required" placeholder="Department" />
-                                <span className="form-control-feedback">
-                                    <i className="fa fa-user"></i>
-                                </span>
-                            </div>
-                            <div className="form-group has-feedback">
-                                <input type="text" name="university" onChange={this.typing} className="form-control" type="text" required="required" placeholder="University" />
-                                <span className="form-control-feedback">
-                                    <i className="fa fa-envelope"></i>
-                                </span>
-                            </div>
                             <div className="form-group has-feedback">
                                 <select type="text" onChange={this.typing} name="gender" className="form-control" required="required" >
                                     <option >Please select your gender</option>
@@ -124,7 +110,7 @@ class Signup extends Component {
                             </div>
                         </form>
                         <hr />
-                        <center>Already a member?   <Link to="/login" style={{color:"rgb(211, 69, 12)"}}>Log in</Link>
+                        <center >Already a member?   <Link to="/login" style={{color:"rgb(211, 69, 12)"}}>Log in</Link>
                         </center>
                     </div>
 
@@ -132,30 +118,33 @@ class Signup extends Component {
                 <div className="clearfix">
 
                 </div>
-                <div className="container" style={{ paddingTop: "100px" }}>
-                    <span>
-                        Follow us on <button type="button" className="btn btn-default x-sbutton" >
-                            <i className="fa fa-facebook"></i>
-                        </button>  <button type="button" className="btn btn-default x-sbutton" >
-                            <i className="fa fa-twitter"></i>
-                        </button>   <button type="button" className="btn btn-default x-sbutton" >
-                            <i className="fa fa-instagram"></i>
-                        </button>
+                <div className="container" >
+                    <div style={{position:"fixed",bottom:"30px",width:"inherit"}}>
+                        <span>
+                            Follow us on  <button type="button" className="btn btn-default x-sbutton" >
+                                <i className="fa fa-facebook"></i>
+                            </button>    <button type="button" className="btn btn-default x-sbutton" >
+                                <i className="fa fa-twitter"></i>
+                            </button>    <button type="button" className="btn btn-default x-sbutton" >
+                                <i className="fa fa-instagram"></i>
+                            </button>
 
-
-
-                    </span>
-                    <span className="pull-right"> Developed by <span style={{ color: "#D3450C" }}>DEVCON</span>
-                    </span>
+                        </span>
+                        <span className="pull-right"> Developed by <span style={{ color: "#D3450C" }}>DEVCON</span>
+                        
+                        </span>
+                      
+                        </div>
+                    </div>
                     <style>
                         {`
-                        body{
-                            color:#eee;
-                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.1) 80%),url('./images/china.jpg');
-                            min-height:662px;
-                            background-size:cover;
+                        .x-wrapper{
+                            background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.1) 90%),url('./images/china.jpg');min-height:700px;background-size:cover;
                             background-attachment:fixed;
-                            
+                            position:absolute;
+                            width:-webkit-fill-available;
+                            height:100%;
+                            color:#fff;
                         }
                         .x-sbutton{
                             background:transparent; border-radius:100%;color:#fff
@@ -174,7 +163,6 @@ class Signup extends Component {
                        option{color:#555 !important}
                     `}
                     </style>
-                </div>
             </div>
         );
     }

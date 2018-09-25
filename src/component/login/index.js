@@ -131,7 +131,7 @@ class Login extends Component {
 
                 <Navbar />
 
-                    <div className="row" style={{ padding: "40px 10px", margin: "0px" }}>
+                    <div className="row" style={{ padding: "40px 10px 0px", margin: "0px" }}>
                         <div className=" col-sm-4 col-sm-offset-4 bounceInLeft animated" style={{ overflow: "hidden" }}>
 
                             <form onSubmit={this.login} style={{ padding: "0px 0px 130px" }}>
@@ -152,7 +152,7 @@ class Login extends Component {
                                     </div>
 
                                     <div className="col-xs-12 zero" style={{ fontSize: "1.8em" }}>
-                                        <center> {fullName? "Welcome Back "+fullName : "AFRIKAL"}</center>
+                                        <center> {fullName? "Welcome Back "+fullName : "IFLICKR"}</center>
 
                                     </div>
 
@@ -209,14 +209,14 @@ class Login extends Component {
 
 
                                     <h4> Keep in touch with family and friends</h4>
-                                    <p>©2018 All Rights Reserved. Afrikal is a social platform connecting africans</p>
+                                    <p>©2018 All Rights Reserved. IFlick is a social platform providing instant help and instant messaging</p>
                                 </center>
                             </div>
                         </div>
 
                     </div>
                     <div className="container" >
-                    <div style={{margin:"80px 0px"}}>
+                    <div style={{position:"fixed",bottom:"30px",width:"inherit"}}>
                         <span>
                             Follow us on  <button type="button" className="btn btn-default x-sbutton" >
                                 <i className="fa fa-facebook"></i>
@@ -225,8 +225,6 @@ class Login extends Component {
                             </button>    <button type="button" className="btn btn-default x-sbutton" >
                                 <i className="fa fa-instagram"></i>
                             </button>
-
-
 
                         </span>
                         <span className="pull-right"> Developed by <span style={{ color: "#D3450C" }}>DEVCON</span>
@@ -242,6 +240,9 @@ class Login extends Component {
                         .x-wrapper{
                             background:linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(165, 14, 4, 0.1) 90%),url('./images/china.jpg');min-height:700px;background-size:cover;
                             background-attachment:fixed;
+                            position:absolute;
+                            width:inherit;
+                            height:100%;
                         }
                         .x-password{
                             border-left:none; border-radius:0px;margin-left:-3px;

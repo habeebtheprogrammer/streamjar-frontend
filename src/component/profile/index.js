@@ -35,6 +35,7 @@ class Profile extends Component {
         this.state = {
             name: "",
             user: {},
+            userStatus:{type:"friend"},
             empty:false,
             isLoading: true,
             images:[],
@@ -59,17 +60,24 @@ class Profile extends Component {
             this.setState({video,images});
             }
         })
-        axios.get(`${apiUrl}/api/getFriends?username=${this.props.match.params.id}`).then((res)=>{
-           if(res.data.friends)
-            this.setState({friends:res.data.friends})
+        axios.get(`${apiUrl}/api/getFriends?username=${this.props.auth.user.username}`).then((res)=>{
+           var userStatus={},filter=[];
+            if(res.data.friends){
+            if(this.props.match.params.id === username) userStatus.type="me"; else
+            {filter = res.data.friends.list.filter((user)=>user.userID.username === this.props.match.params.id);
+           }
+           console.log(filter,userStatus,username)
+           if(filter.length) userStatus = filter[0]}
+            this.setState({friends:res.data.friends,userStatus})
         })
     }
     render() {
+        console.log(this.state.userStatus)
         var {images,video} =this.state;
         var {friends} = this.state;
         return (
             <div className="row">
-                 <Navtab socket={this.props.socket} match={this.props.match}/>
+                 <Navtab auth={this.props.auth} socket={this.props.socket} match={this.props.match}/>
             <div style={{paddingTop:"40px"}}>
                 
             <Sidebar match={this.props.match}/>
@@ -78,14 +86,8 @@ class Profile extends Component {
            
 <div className="row">
     <div className="col-sm-4 zero" style={{paddingLeft:"15px",paddingRight:"15px"}}>
-    <div className="" style={{position:"fixed",width:"24%",zIndex:"1023"}}>
-    <div className="wildcard white">
-               <div >
-           <Link to="/forum/post"> <b>Post a story</b>  </Link>
-           <span className="pull-right"> <i className="fa fa-pencil"></i></span>
-            
-            </div>
-            </div>
+    <div className="" style={{position:"fixed",width:"24%",zIndex:"10"}}>
+   
             <div className="left-grid white" >
             <Relatedusers auth={this.props.auth}/>
             </div>
@@ -95,9 +97,8 @@ class Profile extends Component {
             </div>  
     </div>
     <div className="col-sm-8 zero" style={{paddingLeft:"0px"}}>
-                <Bgprofile user={this.state.user} socket={this.props.socket}/>
-
-    <Switch>
+                <Bgprofile auth={this.props.auth} user={this.state.user} userStatus={this.state.userStatus} friends={this.state.friends} socket={this.props.socket}/>
+            <Switch>
                 <Route  path={`${this.props.match.url}/about`} render={(props)=><About {...this.props} user={this.state.user} /> } />
                 <Route  path={`${this.props.match.url}/friends`} render={(props)=><Friends {...this.props}  user={this.state.user}  friends={friends} />} />
                 <Private  path={`${this.props.match.url}/friendRequests`} component={Friendrequest} {...this.props} images={images} friends={friends}  user={this.state.user} /> 
@@ -115,7 +116,7 @@ class Profile extends Component {
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
                     {/* <Relatedusers auth={this.props.auth}/> */}
-                    <Conversation auth={this.props.auth} socket={this.props.socket}/>
+                    {/* <Conversation auth={this.props.auth} socket={this.props.socket}/> */}
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>

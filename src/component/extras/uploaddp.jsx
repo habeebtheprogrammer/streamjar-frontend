@@ -3,8 +3,8 @@ import React,{Component} from "react";
 import classnames from "classnames";
 import FileUpload from "react-fileupload"
 import apiUrl from "../../config"
-
-class Postmodal extends Component{
+import axios from "axios"
+class Uploaddp extends Component{
     constructor(props){
         super(props);
         this.state ={
@@ -14,44 +14,26 @@ class Postmodal extends Component{
             success:"",
             fileName:"",
             progress:"",
-        }
+        }    
     }
-
+    componentWillMount() {
+   
+    }
     render(){
         var token = localStorage.getItem("kaytoken")
-        var dpUrl = localStorage.getItem("dpUrl")
         return(
-            <div className="row white upload" style={{marginBottom:"0px"}}>
-         {this.state.fileName !== "" || this.state.error !== "" ?
-            <div className="col-sm-12" style={{border:"1px solid #e8e8e8",padding:"15px"}}> 
-             <small className="grey-text pull-right">You have choosen {this.state.fileName} </small> 
-            <small className="grey-text pull-right"> {this.state.error} </small> 
-
-            </div>:null
-         }
-            <div className="col-sm-12" style={{border:"1px solid #e8e8e8",padding:"15px"}}> 
-                <div className="row">
-                <div className="col-sm-2">
-                <img src={dpUrl||"../../images/avatar.jpg"} width="30px" />
-                </div>
-                <div className="col-sm-10 zero">
-                    <textarea name="description" onChange={this.typing}  >What is on your mind?</textarea>
-                </div>
-                </div>
-            </div>
-        
-            <div className="col-sm-12 reactfileupload" style={{border:"1px solid #e8e8e8",padding:"15px"}}> 
+            <div className="row  upload changedp" style={{}}>
             {this.state.progress !==""?
                 <div><i className="fa fa-spin fa-spinner"></i></div>
             :
             <FileUpload options={{
-                    baseUrl: `${apiUrl}/api/groupImagePost`,
+                    baseUrl: `${apiUrl}/api/uploadDp`,
                     param: {
                         fid: 0
                     },
-                    chooseAndUpload: false,
+                    chooseAndUpload: true,
                     accept: "image/*",
-                    fileFieldName: "picture",
+                    fileFieldName: "dp",
                     uploadSuccess: function (resp) {
                         if (resp.error) this.setState({ error: resp.error, progress: "", fileName: "" })
                         else window.location.reload();
@@ -62,7 +44,7 @@ class Postmodal extends Component{
                    
                     chooseFile: function (files) {
                         if(files[0].size>1250810) {
-                            this.setState({error:"The video size should not exceed 1mb"})
+                            this.setState({error:"The image size should not exceed 1mb"})
                         }else
                         this.setState({ fileName: files[0].name, error: "", success: "" })
                     }.bind(this),
@@ -74,22 +56,16 @@ class Postmodal extends Component{
                         this.setState({ progress: progress.loaded / progress.total, error: "" })
                         console.log("loading...", progress.loaded / progress.total, "%")
                     }.bind(this),
-
-                    paramAddToField: { token: token, groupID:this.props.groupID,  description: this.state.description }
+                    paramAddToField: { token: token}
                 }}>   
             
-           <button  ref="chooseBtn"  className={classnames(this.state.fileName?"hide":"btn btn-default btn-xs")}>Choose image</button>
-           <button ref="uploadBtn" className="btn btn-danger btn-xs pull-right">Post</button> 
-
-            <button  className="btn btn-default btn-xs pull-right" >
-            <i className="fa fa-globe"></i> Public 
-            </button> 
+           <button  ref="chooseAndUpload"  className={classnames(this.state.fileName?"hide":"btn btn-default btn-xs")}><i className="fa fa-camera"></i> Upload</button>
+           
                 </FileUpload>
                 }
      
             </div>
-            </div>
     )
 }
 }
-export default Postmodal
+export default Uploaddp

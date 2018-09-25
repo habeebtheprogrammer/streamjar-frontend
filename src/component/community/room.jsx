@@ -20,7 +20,7 @@ import Loading from "../loader"
 import Relatedusers from "../extras/relatedusers"
 import Conversation from "../extras/conversation"
 import Onlineusers from "../extras/onlineusers"
-import Intro from "../extras/intro"
+import Intro from "../extras/about"
 import Navtab from "../navbar/tab"
 import Media from "./media"
 import Timeline from './timeline';
@@ -37,13 +37,6 @@ import Likebutton from "../forum/likebutton"
 import Bggroup from "../extras/bggroup"
 
 import sections from "../extras/sections"
-function mapStateToProps(state) {
-    return {
-        auth: state.auth
-    }
-}
-
-
 class Room extends Component {
     constructor(props) {
         super(props);
@@ -117,7 +110,7 @@ class Room extends Component {
         var {images,video} =this.state;
         return (
             <div className="row">
-                               <Navtab socket={this.props.socket} match={this.props.match}/>
+                               <Navtab auth={this.props.auth} socket={this.props.socket} match={this.props.match}/>
             <div style={{paddingTop:"40px"}}>
                 
             <Sidebar match={this.props.match}/>
@@ -155,7 +148,7 @@ class Room extends Component {
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
                     {/* <Relatedusers auth={this.props.auth}/> */}
-                    <Conversation auth={this.props.auth} socket={this.props.socket}/>
+                    {/* <Conversation auth={this.props.auth} socket={this.props.socket}/> */}
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>
@@ -181,4 +174,4 @@ class Room extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Room);
+export default Room;

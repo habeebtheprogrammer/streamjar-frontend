@@ -16,7 +16,7 @@ class Privateroute extends Component {
                 <Route path={this.props.path} render={
                     (props) => {
                         if (this.props.auth.isAuthenticated === true) 
-                            return <this.props.component {...props} socket={this.props}/>
+                            return <this.props.component {...props} socket={this.props.socket}/>
                         
                      
                          else 

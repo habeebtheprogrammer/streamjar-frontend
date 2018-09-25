@@ -39,7 +39,7 @@ class Page extends Component {
         var {images,video} =this.state;
         return (
             <div className="row">
-             <Navtab socket={this.props.socket} match={this.props.match}/>
+             <Navtab auth={this.props.auth} socket={this.props.socket} match={this.props.match}/>
             <div style={{paddingTop:"40px"}}>
                 <Sidebar match={this.props.match}/>
                 <div className="col-sm-9 x-right-grid" style={{paddingTop:"15px"}}>
@@ -51,7 +51,7 @@ class Page extends Component {
             </div>
                 <div className=" col-sm-2 zero left-grid hidden-xs ">
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
-                        <Conversation auth={this.props.auth} socket={this.props.socket}/>
+                        {/* <Conversation auth={this.props.auth} socket={this.props.socket}/> */}
                         <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
                     </div>
                 </div>

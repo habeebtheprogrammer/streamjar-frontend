@@ -3,14 +3,49 @@
     src:url('../fonts/Avenir\ LT\ 65\ Medium.ttf');
     
 }
+@font-face{
+    font-family: avenirBold;
+    src:url('../fonts/Avenir LT 95 Black.ttf');
+    
+}
+
 body{
     font-family: HelveticaN;
     background: rgb(237, 241, 245);
     /* background: #fff; */
 }
+a {
+    text-decoration: none !important
+}
 .navbar-inverse{
     background: linear-gradient(to right,#2f323e,#692F2F)
     
+}
+.dpbox .changedp{
+    display: none;
+}
+.dpbox:hover .changedp{
+    display: block
+}
+.changedp:hover{
+    background: rgba(0, 0, 0, 0.4);
+    transition: 0.2s ease-in;
+    -webkit-transition: 0.2s ease-in  ;
+    -moz-transition: 0.2s ease-in  ;
+}
+.changedp{
+    margin-bottom:0px;
+    position:absolute;
+    width:100%;
+    top:0;
+    text-align:center;
+    padding-top:50px;
+    height:108px;
+}
+.block{
+    display: block !important;
+    border-top: 1px solid #e8e8e8;
+    margin-top: 15px;
 }
 .font-xs{
 font-size: 0.9em;
@@ -21,11 +56,12 @@ nav.navbar{
 }
 
 .navsearch-btn{
-    position: absolute;
-    right: 0px;
-    top: 6px;
-    min-width: 50px;
-    padding-top: 5px;
+    /* position: absolute; */
+    /* right: 0px; */
+    /* top: 6px; */
+    /* min-width: 50px; */
+    padding-top: 8px;
+    display: inline-block;
     /* padding-right: 5px; */
     text-align: center;
     height: 33px;
@@ -117,7 +153,7 @@ nav.navbar{
 	opacity: 1;
 	border-radius: 3px;
 }
-.forumupload textarea, .forumupload input,.forumupload select{
+.forumupload textarea, .forumupload input,.forumupload select, input.chat-input{
 	padding:  10px;
 	outline: none;
 	font-size: 1em;
@@ -140,15 +176,16 @@ nav.navbar{
 .upload button, .forumupload button.sendbtn{
     padding-left: 15px ;
     padding-right: 15px;
-    margin-left:10px;
+    /* margin-left:10px; */
 }
 
 .upload textarea:focus,.upload input:focus, .forumupload select:focus {
 	color: #808080;
-	transition: box-shadow 0.2s !important;
+	/* transition: box-shadow 0.2s !important; */
 	box-shadow: none !important;
 	border: 0px !important;
-	opacity: 1;
+    opacity: 1;
+    outline: 0px !important;
 }
  .forumupload select:focus {
     border: 1px solid #e8e8e8 !important;
@@ -169,10 +206,31 @@ cursor: pointer;
 }
 .profile-tab{
     /* min-height: 50px; */
-    padding-left: 100px;
+    /* padding-left: 100px; */
     background: #fff;
     
 }
+.option-menu{
+    background:#fff;
+    position:absolute;
+    z-index: 500;
+    margin-top:0px;
+    cursor: pointer;
+    right:0;
+    font-size: 0.9em;
+    border:1px solid #e8e8e8;
+    /* padding:10px 0px; */
+    min-width: 180px;
+    box-shadow: 0 1px 1px 0 #eee
+}
+.option-menu p{
+   padding: 10px;
+   margin: 0px
+}
+ .option-menu p:hover{
+    background: #f2f3f3;
+ }
+ 
 .showOptionBtn:hover,.showOptionBtn:focus,.showOptionBtn{
 background: none;
 border: none;
@@ -190,6 +248,7 @@ border: none;
 }
 .aboutcard, .friendscard, .photocard{
     margin: 15px 0px;
+    font-size: 0.95em;
     /* padding: 15px; */
     /* font-family: sans-serif; */
    border: 1px solid #e8e8e8;
@@ -206,7 +265,7 @@ border: none;
 
 }
 .aboutcard .content .left-content{
-    padding: 15px 0px;
+    padding: 15px 15px 0px 0px;
    border-right: 1px solid #e8e8e8;
    color: #aaa;
  }
@@ -306,8 +365,8 @@ border: none;
     display: block !important;
 }
 .btn-call{
-    transition: 0.5s ease-in;
-    -moz-transition: 0.5s ease-in;
+    transition: 0.2s ease-in;
+    -moz-transition: 0.2s ease-in;
     background:transparent;
     color: #fff;
     border: none;
@@ -316,7 +375,23 @@ border: none;
     display: inline-block;
     font-size: 1.5em;
     margin: 5px;
-
+}
+.btn-round{
+    transition: 0.1s ease-in;
+    -moz-transition: 0.1s ease-in;
+    background:#e9e8e8;
+    color: black;
+    border: none;
+    border-radius: 100%;
+    padding: 6px 10px;  
+    display: inline-block;
+    font-size: 0.9em;
+}
+.btn-round:hover{
+    transition: 0.1s ease-in;
+    -moz-transition: 0.1s ease-in;
+    background: indianred;
+    color: white
 }
 .btn-custom{
     background: linear-gradient(to right,#2f323e,#692F2F);
@@ -423,10 +498,10 @@ a{
     
 }
 .unread{
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 .unread>div{
-    background: #ddd;
+    /* background: #ddd; */
 }
 .page-start .full-grid input.form-control{
     border: none !important;
@@ -484,10 +559,10 @@ z-index: 1024;
     background:transparent;font-size:3em;padding:20px 30px
 }
 .left-grid a .img{
-float:left;width:20%
+float:left;width:13%
 }
 .left-grid a .name{
-float:left; padding:0px 
+float:left; padding-left:10px; width: 87%;
 }
 .busy{
     color:indianred;font-size:0.8em
@@ -509,16 +584,20 @@ float:left; padding:0px
 }
 
 .chat-box{
-    background: #e5f7ff;
+    background: #555;
+    color: #fff;
     border-radius: 5px;
-    padding: 10px 15px;  
+    padding: 5px 15px;  
     display: inline-block;
+    font-size: 0.9em;
 }
 .chat-box2{
     background: #eee;
     border-radius: 5px;
-    padding: 10px 15px;  
+    padding: 5px 15px;  
     display: inline-block;
+    font-size: 0.9em;
+
 }
 .chat-input input{
       -webkit-transition: 0.2s ease-in  ;
@@ -533,7 +612,7 @@ input{
    
 }
  input:focus{
-    letter-spacing: 2px;
+    /* letter-spacing: 2px; */
 	opacity: 1;
     outline: none !important;
     box-shadow: none !important;
@@ -547,12 +626,12 @@ input{
 .page-start .right-grid{
     width:80%
 }
-button:hover{
+/* button:hover{
           -webkit-transition: 0.2s ease-in  ;
     -moz-transition: 0.2s ease-in  ;
     transition: 0.2s ease-in  ; 
     background: #f9fafc !important;
-}
+} */
 button.nohover:hover,button.nohover{
     background: indianred !important;
     border: none;
@@ -561,6 +640,8 @@ button.nohover:hover,button.nohover{
     position: fixed;
     width: inherit;
     background: #fff;
+    height: 100%;
+    border-right: 1px solid #e8e8e8
 }
 .x-sidebar .sidebar-list a{
     font-size: 1.3em;
@@ -570,7 +651,24 @@ button.nohover:hover,button.nohover{
       background: #f7fafc;
       color: #273F72
 }
-
+.tooltips span.tt{
+    color:white;
+    padding:0px 10px;
+    border-radius: 100px;
+    font-size: 0.9em;
+}
+.bgred{
+    background: indianred;
+}
+.bgskyblue{
+    background: skyblue;
+}
+.bggrey{
+    background: grey;
+}
+.bgyellow{
+    background: #F1B00A;
+}
 .x-sidebar a {
     color: #555
 }
@@ -585,6 +683,7 @@ button.nohover:hover,button.nohover{
 .changebg:hover{
     background: #f9fafc;
     /* color:#111; */
+    
     -webkit-transition: 0.1s ease-in  ;
     -moz-transition: 0.1s ease-in  ;
     transition: 0.1s ease-in  ;
