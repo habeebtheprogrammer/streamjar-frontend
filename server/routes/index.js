@@ -346,7 +346,6 @@ router.post("/api/conversation", (req, res, next) => {
   })
 })
 .post("/api/postGroupDescription", (req, res, next) => {
-  
   let {description,groupID} = req.body
   Groups.findOneAndUpdate({ _id: groupID}, { description}).then((success) => {
     if (success) res.json({ success: true }); else res.json({ error: "An error has occured" })
