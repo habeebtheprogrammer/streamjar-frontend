@@ -108,7 +108,7 @@ nav.navbar{
     position: relative;
 }
 .col-right{
-    min-height: 700px;
+    /* min-height: 700px; */
 }
 .x-footer  button{
     border-radius:100%;box-shadow:0 1px 10px 0 darkgrey;border:none;
@@ -363,6 +363,11 @@ border: none;
 .profilepic  div{
     text-align: center;
     display: block !important;
+}
+.setting-up input::placeholder{
+    font-size: 0.9em;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif
 }
 .btn-call{
     transition: 0.2s ease-in;

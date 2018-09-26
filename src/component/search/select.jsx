@@ -124,8 +124,8 @@ select(){
       </form>
    
       <style>{`
-        .css-10nd86i:focus,.css-2o5izw{
-          border:0px;
+       .navbar .css-2o5izw{
+          border:0px !important;
           box-shadow: none !important;
           border: 0px !important;
           opacity: 1;
@@ -134,24 +134,25 @@ select(){
           min-height: 32px !important;
 
         }
-        .css-10nd86i{
+        .navbar   .css-10nd86i{
           position:relative;
           float:left; 
           width:76%;
         }
-        .css-1aya2g8{
+         .css-1aya2g8{
           border:0px;
           background: #f7fafc;
           min-height: 32px !important;
         }
-        .css-1wy0on6 svg{
+         .css-1wy0on6 svg{
           height:10px !important
         }
-        .css-xwjg1b{
+         .css-xwjg1b{
           background:rgb(237, 241, 245);
         }
-        .changerd:hover{
+         .changerd:hover{
           background:indianred !important;
+          border:none;
           color:#fff;
           transition: 0.1s ease-in;
           -moz-transition: 0.1s ease-in;

@@ -13,6 +13,7 @@ import Conversation from "../extras/conversation"
 import Onlineusers from "../extras/onlineusers"
 import Navtab from "../navbar/tab"
 import Navfooter from '../extras/navfooter';
+import Setup from '../extras/settingup';
 
 
 function mapStateToProps(state) {
@@ -82,7 +83,8 @@ class Home extends Component {
         }else return text
     }
     render() { 
-        var {posts} = this.state
+        var {posts} = this.state;
+        var setup = window.localStorage.getItem("setup")
         return (
             <div className="row">
             <Navtab socket={this.props.socket} auth={this.props.auth} match={this.props.match}/>
@@ -127,11 +129,15 @@ class Home extends Component {
         </div>
 
           </div>
-            <div className=" col-sm-2 zero left-grid hidden-xs ">
+            <div className=" col-sm-2 zero left-grid hidden-xs " style={{minHeight:"inherit"}}>
+                   
                     <div className="col-right white" style={{ borderLeft:"1px solid #e8e8e8 ",    position: "fixed",width: "inherit"}}>
-                    {/* <Conversation auth={this.props.auth} socket={this.props.socket}/> */}
+                    {setup?
                     <Onlineusers auth={this.props.auth} socket={this.props.socket}/>
-                    </div>
+                          :<Setup />
+                        }
+                          </div>
+
                 </div>
             <style>
                   {`

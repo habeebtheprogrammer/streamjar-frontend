@@ -332,6 +332,19 @@ router.post("/api/conversation", (req, res, next) => {
     if (user) res.json({ status: req.body.status }); else res.json({ error: "An error has occured" })
   })
 })
+.post("/api/updateProfile", (req, res, next) => {
+  let userData = jwt.decode(req.body.token)
+  var {interest,skillset,languages,knowledge,status} = req.body
+  data = {}
+  if(interest.length) data.interest = interest;
+  if(skillset.length) data.skillset = skillset;
+  if(languages.length) data.languages = languages;
+  if(knowledge.length) data.knowledge = knowledge;
+  if(status) data.languages = status;
+  User.findOneAndUpdate({ _id: userData.id }, { ...data}).then((user) => {
+    if (user) res.json({ success: true }); else res.json({ error: "An error has occured" })
+  })
+})
 .post("/api/postGroupDescription", (req, res, next) => {
   
   let {description,groupID} = req.body

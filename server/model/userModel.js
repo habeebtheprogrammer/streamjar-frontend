@@ -19,6 +19,8 @@ var userSchema = mongoose.Schema({
     },
     interest:[String],
     knowledge:[String],
+    languages:[String],
+    skillset:[String],
     gender: {
         type: String,
     },
@@ -33,11 +35,7 @@ var userSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        trim: true,
-    },
-    uploadCounter:{
-        type: Number,
-        default: 0
+        trim: true
     },
     date: {
         type: Date,
@@ -56,10 +54,7 @@ var userSchema = mongoose.Schema({
     dob: {
         type: String
     },
-      city: {
-        type: String
-    },
-    state: {
+    country: {
         type: String
     },
     privacy:{
