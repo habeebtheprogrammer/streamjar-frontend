@@ -13,7 +13,7 @@ export default class Footer extends Component {
 	<div className="container">
 		<div className="row">
 			<div className="col-md-5 col-sm-6">
-				<img className="footer-logo" src="images/logo.png" alt="" />
+				<img className="footer-logo" src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" />
 				<br /> <br />
 				<p>Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper.</p>
 			</div>

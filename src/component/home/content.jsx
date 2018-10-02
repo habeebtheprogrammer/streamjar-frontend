@@ -155,7 +155,7 @@ export default class Hcontent extends Component {
 		</div>
 		
 		<div className="col-md-8">
-		<Link to="/cities/new_york"  className="img-box" data-background-image={`${process.env.PUBLIC_URL}/images/Manama.jpeg`}>
+		<Link to="/cities/new_york"  className="img-box" data-background-image={`${process.env.PUBLIC_URL}/images/manama.jpeg`}>
 				<div className="img-box-content visible" >
 					<h4>New York </h4>
 					<span>14 Listings</span>
