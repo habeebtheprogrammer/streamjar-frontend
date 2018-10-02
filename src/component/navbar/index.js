@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Sidebar from "./sidebar"
 import { Link } from "react-router-dom"
 import classnames from "classnames"
 import { connect } from "react-redux"
@@ -7,6 +6,7 @@ import { bindActionCreator } from "redux"
 import setAuthorizationToken from "../auth"
 import auth from "../../reducer/index"
 import $ from "jquery"
+import Signinmodal from '../extra/signinmodal';
 function mapStateToProps(state) {
     return {
         auth: state.auth,
@@ -17,58 +17,97 @@ class Navbar extends Component {
     logout() {
         localStorage.removeItem("jwToken");
         setAuthorizationToken(false);
-        var url = window.location.pathname;
         window.location.assign("/")
     }
+
     render() {
         return (
-            <nav className={classnames("navbar  navbar-inverse ", window.location.pathname === "/login" || window.location.pathname === "/"|| window.location.pathname === "/signup" ?"container x-navinverse":null)} role="navigation" >
-                <div className="navbar-header" style={{ marginRight: "0px" }}>
-                    <a className="navbar-brand" href="/">
-                        {/* <div className="brand-logo hidden-xs">
-                            <img src="../../../../images/admin-logo.png" alt="" />
-                        </div> */}
-                        <div className="brand-name" >
-                        <Link to="/"><div style={{color:"white"}}>IFlickr<span > <i className="fa fa-opencart"></i>
-                                </span></div></Link>
-                            </div>
-                    </a>
-                </div>
-                {this.props.auth.isAuthenticated?null:
-                <div className="collapse navbar-collapse navbar-ex1-collapse" style={{ border: "none" }}>
-                    {/* <ul className="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="/login" className="navbar-link" style={{ color: "#fff" }}>
-                                <i className="fa fa-user"></i>
-                                <span> Login</span>
-                        </a>
-                        </li>
-                        <li>
-                            <a href="/signup" className="navbar-link" style={{ color: "#fff" }}>
+<header id="header-container">
+	<div id="header">
+		<div id="nav-container" className="container">
+			<div className="left-side" style={{paddingLeft:"20px"}}>
+				<div id="logo">
+					<a href="/"><img src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="" /></a>
+				</div>
+				<div className="mmenu-trigger">
+					<button className="hamburger hamburger--collapse" type="button">
+						<span className="hamburger-box">
+							<span className="hamburger-inner"></span>
+						</span>
+					</button>
+				</div>
+			</div>
+			<div className="right-side">
+						<nav id="navigation" className="style-1">
+					<ul id="responsive">
+						<li><a href="javascript:;">USD</a>
+							<div className="mega-menu mobile-styles three-columns">
+									<div className="mega-menu-section">
+										<ul>
+											<li className="mega-menu-headline">Suggested Currencies</li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
 
-                                <i className="fa fa-users"></i>
-                                <span> Signup</span>
-                        </a>
-                        </li>
-                    </ul> */}
-                </div>
-                }
-                <style>
-                    {`
-                      .navbar-nav > li > a{
-                        padding-bottom: 15px;
-                        padding-top: 15px;
-                    }
-                    .navbar {
-                        min-height: 50px;
-                    }
-                        .x-navinverse{
-                            background:transparent;border:none; padding:10px
-                        }
-                    
-        `}
-                </style>
-            </nav>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+										</ul>
+									</div>
+		
+									<div className="mega-menu-section">
+										<ul>
+											<li className="mega-menu-headline">Other Currencies</li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											
+										</ul>
+									</div>
+
+									<div className="mega-menu-section">
+										<ul>
+											<li className="mega-menu-headline"> &nbsp;&nbsp;</li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
+											
+										</ul>
+									</div>
+									
+							</div>
+						</li>
+						
+						<li>
+								<Link to="/download">Download App</Link>	
+			                 </li>
+			                 <li>
+								<Link to="/help"> Help</Link>	
+			                 </li>
+							<li>
+								<Link to="/cart" ><i className="sl sl-icon-basket"></i> Cart </Link>	
+			                 </li>
+
+						{this.props.match.path==="/dashboard"?
+								<li><Link to="/dashboard" style={{"padding":"0px 10px"}}><span  className="pull-left"><img src="../../../images/sonu.jpg" width="30px" alt="" style={{"borderRadius":"100%"}}/></span><span className="pull-left" style={{padding:"3px 10px 0px"}}>profile</span> </Link></li>
+						:
+						
+				          <li>
+						
+					         <a href="#sign-in-dialog" className="sign-in popup-with-zoom-anim"><i className="sl sl-icon-login"></i> Sign In</a>
+			             </li>
+						}
+					</ul>
+                                  
+					</nav>
+				
+			</div>
+            <Signinmodal />
+		</div>
+	</div>
+</header>
+
         );
     }
 }

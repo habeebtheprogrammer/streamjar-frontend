@@ -1,45 +1,50 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Login from "./component/login"
-import Signup from "./component/signup"
-import Search from "./component/search"
-import Chat from "./component/chat"
-import Chatpage from "./component/chat/main"
-import Profile from "./component/profile"
+import Home from "./component/home"
+import Activities from "./component/cities/activities"
+import Activity from "./component/cities/activity"
+import Attraction from "./component/attraction"
 import Privateroute from "./container/privateroute"
-import Call from "./component/call"
-import Answer from "./component/call/answer"
-import Newsfeed from "./component/forum/home"
-import Forum from "./component/forum"
-import Trending from "./component/forum/trending"
-import Marketplace from "./component/marketplace"
-import Group from './component/community';
-import Create from './component/community/create';
-import Room from './component/community/room';
-class Main extends Component {
-
+import Download from "./component/extra/download"
+import Dashboard from "./component/dashboard"
+import {loadOne,loadMany} from "./scriptloader"
+class App extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+        }
+    }
+   
+    componentDidMount()  {
+        loadOne(`${process.env.PUBLIC_URL}/scripts/jquery-2.2.0.min.js`,(success)=>{
+            if(success){
+                loadMany([`${process.env.PUBLIC_URL}/scripts/chosen.min.js`,`//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`,`${process.env.PUBLIC_URL}/scripts/slick.min.js`,`${process.env.PUBLIC_URL}/scripts/rangeslider.min.js`,`${process.env.PUBLIC_URL}/scripts/magnific-popup.min.js`,`${process.env.PUBLIC_URL}/scripts/waypoints.min.js`,`${process.env.PUBLIC_URL}/scripts/counterup.min.js`,`${process.env.PUBLIC_URL}/scripts/tooltips.min.js`,`${process.env.PUBLIC_URL}/scripts/custom.js`,`${process.env.PUBLIC_URL}/scripts/index.js` ],()=>console.log("done"))
+            }
+        })
+    }
+    componentDidUpdate() {
+        loadOne(`${process.env.PUBLIC_URL}/scripts/jquery-2.2.0.min.js`,(load)=>{
+            if(load){
+        loadMany([`${process.env.PUBLIC_URL}/scripts/chosen.min.js`,`${process.env.PUBLIC_URL}/scripts/slick.min.js`,`//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`,`${process.env.PUBLIC_URL}/scripts/rangeslider.min.js`,`${process.env.PUBLIC_URL}/scripts/magnific-popup.min.js`,`${process.env.PUBLIC_URL}/scripts/waypoints.min.js`,`${process.env.PUBLIC_URL}/scripts/counterup.min.js`,`${process.env.PUBLIC_URL}/scripts/tooltips.min.js`,`${process.env.PUBLIC_URL}/scripts/index.js`,`${process.env.PUBLIC_URL}/scripts/custom.js` ],()=>console.log("done"))
+            }
+        })
+    }
+  
     render() {
         return (
-            <div className="">
+            <div id="wrapper" className="mm-page mm-slideout">
                 <Switch>
-                    <Route exact path="/login" component={Login} />
-                    <Privateroute exact path="/" socket={this.props.socket} component={Newsfeed} />
-                    <Privateroute exact path="/trending" socket={this.props.socket} component={Trending} />
-                    <Privateroute  path="/forum" socket={this.props.socket} component={Forum} />
-                    <Privateroute  path="/marketplace" socket={this.props.socket} component={Marketplace} />
-                    <Privateroute  path="/community" socket={this.props.socket} component={Group} />
-                    <Privateroute  path="/profile/:id" socket={this.props.socket} component={Profile} />
-                    <Privateroute exact path="/search" socket={this.props.socket} component={Search} />
-                    <Privateroute exact path="/chat" socket={this.props.socket} component={Chat} />
-                    <Privateroute exact path="/chat/:id" socket={this.props.socket} component={Chatpage} />
-                    <Privateroute exact path="/call/:remoteuser" socket={this.props.socket} component={Call} />
-                    <Privateroute exact path="/answer/:caller" socket={this.props.socket} component={Answer} />
-                    <Route exact path="/signup" socket={this.props.socket} component={Signup} />
-                    <Privateroute exact path="*" socket={this.props.socket} component={Forum} />
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/download" component={Download} />
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route exact path="/cities/:id" component={Activities} />
+                    <Route exact path="/cities/:id/:id" component={Activity} />
+                    <Route exact path="/cities/:id/:id/:id" component={Attraction} />
+                    <Route exact path="*" socket={this.props.socket} component={Home} />
                 </Switch>
             </div>
         );
     }
 }
 
-export default Main;
+export default App;

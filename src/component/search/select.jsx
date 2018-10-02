@@ -18,13 +18,11 @@ export default class CreatableInputOnly extends Component{
       inputValue: '',
       value: [],
       showOption:false,
-      showOption2:false,
       showMesg:false,
       type:window.localStorage.getItem("searchSelector")||"people",
       title:"",
     };
     this.option = this.option.bind(this)
-    this.option2 = this.option2.bind(this)
     this.showMesg = this.showMesg.bind(this)
     this.select = this.select.bind(this)
     this.submit=this.submit.bind(this)
@@ -32,9 +30,6 @@ export default class CreatableInputOnly extends Component{
   
   option(){
     this.setState({showOption:!this.state.showOption})
-}
-option2(){
-    this.setState({showOption2:!this.state.showOption2})
 }
 showMesg(){
     this.setState({showMesg:!this.state.showMesg})
@@ -56,8 +51,12 @@ select(){
    if(this.state.type==="people") return <small style={{paddingRight:"10px"}}> People </small>
    else if(this.state.type==="community") return <small style={{paddingRight:"10px"}}> Community </small>
    else if(this.state.type==="thread") return <small style={{paddingRight:"10px"}}> Thread </small>
-   else if(this.state.type==="items") return <small style={{paddingRight:"10px"}}> Marketplace </small>
-    
+   else if(this.state.type==="events") return <small style={{paddingRight:"10px"}}> Events </small>
+   else if(this.state.type==="knowledge") return <small style={{paddingRight:"10px"}}> Knowledge of</small>
+   else if(this.state.type==="interest") return <small style={{paddingRight:"10px"}}> Interested in </small>
+   else if(this.state.type==="skillset") return <small style={{paddingRight:"10px"}}> Skillset </small>
+   else if(this.state.type==="languages") return <small style={{paddingRight:"10px"}}> Languages </small>
+   else if(this.state.type==="marketplace") return <small style={{paddingRight:"10px"}}> Marketplace </small>
 }
   handleChange = (value, actionMeta) => {
     console.group('Value Changed');
@@ -112,11 +111,11 @@ select(){
             <p  onClick={()=>this.setState({type:"people",showOption:false})}>People <span className="pull-right tt  bgred" >32323</span></p>
             <p onClick={()=>this.setState({type:"thread",showOption:false})}>  Thread <span className="pull-right tt bgred bgskyblue" >32323</span> </p>
             <p onClick={()=>this.setState({type:"community",showOption:false})}>  Community <span className="pull-right tt bgyellow" >32323</span></p>
-            <p><Link to="#" onClick={()=>this.setState({type:"events",showOption:false})}> Events <span className="pull-right tt bggrey" >32323</span></Link> </p>
-            <p><Link to="#" onClick={()=>this.setState({type:"items",showOption:false})}> Knowledge of </Link> </p>
-            <p><Link to="#" onClick={()=>this.setState({type:"places",showOption:false})}> Interest </Link> </p>
-            <p><Link to="#" onClick={()=>this.setState({type:"places",showOption:false})}> Skillset </Link> </p>
-            <p><Link to="#" onClick={()=>this.setState({type:"places",showOption:false})}> Marketplace </Link> </p>
+            <p onClick={()=>this.setState({type:"events",showOption:false})}> Events <span className="pull-right tt bggrey" >32323</span> </p>
+            <p onClick={()=>this.setState({type:"knowledge",showOption:false})}> Knowledge of  </p>
+            <p onClick={()=>this.setState({type:"interest",showOption:false})}> Interest  </p>
+            <p onClick={()=>this.setState({type:"skillset",showOption:false})}> Skillset  </p>
+            <p onClick={()=>this.setState({type:"marketplace",showOption:false})}> Marketplace  </p>
         </div>
         <button type="submit" className="btn btn-default pull-right changerd " style={{height:"33px",border:"none",background:"#f7fafc",borderRadius:"0px",borderLeft:"1px solid #e8e8e8"}}>
       <i className="fa fa-search"></i>

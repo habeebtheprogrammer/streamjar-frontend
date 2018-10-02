@@ -1,35 +1,17 @@
 {
-  "name": "kampuskonnect",
-  "description": "Campus social networking web app",
+  "name": "tzoor",
+  "description": "Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper.",
   "version": "1.0.0",
   "engines": {
     "node": "8.9.4"
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "bcrypt": "^1.0.3",
-    "body-parser": "~1.18.2",
     "classnames": "^2.2.5",
-    "cloudinary": "^1.11.0",
-    "cloudinary-react": "^1.0.4",
-    "cookie-parser": "~1.4.3",
-    "cors": "^2.8.4",
-    "debug": "~2.6.9",
-    "dotenv": "^5.0.1",
-    "express": "~4.15.5",
-    "formidable": "^1.1.1",
-    "generate-password": "^1.4.0",
-    "hbs": "^4.0.1",
-    "helmet": "^3.9.0",
     "jquery": "^3.2.1",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.22.2",
-    "mongoose": "^4.13.6",
-    "morgan": "~1.9.0",
-    "nodemailer": "^4.6.4",
-    "querystring": "^0.2.0",
     "react": "^15.6.1",
-    "react-audioplayer": "^0.3.1",
     "react-content-loader": "^3.1.2",
     "react-dom": "^15.6.1",
     "react-fileupload": "^2.4.0",
@@ -39,19 +21,15 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
     "react-select": "^2.0.0",
-    "react-youtube": "^7.6.0",
+    "react-slick": "^0.23.1",
     "redux": "^3.7.2",
-    "shuffle-array": "^1.0.1",
-    "socket.io": "^2.1.1",
-    "socket.io-client": "^2.1.1",
-    "uuid": "^3.1.0",
-    "validator": "^9.4.0",
-    "video-react": "^0.10.4"
+    "shuffle-array": "^1.0.1"
   },
   "scripts": {
-    "start": "node server/app.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "homepage": "localhost"
   }
 }

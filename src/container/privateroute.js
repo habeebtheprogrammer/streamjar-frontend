@@ -10,29 +10,19 @@ class Privateroute extends Component {
     }
 
     render() {
-        console.log(this.props)
         return (
-            <div>
-                <Route path={this.props.path} render={
-                    (props) => {
-                        if (this.props.auth.isAuthenticated === true) 
-                            return <this.props.component {...props} socket={this.props.socket}/>
-                        
-                     
-                         else 
-                           return <Redirect
-                                to={{
-                                    pathname: "/login",
-                                    state: { from: props.location }
-                                }}
-                            />
-                        
-
-                    }
+                <Route 
+                path={this.props.path} 
+                render={(props) => this.props.auth.isAuthenticated === true ?
+                     <this.props.component {...props} socket={this.props.socket}/>
+                      : <Redirect
+                        to={{
+                        pathname: "/login",
+                        state: { from: props.location }
+                        }}
+                        />
                 } />
-            </div>
-        );
-    }
+            )}
 }
 
 export default connect(mapStateToProps)(Privateroute);
