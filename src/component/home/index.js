@@ -10,6 +10,8 @@ import Navbar from '../navbar';
 import Search from './search';
 import Hcontent from './content';
 import Footer from '../footer';
+import Dslider from '../extra/dslider';
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -25,11 +27,14 @@ export default class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div >
             <Navbar match={this.props.match}/>
+
+            <div className="xleft">
             <Search />
             <Hcontent />
             <Footer />
+         </div>
          </div>
         );
     }

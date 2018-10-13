@@ -58,15 +58,12 @@ export default class Activitycontent extends Component{
                     <div id="filters">
                             <ul className="option-set margin-bottom-30">
                                 <li><a href="#filter" className="selected" data-filter="*">All</a></li>
-                                <li><a href="#filter" data-filter=".first-filter">First Filter</a></li>
-                                <li><a href="#filter" data-filter=".second-filter">Second Filter</a></li>
-                                <li><a href="#filter" data-filter=".third-filter">Third Filter</a></li>
-                                <li><a href="#filter" data-filter=".third-filter">Third Filter</a></li>
-                                <li><a href="#filter" data-filter=".third-filter">Third Filter</a></li>
-        
-                                <li><a href="#filter" data-filter=".third-filter">Third Filter</a></li>
-                                <li><a href="#filter" data-filter=".third-filter">Third Filter</a></li>
-                                    <li><a href="#filter" data-filter=".third-filter">Third Filter</a></li>
+                                <li><a href="#filter" data-filter=".first-filter">Crusing</a></li>
+                                <li><a href="#filter" data-filter=".second-filter">Water activites</a></li>
+                                <li><a href="#filter" data-filter=".third-filter">For locals</a></li>
+                                <li><a href="#filter" data-filter=".third-filter">Indoor activities</a></li>
+                                <li><a href="#filter" data-filter=".third-filter">Cultural experience</a></li>
+                                <li><a href="#filter" data-filter=".third-filter">Shopping experince</a></li>
                             </ul>
                             <div className="clearfix"></div>
                         </div>
@@ -77,61 +74,11 @@ export default class Activitycontent extends Component{
         
                         <div className="col-md-6">
         
-                            <div className="layout-switcher" id="viewfilter">
-                                <a href="#view" className="grid active selected" data-filters=".grid-view"><i className="fa fa-th"></i></a>
-                                <a href="#view" className="list active selected" data-filters=".list-view"><i className="fa fa-align-justify"></i></a>
-                            </div>
                         </div>
         
                         <div className="col-md-6">
                             <div className="fullwidth-filters">
-                                
-                                <div className="panel-dropdown wide float-right">
-                                    <a href="#">Price</a>
-                                    <div className="panel-dropdown-content checkboxes">
-        
-                                        <div className="row">
-        
-                                            <input className="distance" type="range" list="tickmarks" min="0" max="100" step="5" value="50" data-title="" />
-        
-        
-                                            <div className="col-md-6">
-                                                <input id="check-a" type="checkbox" name="check" />
-                                                <label for="check-a">0-100</label>
-        
-                                                <input id="check-b" type="checkbox" name="check"/>
-                                                <label for="check-b"> 1000-10000</label>
-        
-                                                
-                                            </div>	
-        
-                                            <div className="col-md-6">
-                                                <input id="check-e" type="checkbox" name="check" />
-                                                <label for="check-e">100-1000</label>
-        
-                                                <input id="check-f" type="checkbox" name="check" />
-                                                <label for="check-f">10000-100000</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="panel-buttons">
-                                            <button className="panel-cancel">Cancel</button>
-                                            <button className="panel-apply">Apply</button>
-                                        </div>
-        
-                                    </div>
-                                </div>
-                            
-                                <div className="panel-dropdown float-right">
-                                    <a href="#">Distance Radius</a>
-                                    <div className="panel-dropdown-content">
-                                        <input className="distance-radius" type="range" min="1" max="100" step="1" value="50" data-title="Radius around selected destination" />
-                                        <div className="panel-buttons">
-                                            <button className="panel-cancel">Disable</button>
-                                            <button className="panel-apply">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <div className="sort-by">
                                     <div className="sort-by-select">
                                         <select data-placeholder="Default order" className="chosen-select-no-single">
@@ -149,33 +96,41 @@ export default class Activitycontent extends Component{
                         </div>
         
                     </div>
+	<section className="fullwidth">
         
         
-                    <div className="row grid-view">
+                    <div className="row ">
         
         
         
                         {activities.map((activity,key)=>(
-                            <div className="col-lg-4 col-md-6 grid-view ">
-                            <Link to={`/cities/${activity.city}/${activity.category}/${activity.title}`} className="listing-item-container compact">
-                                <div className="listing-item">
-                                    <img src={activity.img[key]||"../../../images/new.jpeg"} alt="" />
-                                    {this.checkType(activity)}
-                                    <div className="listing-item-content">
-                                        <div className="numerical-rating" dataRating={this.rating(activity.reviews)}></div>
-                                        <h3>{activity.title}</h3>
-                                        <span>{activity.location}</span>
-                                    </div>
-                                    <span className="like-icon"></span>
-                                </div>
-                            </Link>
+                            <div className="col-lg-4 col-md-6  ">
+                        	<a href={`/city/${activity.city}/${activity.category}/${activity.title}`} className="listing-item-container " >
+						<div className="listing-item">
+							<img className="" src={activity.img[key]} alt="" />
+                            {/* {this.checkType(activity)}
+                            <div className="listing-item-content">
+								<span className="tag">{activity.category}</span>
+							</div> */}
+						</div>
+                        <div className="cardxtra">
+                            <div className="xtitle">{activity.title}</div>
+                            <div className="xreview">
+                            <div className="star-rating" data-rating={this.rating(activity.reviews)}>
+                                <div className="rating-counter"><a href="#listing-reviews">({activity.reviews.length} reviews)</a></div>
+                            </div>
+                            </div>
+                            <div className="xprice">
+                            <span>£ {activity.pricing[0].price} </span>
+                             <small className="pull-right available lightseagreen"> Available now</small></div>
+                        </div>
+					 </a>
                             </div>
                         ))}
                            
         
         
                     </div>
-        
         
                     <div className="row">
                         <div className="col-md-12">
@@ -196,7 +151,7 @@ export default class Activitycontent extends Component{
                     <div className="clearfix"></div>
                     
                     </div>
-        
+                    </section>
                 </div>
         
             </div>

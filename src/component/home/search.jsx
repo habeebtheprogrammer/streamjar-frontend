@@ -30,20 +30,9 @@ export default class Search extends Component {
 
 						<div className="main-search-input-item location">
 							<div id="autocomplete-container">
-								<input id="autocomplete-input" type="text" placeholder="Location" />
+								<input id="autocomplete-input" type="text" placeholder="Search" />
 							</div>
-							<a href="#"><i className="fa fa-map-marker"></i></a>
-						</div>
-
-						<div className="main-search-input-item">
-							<select data-placeholder="All Categories" className="chosen-select" >
-								<option>All Categories</option>	
-								<option>Shops</option>
-								<option>Hotels</option>
-								<option>Restaurants</option>
-								<option>Fitness</option>
-								<option>Events</option>
-							</select>
+							{/* <a href="#"><i className="fa fa-map-marker"></i></a> */}
 						</div>
 
 						<button className="button" onclick="window.location.href='listings-half-screen-map-list.html'">Search</button>

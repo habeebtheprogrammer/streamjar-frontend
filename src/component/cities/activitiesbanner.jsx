@@ -3,14 +3,21 @@ import {categories} from "../data";
 
 
 export default class Activitiesbanner extends Component{
+    constructor(props){
+        super(props)
+    }
 componentWillMount() {
-    console.log(3)
+    this.navigate=this.navigate.bind(this)
 }
     getimg(){
-        
+        if(this.props.match.params.id){
         var img = categories.filter((cat)=>cat.title===this.props.match.params.id.replace("_"," "));
-        console.log(this.props.match)
         if(img.length) return img[0].img; else return null
+        }
+    }
+    navigate(e){
+        var {params} = this.props.match
+        this.props.history.push(`/city/${params.city}/${e.target.value}`)
     }
     render(){
         return(
@@ -19,17 +26,17 @@ componentWillMount() {
         <div className="g_main g_col1">
             <div className="t_v_mid_box">
                 <div className="t_v_mid">
-                    <h1 className="g_ib g_left t_white" style={{textTransform:"capitalize"}}><b>{this.props.match.params.id.replace("_"," ")}</b></h1>
+                     <h1 className="g_ib g_left t_white" style={{textTransform:"capitalize"}}> <b> {this.props.match.params.id||this.props.match.params.city.replace("_"," ")} </b> </h1> 
                     <div className="g_rel sel_box t16 g_ib ">
 	                    <div className="row with-forms">
-                            <select placeholder="Find An Activity" className="chosen-select">
-                       		<option> <i className="sl sl-icon-globe"></i> Find An Activity </option>
-								<option> <i className="sl sl-icon-globe"></i> Shops</option>
-								<option> <i className="sl sl-icon-globe"></i> Hotels</option>
-								<option> <i className="sl sl-icon-globe"></i> Restaurants</option>
-								<option> <i className="sl sl-icon-globe"></i> Fitness</option>
-								<option> <i className="sl sl-icon-globe"></i> Events</option>
-									<option> <i className="sl sl-icon-globe"></i> Sports</option>
+                            <select  className="chosen-selectd" onChange={this.navigate}>
+                       		<option>  Find An Activity </option>
+								<option  value="shops">  Shops</option>
+								<option value="hotels">  Hotels</option>
+								<option value="restaurants">  Restaurants</option>
+								<option value="fitness">  Fitness</option>
+								<option value="events">  Events</option>
+									<option>  Sports</option>
 							</select>
                        </div>
 

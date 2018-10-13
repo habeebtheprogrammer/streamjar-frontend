@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom"
+import Customscript from "../extra/custom"
+import Modal from "react-responsive-modal"
+import Signinmodal from "../extra/signinmodal"
+import $ from "jquery"
 export default class Footer extends Component {
     constructor() {
         super();
         this.state = {
+			modal:false
+
     }
-    }
+	}
+	componentDidMount() {
+		Customscript();
+	}
+	switch(){
+		if($("body").hasClass("rtl")) {
+			$("body").removeClass('rtl')
+		}
+		else{
+			$("body").addClass('rtl')
+
+		}
+	}
     render() {
         return (
             <div>
-                <div id="footer" className="light">
+                <div id="footer" className="light xfooter" >
 	<div className="container">
 		<div className="row">
 			<div className="col-md-5 col-sm-6">
@@ -21,14 +39,13 @@ export default class Footer extends Component {
 			<div className="col-md-4 col-sm-6 ">
 				<h4>Helpful Links</h4>
 				<ul className="footer-links">
-					<li><a href="#sign-in-dialog" className="sign-in popup-with-zoom-anim"> Login </a></li>
-					<li><a href="#sign-in-dialog" className="sign-in popup-with-zoom-anim"> Sign up</a></li>
+					<li><a href="#sign-in-dialog" onClick={()=>this.setState({modal:!this.state.modal})} className="sign-in "> Login </a></li>
+					<li><a href="#sign-in-dialog" onClick={()=>this.setState({modal:!this.state.modal})} className="sign-in "> Sign up</a></li>
+					<li><a href="#" onClick={this.switch} > Switch rtl/ltr </a></li>
 					<li><Link to="/dashboard">My Account</Link></li>
-					{/* <li><a href="/privacy">Privacy Policy</a></li> */}
-					<li className="gtranslate" style={{padding:"0px 0px 0px 20px"}}>
+					{/* <li className="gtranslate" style={{padding:"0px 0px 0px 20px"}}>
 						<div id="google_translate_element"></div>
-
-					</li>
+					</li> */}
 				</ul>
 
 				{/* <ul className="footer-links">
@@ -66,7 +83,10 @@ export default class Footer extends Component {
 		</div>
 
 	</div>
-
+{this.state.modal === true?
+	<Modal showCloseIcon={false} open={this.state.modal} onClose={() => this.setState({ modal: false })} classNames={{ modal: "signinmodal" }} little>
+		<Signinmodal />
+	</Modal>:null}
 </div>
 <div id="backtotop"><a href="#"></a></div>
 <style>{`

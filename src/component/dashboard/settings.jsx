@@ -70,12 +70,13 @@ export default class Settings extends Component {
 
         <div className="row with-forms">
 
-            <div className="col-md-12">
+            <div className="col-md-12 gtranslate">
                 <h5>Default Language</h5>
-                <select className="chosen-select-no-single" >
+						<div id="google_translate_element"></div>
+                {/* <select className="chosen-select-no-single" >
                     <option label="blank">English</option>	
                     <option>Bahasa Indonesia</option>
-                </select>
+                </select> */}
             </div>
 
 

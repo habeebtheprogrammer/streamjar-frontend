@@ -1,19 +1,28 @@
 /* ------------------------------------------------------------------- */
 /* Color #bfa980
 ---------------------------------------------------------------------- */
-div.datedropper:before,
-div.datedropper .pick-submit,
-div.datedropper .pick-lg-b .pick-sl:before,
-div.datedropper .pick-m,
-div.datedropper .pick-lg-h {
-  background-color: #bfa980 !important;
+#booking-date-range span:after,
+.time-slot label:hover span,
+.daterangepicker td.in-range,
+.time-slot input ~ label:hover,
+.booking-estimated-cost span,
+.time-slot label:hover span {
+    color: #bfa980;
 }
 
-div.datedropper .pick-y.pick-jump,
-div.datedropper .pick li span,
-div.datedropper .pick-lg-b .pick-wke,
-div.datedropper .pick-btn {
-  color: #bfa980 !important;
+.daterangepicker td.in-range,
+.time-slot input ~ label:hover {
+    background-color: rgba(191, 169, 128, 0.08);
+}
+
+.daterangepicker .ranges li.active,
+.day-slot-headline,
+.add-slot-btn button:hover,
+.daterangepicker td.available:hover, .daterangepicker th.available:hover,
+.time-slot input:checked ~ label,
+.daterangepicker td.active, .daterangepicker td.active:hover,
+.daterangepicker .drp-buttons button.applyBtn {
+    background-color: #bfa980;
 }
 
 .comment-by-listing a:hover,

@@ -13,9 +13,12 @@ export default class Activity extends Component{
         return(
             <div>
                 <Navbar match={this.props.match}/>
+                <div className="xleft">
+
                 <Banner {...this.props}/>
                 <Activitycontent {...this.props}/>
                 <Footer />
+                </div>
             </div>
         )
     }

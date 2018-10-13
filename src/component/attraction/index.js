@@ -21,10 +21,13 @@ export default class Attraction extends Component {
     }
     render() {
         return (
-            <div className="attractiondiv" id="attractionDIV">
+            <div className="">
             <Navbar match={this.props.match}/>
+
+            <div className="attractiondiv xleft" id="attractionDIV">
             <Attractioncontent {...this.props}/>
             <Footer />
+         </div>
          </div>
         );
     }

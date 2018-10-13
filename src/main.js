@@ -7,27 +7,17 @@ import Attraction from "./component/attraction"
 import Privateroute from "./container/privateroute"
 import Download from "./component/extra/download"
 import Dashboard from "./component/dashboard"
-import {loadOne,loadMany} from "./scriptloader"
+import Book from "./component/book"
+import Cart from "./component/cart"
+import "materialize-css"
+import "./component/extra/custom"
+import Footer from './component/footer';
+import Navbar from './component/navbar';
 class App extends Component {
     constructor(props){
         super(props);
         this.state={
         }
-    }
-   
-    componentDidMount()  {
-        loadOne(`${process.env.PUBLIC_URL}/scripts/jquery-2.2.0.min.js`,(success)=>{
-            if(success){
-                loadMany([`${process.env.PUBLIC_URL}/scripts/chosen.min.js`,`//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`,`${process.env.PUBLIC_URL}/scripts/slick.min.js`,`${process.env.PUBLIC_URL}/scripts/rangeslider.min.js`,`${process.env.PUBLIC_URL}/scripts/magnific-popup.min.js`,`${process.env.PUBLIC_URL}/scripts/waypoints.min.js`,`${process.env.PUBLIC_URL}/scripts/counterup.min.js`,`${process.env.PUBLIC_URL}/scripts/tooltips.min.js`,`${process.env.PUBLIC_URL}/scripts/custom.js`,`${process.env.PUBLIC_URL}/scripts/index.js` ],()=>console.log("done"))
-            }
-        })
-    }
-    componentDidUpdate() {
-        loadOne(`${process.env.PUBLIC_URL}/scripts/jquery-2.2.0.min.js`,(load)=>{
-            if(load){
-        loadMany([`${process.env.PUBLIC_URL}/scripts/chosen.min.js`,`${process.env.PUBLIC_URL}/scripts/slick.min.js`,`//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`,`${process.env.PUBLIC_URL}/scripts/rangeslider.min.js`,`${process.env.PUBLIC_URL}/scripts/magnific-popup.min.js`,`${process.env.PUBLIC_URL}/scripts/waypoints.min.js`,`${process.env.PUBLIC_URL}/scripts/counterup.min.js`,`${process.env.PUBLIC_URL}/scripts/tooltips.min.js`,`${process.env.PUBLIC_URL}/scripts/index.js`,`${process.env.PUBLIC_URL}/scripts/custom.js` ],()=>console.log("done"))
-            }
-        })
     }
   
     render() {
@@ -36,10 +26,12 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/download" component={Download} />
+                    <Route exact path="/book/:id" component={Book} />
+                    <Route exact path="/cart" component={Cart} />
                     <Route path="/dashboard" component={Dashboard} />
-                    <Route exact path="/cities/:id" component={Activities} />
-                    <Route exact path="/cities/:id/:id" component={Activity} />
-                    <Route exact path="/cities/:id/:id/:id" component={Attraction} />
+                    <Route exact path="/city/:city" component={Activities} />
+                    <Route exact path="/city/:city/:id" component={Activity} />
+                    <Route exact path="/city/:city/:id/:id" component={Attraction} />
                     <Route exact path="*" socket={this.props.socket} component={Home} />
                 </Switch>
             </div>
