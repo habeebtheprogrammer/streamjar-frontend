@@ -72,48 +72,9 @@ class Navbar extends Component {
 					</div>
 				</div>
 			</div>
-			<div className="right-side">
+			<div className="right-side hidden-xs hidden-sm">
 						<nav id="navigation" className="style-1">
-					<ul id="responsive">
-						<li><a href="javascript:;">USD</a>
-							<div className="mega-menu mobile-styles three-columns">
-									<div className="mega-menu-section">
-										<ul>
-											<li className="mega-menu-headline">Suggested Currencies</li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-										</ul>
-									</div>
-		
-									<div className="mega-menu-section">
-										<ul>
-											<li className="mega-menu-headline">Other Currencies</li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											
-										</ul>
-									</div>
-
-									<div className="mega-menu-section">
-										<ul>
-											<li className="mega-menu-headline"> &nbsp;&nbsp;</li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											<li><a className="f_h_main t12" dataValue="SGD" href="javascript:;"><span className="white">SGD</span> Singapore Dollar</a></li>
-											
-										</ul>
-									</div>
-									
-							</div>
-						</li>
-						
+					<ul >
 						<li>
 								<Link to="/download">Download App</Link>	
 			                 </li>
