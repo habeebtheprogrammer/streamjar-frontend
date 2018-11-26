@@ -14,10 +14,10 @@ class Privateroute extends Component {
                 <Route 
                 path={this.props.path} 
                 render={(props) => this.props.auth.isAuthenticated === true ?
-                     <this.props.component {...props} socket={this.props.socket}/>
+                     <this.props.component {...props} />
                       : <Redirect
                         to={{
-                        pathname: "/login",
+                        pathname: "/signin",
                         state: { from: props.location }
                         }}
                         />

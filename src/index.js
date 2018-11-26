@@ -8,6 +8,7 @@ import { createStore } from "redux";
 import jwt from "jsonwebtoken";
 import { setCurrentUser } from "./actions/index"
 import setAuthorizationToken from "./component/auth"
+import 'semantic-ui-css/semantic.min.css';
 var store = createStore(allReducer);
 if (window.localStorage.kaytoken) {
     setAuthorizationToken(window.localStorage.kaytoken);

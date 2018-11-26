@@ -1,39 +1,42 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from "./component/home"
-import Activities from "./component/cities/activities"
-import Activity from "./component/cities/activity"
-import Attraction from "./component/attraction"
-import Privateroute from "./container/privateroute"
-import Download from "./component/extra/download"
-import Dashboard from "./component/dashboard"
-import Book from "./component/book"
-import Cart from "./component/cart"
-import "materialize-css"
-import "./component/extra/custom"
-import Footer from './component/footer';
-import Navbar from './component/navbar';
+import AOS from "aos"
+import 'aos/dist/aos.css';
+import Request from './component/request';
+import Contact from './component/contact';
+import Aboutus from './component/about';
+import Signin from './component/signin';
+import Signup from './component/signup';
+import Dashboard from './component/dashboard';
+import {Sidebar,Segment,Icon,Menu} from "semantic-ui-react"
+import Reviews from './component/reviews';
+import Privateroute from './container/privateroute';
 class App extends Component {
     constructor(props){
         super(props);
         this.state={
         }
     }
+    componentWillMount() {
+        AOS.init();
+    }
   
     render() {
         return (
-            <div id="wrapper" className="mm-page mm-slideout">
-                <Switch>
+            <div>
+          <Switch>
+                    <Route exact path="/request" component={Request} />
+                    <Route exact path="/about" component={Aboutus} />
+                    <Route exact path="/contact" component={Contact} />
+                    <Route exact path="/signin" component={Signin} />
+                    <Route exact path="/signup" component={Signup} />
+                    <Route exact path="/reviews" component={Reviews} />
+                    <Privateroute exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/" component={Home} />
-                    <Route exact path="/download" component={Download} />
-                    <Route exact path="/book/:id" component={Book} />
-                    <Route exact path="/cart" component={Cart} />
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Route exact path="/city/:city" component={Activities} />
-                    <Route exact path="/city/:city/:id" component={Activity} />
-                    <Route exact path="/city/:city/:id/:id" component={Attraction} />
-                    <Route exact path="*" socket={this.props.socket} component={Home} />
+                    
                 </Switch>
+          
             </div>
         );
     }
