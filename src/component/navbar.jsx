@@ -16,10 +16,10 @@ export default class Navbar extends Component{
         this.logout =this.logout.bind(this)
     }
    
-    logout(e) {
-		e.preventDefault();
+    logout() {
+		// e.preventDefault();
         setAuthorizationToken(false);
-		localStorage.clear("tzoortoken");
+		localStorage.clear();
 		window.location.reload();
     }
     handleOpen(){ this.setState({ active: true })}
@@ -38,18 +38,24 @@ export default class Navbar extends Component{
                    {/* <Sidenavbar /> */}
                 </Grid.Column>
                 <Grid.Column only="mobile" mobile="4" style={{paddingRight:"0px"}}>
-                    <div className="btn-bars"><i className="sidebar icon"></i></div>
+                   <Sidenavbar auth={this.props.auth} logout={this.logout}/>
+                    {/* <div className="btn-bars"><i className="sidebar icon"></i></div> */}
                 </Grid.Column>
                 <Grid.Column  textAlign="right" only="tablet computer" className="lato">
                     <List floated='right' horizontal >
                    
                     {this.props.auth.isAuthenticated?
                     <List.Item >
-                    <Link to="/dashboard" >Active orders <Label color="orange" circular>0</Label ></Link>
+                    <Link to="/messages" style={{padding:"0px 10px"}}>Messages <span style={{color:"red"}}>*</span> </Link>
                     </List.Item>:null}
                     {this.props.auth.isAuthenticated?
                     <List.Item >
-                    <Link to="/notification" > Notification <Label color="red" circular>0</Label ></Link>
+                    <Dropdown  text={<strong>Notification</strong>} floating  className='icon notification' >
+                        <Dropdown.Menu>
+                        <Dropdown.Header content='No new notification' />
+                       
+                        </Dropdown.Menu>
+                    </Dropdown>
                     </List.Item>:null}
                     {this.props.auth.isAuthenticated?null:
                     <List.Item >
@@ -74,11 +80,11 @@ export default class Navbar extends Component{
                     </List.Item>
                     :null}
                     <List.Item >
-                    <Dropdown  icon={<Icon name="code" size="large" />}  floating  className='icon' >
-                        <Dropdown.Menu>
+                    <Dropdown  icon={<Icon name="code" size="large" />}  floating  className='icon ' >
+                        <Dropdown.Menu className="code">
                         <Dropdown.Header icon='tags' content='Explore' />
-                        <Dropdown.Item icon='conversation' text='Chat with us' onClick={()=>this.props.history.push('/chat')} />
-                        <Dropdown.Item icon='snowflake outline' text='Have an idea?'  onClick={()=>this.props.history.push('/ideas')}/>
+                        <Dropdown.Item icon='comment outline' text='Chat with us' onClick={()=>this.props.history.push('/messages')} />
+                        <Dropdown.Item icon='snowflake outline' text='Have an idea?'  onClick={()=>this.props.history.push('/request')}/>
                         <Dropdown.Item icon='edit outline' text='Reviews'  onClick={()=>this.props.history.push('/reviews')}/>
                         <Dropdown.Divider />
                         {this.props.auth.isAuthenticated?

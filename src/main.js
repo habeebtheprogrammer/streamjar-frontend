@@ -12,6 +12,7 @@ import Dashboard from './component/dashboard';
 import {Sidebar,Segment,Icon,Menu} from "semantic-ui-react"
 import Reviews from './component/reviews';
 import Privateroute from './container/privateroute';
+import Chat from './component/chat';
 class App extends Component {
     constructor(props){
         super(props);
@@ -32,6 +33,7 @@ class App extends Component {
                     <Route exact path="/signin" component={Signin} />
                     <Route exact path="/signup" component={Signup} />
                     <Route exact path="/reviews" component={Reviews} />
+                    <Route exact path="/messages" component={Chat} />
                     <Privateroute exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/" component={Home} />
                     

@@ -28,7 +28,7 @@ function mapStateToProps(state){
                 <Navbar {...this.props}/>
                 <section style={{padding:"20px 0px"}}>
                 <Grid  columns="equal"  container>
-                            <Grid.Column width="6" mobile="16" tablet="6" computer="6" className="no-xspad">
+                            <Grid.Column width="6" tablet="6" computer="6" only="computer tablet" className="no-xspad">
                             <Card fluid>
                             <Card.Content textAlign="center">
                             <Icon name="cube" size="big" circular/>

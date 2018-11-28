@@ -19,13 +19,13 @@ class Aboutus extends Component{
             <div className="about light">
                 <Navbar {...this.props}/>
                 
-                <section  className="first-section" style={{}}>
+                <section  className=" first-section" style={{}}>
                     <div className="content">
                         <Grid columns="equal" container>
                             <Grid.Column>
                             </Grid.Column>
                             <Grid.Column width="8" mobile="16" tablet="8" computer="8">
-                                <h1 data-aos="zoom-up" >Learn about us</h1>
+                                <h1 data-aos="zoom-up" >Learn About Us</h1>
                                 <p data-aos="fade-up" data-aos-delay="300" style={{fontSize:'1.3em'}}>
                                 We are professionals. A team of Developers, Designers, and Devops engineers. Our main aim is to bring ideas to life and put a smile on our customers. We build interactive websites/mobile application and solve problems in a creative way. Take that bold step now and you’ll finally have a sleek & practical web app to be proud of!</p>
                                 <div class='ui buttons' data-aos="fade-up" data-aos-delay="300">

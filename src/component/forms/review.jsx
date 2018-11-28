@@ -61,12 +61,9 @@ export default class Reviewform extends Component{
                                 <p data-aos="fade-up">You are one step closer! </p>
                             </Header>
                             <p>Sign in to continue</p>
-                            <p><button class='ui google plus  button' role='button'>
-                                <i   class='google plus icon medium' />Google plus
-                            </button> 
-                            <button class='ui facebook   button' role='button'>
-                                <i   class='facebook  icon medium' />Facebook
-                            </button>
+                            <p>
+                            <Button icon="sign-in" color="google plus" content="Sign in"  onClick={()=>this.props.history.push("/signin")}/>
+                            <Button icon="user" color="instagram" content="Sign up"  onClick={()=>this.props.history.push("/signup")}/>
                             </p>
                             </Dimmer>
                         </Form>

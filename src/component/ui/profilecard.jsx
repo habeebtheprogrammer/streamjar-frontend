@@ -75,7 +75,7 @@ export default class Profilecard extends Component{
                     </Grid.Row>
                     <Grid.Row  style={{paddingBottom:"0px"}}>
                         <Grid.Column width="1" className="">
-                        <Icon name="user" />
+                        <Icon name="briefcase" />
                         </Grid.Column>
                         <Grid.Column width="10">
                          Company

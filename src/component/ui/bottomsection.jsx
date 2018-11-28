@@ -38,17 +38,14 @@ export default class Bottomsection extends Component{
                                     <div style={{padding:"20px 0px"}}>
                                     <div className="ui container">
                                     <h2 style={{fontFamily:"open-sans2",color:"#555"}}  data-aos="zoom-in-left" >Sound Exciting?</h2>
-                                    <p className="fs1-2">Check out what’s included inside this great value company. we love to put a smile on our customer. </p>
+                                    <p className="fs1-2">Whatever you need, simply send a request, no matter your budget. We will give you a delivery that you will be proud of</p>
                                     <p><Button content="Hire us" basic color="orange" compact  onClick={()=>this.props.history.push("/request")}/>
-        {this.props.auth.isAuthenticated?null:<Button content="Sign in" basic color="orange" compact  onClick={()=>this.props.history.push("/signin")}/>}</p>
+                                    {this.props.auth.isAuthenticated?null:<Button content="Sign in" basic color="orange" compact  onClick={()=>this.props.history.push("/signin")}/>}</p>
                                     </div>
                                     </div>
                                 </Grid.Column>
                             </Grid.Row>
 
-                        </Grid>
-                        <Grid columns='equal'  divided >
-                     
                         </Grid>
                     </div>
                 </section>

@@ -100,34 +100,34 @@ class Request extends Component{
                         </Dimmer>
                         </div>
                    </section>
-                <section className="ui container second" >
+                <section className="ui container " >
                     <Grid columns="equal">
-                        <Grid.Row only="tablet computer">
-                            <GridColumn width="8" mobile="16" tablet="8" computer="16">
+                        <Grid.Row only="tablet computer" style={{paddingTop:"50px"}}>
+                            <GridColumn width="16" >
                             <div className="step">
                         <Step.Group>
-                            <Step  onClick={()=>this.handleStep(1)} active={this.state.step==1?true:false}>
+                            <Step   onClick={()=>this.handleStep(1)} active={this.state.step==1?true:false}>
                             <Icon name=' edit outline' />
                             <Step.Content>
                                 <Step.Title>Buyers Request</Step.Title>
                                 <Step.Description>Upload requirements</Step.Description>
                             </Step.Content>
                             </Step >
-                            <Step onClick={()=>this.handleStep(2)} active={this.state.step==2?true:false}>
+                            <Step disabled onClick={()=>this.handleStep(2)} active={this.state.step==2?true:false}>
                             <Icon name='truck' />
                             <Step.Content>
                                 <Step.Title>Shipping</Step.Title>
                                 <Step.Description>Choose your shipping options</Step.Description>
                             </Step.Content>
-                            </Step>
-                            <Step  onClick={()=>this.handleStep(3)} active={this.state.step==3?true:false}>
+                            </Step >
+                            <Step disabled onClick={()=>this.handleStep(3)} active={this.state.step==3?true:false}>
                             <Icon name='payment' />
                             <Step.Content>
                                 <Step.Title>Billing</Step.Title>
                                 <Step.Description>Enter billing information</Step.Description>
                             </Step.Content>
                             </Step>
-                            <Step  onClick={()=>this.handleStep(4)} active={this.state.step==4?true:false}>
+                            <Step disabled onClick={()=>this.handleStep(4)} active={this.state.step==4?true:false}>
                             <Icon name='info' />
                             <Step.Content>
                                 <Step.Title>Confirm Order</Step.Title>
@@ -164,7 +164,7 @@ class Request extends Component{
                             <Message warning>
                                 <Message.Header>How it works</Message.Header>
                                     <p>1. Send a Buyers Request</p>
-                                    <p>We evaluate the feasibilty of every project requirements and respond with a quote. after which you will now have access to step 2,3, and 4 </p>
+                                    <p>We evaluate the feasibilty of every project using their requirements or specification and respond with a custom offer which includes the quotation. then you can now have access to step two (shipping) </p>
                             </Message>
                             </div>
                         </GridColumn>

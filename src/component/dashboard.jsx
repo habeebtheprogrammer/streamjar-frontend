@@ -34,7 +34,7 @@ function mapStateToProps(state){
                 <Navbar {...this.props} />
                 <section style={{padding:"20px 0px"}}>
                 <Grid  columns="equal"  container>
-                            <Grid.Column width="6" mobile="16" tablet="6" computer="6" className="no-xspad">
+                            <Grid.Column width="5" mobile="16" tablet="5" computer="5" className="no-xspad">
                           <Profilecard {...this.props} user={this.state.user}/>
                           <Card fluid> 
                         <Card.Content>
@@ -45,7 +45,7 @@ function mapStateToProps(state){
                         </Card.Content>
                         </Card>
                             </Grid.Column>
-                            <Grid.Column width="10"  mobile="16" tablet="10" computer="10" className="no-xspad">
+                            <Grid.Column width="11"  mobile="16" tablet="11" computer="11" className="no-xspad">
                                 <Grid  columns="equal" >
                                     <Grid.Row  >
                                         <Grid.Column width="16" className="">

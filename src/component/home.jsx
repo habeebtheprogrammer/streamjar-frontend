@@ -192,7 +192,7 @@ function mapStateToProps(state){
 	        }
 	    }
 	}} style={{position:"absolute",width:"100%"}} />
-                    <div className="ui container">
+                    <div className="ui container xlgicon" >
                           <Grid  columns="equal" textAlign="center" >
                             <Grid.Column width="4">
                             </Grid.Column>
@@ -206,22 +206,24 @@ function mapStateToProps(state){
                         <Grid  columns="equal" >
                             <Grid.Column textAlign="right" width="4" mobile="16" tablet="4" computer="4">
                             <div className="">
-                                <div data-aos="zoom-in-right" >
-                                <img src='/images/color-calculation.png' class='ui small right floated image circular ' style={{width:"100px"}} />
-                                <h4>Development</h4>
-                                <small>we can build your dream platform using the latest technology and an awesome GUI
+                                <div data-aos="zoom-in-right" className="pad-bottom">
+                                <Icon  name="code" style={{float:"right",marginLeft:"10px"}}/>
+                                <h4> Development </h4>
+                                <small>Our technology stack includes Node.js, React.js, React Native, Mongodb, SQL, TypeScript and Agile methodology
                                 </small>
                                 </div>
-                                <div  data-aos="zoom-in-right" data-aos-delay="300">
-                                <img src='/images/color-calculation.png' class='ui small right floated image circular ' style={{width:"100px"}} />
+                                <div  data-aos="zoom-in-right" data-aos-delay="300" className="pad-bottom">
+                                {/* <img src='/images/color-calculation.png' class='ui small right floated image circular ' style={{width:"100px"}} /> */}
+                                <Icon  name="cloud" style={{float:"right",marginLeft:"10px"}}/>
                                 <h4>Deployment</h4>
-                                <small>we can deploy your application on any cloud computing service provider of your choice
+                                <small>Let us take care of your deployment on  any cloud computing service provider of your choice
                                 </small>
                                 </div>
-                                <div  data-aos="zoom-in-right" data-aos-delay="600">
-                                <img src='/images/color-calculation.png' class='ui small right floated image circular ' style={{width:"100px"}} />
+                                <div  data-aos="zoom-in-right" data-aos-delay="600" className="pad-bottom">
+                                {/* <img src='/images/color-calculation.png' class='ui small right floated image circular ' style={{width:"100px"}} /> */}
+                                <Icon  name="code branch" style={{float:"right",marginLeft:"10px"}}/>
                                 <h4>Long term project</h4>
-                                <small>we are open to long term project and also provide one month free technical support and management
+                                <small>We are open to long term project and we also provide one month free technical support to all our client
                                 </small>
                                 </div>
                             </div>
@@ -230,24 +232,25 @@ function mapStateToProps(state){
                                 <img src="../images/iphone.png" width="100%" alt=""/>
                             </Grid.Column>
                             <Grid.Column width="4"  mobile="16" tablet="4" computer="4">
-                            <div>
-                                <div  data-aos="zoom-in-left" >
-                                <img src='/images/light-dark-primary.png' class='ui small left floated image circular ' style={{width:"100px"}} />
+                            <div >
+                                <div  data-aos="zoom-in-left" className="pad-bottom">
+                                {/* <img src='/images/light-dark-primary.png' class='ui small left floated image circular ' style={{width:"100px"}} /> */}
+                                <Icon  name="bug" style={{float:"left",marginRight:"10px"}}/>
                                 <h4>Bugs and Debugging</h4>
-                                <small>we can debug your application/server and improve on the existing code
+                                <small> We maintain a good coding ethic. that is what makes our application free from technical Bugs
                                 </small>
                                 </div>
-                                <div  data-aos="zoom-in-left" data-aos-delay="300">
-                                <img src='/images/light-dark-primary.png' class='ui small left floated image circular ' style={{width:"100px"}} />
+                                <div  data-aos="zoom-in-left" data-aos-delay="300" className="pad-bottom">
+                                <Icon  name="handshake outline" style={{float:"left",marginRight:"10px"}}/>
                                 <h4>Quality of service</h4>
-                                <small>We submit every project for review at regular interval to ensure quality control is maintained
+                                <small>We deliver exactly what our clients need and right on time that is why our clients are always happy
                                 </small>
                                 </div>
-                                <div  data-aos="zoom-in-left" data-aos-delay="600">
-                                <img src='/images/replace-colors.png' class='ui small left floated image circular ' style={{width:"100px"}} />
+                                <div  data-aos="zoom-in-left" data-aos-delay="600" className="pad-bottom">
+                                <Icon  name="mobile" style={{float:"left",marginRight:"10px"}}/>
                                 <h4>Responsive Design</h4>
                                 <small> 
-                                As a guide and for consistency, all elements are designed using the semantic css framework.
+                                As a guide for consistency, all elements are designed using a responsive css framework.
                                 </small>
                                 </div>
                             
