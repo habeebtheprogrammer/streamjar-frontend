@@ -9,10 +9,10 @@ import Axios from "axios";
 import apiUrl from "../config"
 import moment from "moment";
 
-function mapStateToProps(state){
-    return {auth: state.auth}
-}
- class Reviews extends Component{
+// function mapStateToProps(state){
+//     return {auth: state.auth}
+// }
+export default class Reviews extends Component{
     constructor(props){
         super(props);
         this.state={
@@ -26,7 +26,7 @@ function mapStateToProps(state){
         return(
             <div className="light reviews">
                 <Navbar {...this.props}/>
-                <section style={{padding:"20px 0px"}}>
+                <section style={{padding:"100px 0px 50px"}}>
                 <Grid  columns="equal"  container>
                             <Grid.Column width="6" tablet="6" computer="6" only="computer tablet" className="no-xspad">
                             <Card fluid>
@@ -133,5 +133,3 @@ function mapStateToProps(state){
         )
     }
 }
-
-export default connect(mapStateToProps)(Reviews)

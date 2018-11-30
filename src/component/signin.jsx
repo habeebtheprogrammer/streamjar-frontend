@@ -23,6 +23,7 @@ export default class Signin extends Component {
     componentWillMount() {
        var token= window.localStorage.getItem("kaytoken")
        if(token) this.props.history.push("/dashboard")
+       
     }
     login(e) {
         e.preventDefault();
@@ -36,6 +37,7 @@ export default class Signin extends Component {
                         var data = jwt.decode(res.data.token,"1864");
                         localStorage.setItem("kaytoken", res.data.token);
                         localStorage.setItem("username", data.username);
+                        if(data.role==="support")localStorage.setItem("role", data.role);
                         setAuthorizationToken(res.data.token);
                         window.location.assign(`/dashboard`)
                     }

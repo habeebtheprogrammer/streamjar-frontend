@@ -31,6 +31,25 @@ function mapStateToProps(state){
               <div className="contact light">
                   <Navbar {...this.props} />
                   <section  className="first-section"  style={{}}>
+                  <Particles  params={{
+                    "particles": {
+                        "number": {
+                            "value": 50
+                        },
+                        "size": {
+                            "value": 3
+                        }
+                    },
+                    "interactivity": {
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "repulse"
+                            }
+                        }
+                    },
+                    
+	            }} style={{position:"absolute",width:"100%"}} />
                     <div className="ui container  ">
                     <div  className="content">
                     <Grid columns="2">

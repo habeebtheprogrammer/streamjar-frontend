@@ -13,6 +13,10 @@ import {Sidebar,Segment,Icon,Menu} from "semantic-ui-react"
 import Reviews from './component/reviews';
 import Privateroute from './container/privateroute';
 import Chat from './component/chat';
+import Commingsoon from './component/commingsoon';
+import Priviledge from './container/Priviledge';
+import Checkpriviledges from './container/checkpriviledges';
+import Requestid from './component/requestid';
 class App extends Component {
     constructor(props){
         super(props);
@@ -27,15 +31,18 @@ class App extends Component {
         return (
             <div>
           <Switch>
-                    <Route exact path="/request" component={Request} />
                     <Route exact path="/about" component={Aboutus} />
                     <Route exact path="/contact" component={Contact} />
                     <Route exact path="/signin" component={Signin} />
                     <Route exact path="/signup" component={Signup} />
-                    <Route exact path="/reviews" component={Reviews} />
-                    <Route exact path="/messages" component={Chat} />
+                    <Priviledge exact path="/request" component={Request} />
+                    <Priviledge exact path="/request/:id" component={Requestid} />
+                    <Priviledge exact path="/reviews" component={Reviews} />
+                    <Checkpriviledges exact path="/messages" component={Chat} />
+                    <Route exact path="/commingsoon" component={Commingsoon} />
                     <Privateroute exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/" component={Home} />
+                    <Route  path="*" component={Commingsoon} />
                     
                 </Switch>
           

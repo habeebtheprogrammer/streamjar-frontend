@@ -1,7 +1,8 @@
 import React,{Component} from  "react"
-import {Button,Embed, Dimmer, Header, Icon, Step ,Input, Form, TextArea} from 'semantic-ui-react'
+import {Button,Embed, Dimmer, Header, Icon, Step ,Input, Form, TextArea, Divider} from 'semantic-ui-react'
 import Axios from "axios";
 import apiUrl from "../../config"
+import moment from "moment";
 export default class Requestform extends Component{
     constructor(props){
         super(props)
@@ -34,7 +35,20 @@ export default class Requestform extends Component{
         }
     }
     render(){
+        var {offer} = this.props;
         return(
+                this.props.offer?
+                    <div style={{background:"#fff",padding:"40px 20px 10px"}}>
+                        <h2>Order #{offer.ticket} <span style={{float:"right"}}>${offer.offerBudget}</span></h2> 
+                        <p>Buyer: {this.props.auth.user.username} | {moment(offer.date).format("ll")} </p>
+                        <p>{offer.order}</p>
+                        <p><b>Duration : <Icon name="clock" /> 30 days</b></p>
+                        <Divider />
+                        <h3 style={{textAlign:"left"}}>Total ${offer.offerBudget}.00</h3>
+                        <p style={{textAlign:"right"}}><Button  color="orange"> Next <Icon name="arrow right" /></Button></p>
+                        <div className="clearfix"></div>
+                    </div>
+                :
                         <Form onSubmit={this.submit} loading={this.state.loading} warning success>
                             {this.state.error?
                                     <div class='ui warning message'>

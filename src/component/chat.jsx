@@ -11,10 +11,11 @@ import Axios from "axios";
 import classnames from "classnames"
 import Messagebox from "./ui/messagebox";
 import moment from "moment"
-function mapStateToProps(state){
-    return {auth: state.auth}
-}
- class Chat extends Component{
+import $ from "jquery"
+// function mapStateToProps(state){
+//     return {auth: state.auth}
+// }
+ export default class Chat extends Component{
     constructor(props){
         super(props)
         this.state={
@@ -24,9 +25,22 @@ function mapStateToProps(state){
             loading:true
         }
     }
+    scroll(){
+        var box = $(".xheight");
+        var scrollHeight = box.prop("scrollHeight");
+        var clientHeight = box.prop("clientHeight")
+        var scrollTop = box.prop("scrollTop");
+        var msgHeight = $(".event").outerHeight()
+        if(scrollHeight >clientHeight){
+            box.scrollTop(scrollHeight-msgHeight)
+        }
+    }
     componentWillMount(){
         Axios.get(`${apiUrl}/api/getProfile`).then((res)=>{if(res.data.user)this.setState({user:res.data.user,loading:false})})
         Axios.get(`${apiUrl}/api/getMessages`).then((res)=>{if(res.data.messages)this.setState({messages:res.data.messages})})
+    }
+    componentDidMount() {
+        this.scroll()
     }
     updateChat(conversationID,data){
         var update  =  this.state.messages;
@@ -38,7 +52,7 @@ function mapStateToProps(state){
 
         this.setState({messages:update})
     }
-    cuttext(text,maxlength){
+    cuttext(text="",maxlength){
         if(text.length > maxlength){
             var newtext = text.slice(0,maxlength);
             newtext += "..."
@@ -46,7 +60,7 @@ function mapStateToProps(state){
         }else return text
     }
     render(){
-        var {defaultChat,messages,loading} = this.state;
+        var {defaultChat,messages,loading,user} = this.state;
 
         return(
             <div className="chat home">
@@ -66,16 +80,16 @@ function mapStateToProps(state){
                             <Feed>
                             {messages.length?
                             messages.map((message,key)=>(
-                                <Feed.Event className={classnames(key===defaultChat?"active":null,"xcursor")} onClick={(e)=>this.setState({defaultChat:key})}>
+                                <Feed.Event   className={classnames(key===defaultChat?"active":null,"xcursor",message.conversation[message.conversation.length-1].senderID===user._id?null:"light")} onClick={(e)=>this.setState({defaultChat:key})}>
                             <Feed.Label icon="share"  />
                             <Feed.Content>
                                 <Feed.Summary  className="lato" >
                                 <a>Ticket #{message.ticket}</a> 
-                                <Feed.Date style={{float:"right"}}>{moment(message.conversation[0].date).fromNow()}</Feed.Date>
+                                <Feed.Date style={{float:"right"}}>{moment(message.conversation[message.conversation.length-1].date).fromNow()}</Feed.Date>
                                 </Feed.Summary>
                                 <Feed.Extra text style={{fontSize:"0.9em"}} >
-                                    {message.conversation[0].senderID == this.props.auth.user.id?
-                                    <div>Me : {this.cuttext(message.conversation[message.conversation.length-1].message,60)}</div>:<div>{message.conversation[0].message}</div>}
+                                    {message.conversation[message.conversation.length-1].senderID == this.props.auth.user.id?
+                                    <div>Me : {this.cuttext(message.conversation[message.conversation.length-1].message,60)}</div>:<div>Customer care : {this.cuttext(message.conversation[message.conversation.length-1].message,60)}</div>}
                                 </Feed.Extra>
                             </Feed.Content>
                             </Feed.Event>
@@ -110,28 +124,43 @@ function mapStateToProps(state){
                                 <Grid.Row >
                                 <Grid.Column className="no-leftpad no-rightpad no-toppad messages" width="10" width="10" mobile="16" tablet="10" computer="10">
                                 {loading?<div style={{padding:"200px 0px 10px"}}><Loader active="true" size="large" ></Loader></div>:
-                                <div className="xheight">
+                                <div className="xheight" id="xheight">
                                     <Feed>
                                         {messages.length?
                                         messages[defaultChat].conversation.map((message,key)=>(
-                                        <Feed.Event >
+                                        <Feed.Event className={classnames(message.offerBudget||message.requestBudget?"light":null)}>
                                         <Feed.Label image={`${process.env.PUBLIC_URL}/images/avatar.jpg`}  />
                                         <Feed.Content>
                                         <Feed.Summary  className="lato" >
-                                        <a>{this.props.auth.user.username}</a> 
+                                        <a>{user._id===message.senderID?this.props.auth.user.username:"Customer care"}</a> 
                                         <Feed.Date>{moment(message.date).fromNow()}</Feed.Date>
                                         </Feed.Summary>
                                         <Feed.Extra text >
                                             {message.message}
-                                            {messages[defaultChat].price && key==0?
+                                            {message.requestBudget?
                                              <Message
                                              style={{margin:"10px 0px"}}
                                              icon='inbox'
                                              header='Custom Request'
-                                             content={<span className="lato">Budget: ${messages[defaultChat].price}</span>}
+                                             content={<span className="lato">Budget: ${message.requestBudget}</span>}
                                            />
                                         :null}
-                                        <small><Icon name="check" color="grey"/><Icon name="check" color="grey"/></small>
+                                         {message.offerBudget?
+                                          <div >
+                                             <Message
+                                             style={{margin:"10px 0px"}}
+                                             icon='code'
+                                             header={message.offerTitle}
+                                             content={<div>
+                                                 <span className="lato">Budget: ${message.offerBudget}</span><span style={{float:"right",fontFamily:"lato"}}><Icon name="clock outline" /> {moment(message.offerDeadline).fromNow()}</span>
+                                                <p>{message.offerDesc}</p>
+                                             </div>}
+                                             />
+                                             <Button onClick={()=>this.props.history.push(`/request?r=${message._id}&c=${messages[defaultChat]._id}`)} color="green" icon="checkmark" content="Accept" size="tiny" floated="right" />
+                                            <div className="clearfix"></div>
+                                            </div>
+                                        :null}
+                                        <small><Icon name="check" size="small" color="grey"/><Icon name="check" color="grey" size="small"/></small>
                                         </Feed.Extra>
                                         </Feed.Content>
                                         </Feed.Event>
@@ -192,4 +221,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(Chat)
+// export default connect(mapStateToProps)(Chat)

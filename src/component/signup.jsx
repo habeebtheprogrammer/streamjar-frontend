@@ -18,7 +18,8 @@ export default class Signup extends Component {
             password: "",
             isLoading: false,
             error: "",
-            success: ""
+            success: "",
+            countries:[]
         }
         this.signup = this.signup.bind(this)
         this.typing = this.typing.bind(this)
@@ -26,6 +27,12 @@ export default class Signup extends Component {
     componentWillMount() {
        var token= window.localStorage.getItem("tzoortoken")
        if(token) this.props.history.push("/dashboard")
+       var data=[];
+        countries.map((country,key)=>{
+            data.push({key:country.flag,value:country.text.toLowerCase(),...country})
+        })
+        this.setState({countries:data})
+
     }
     signup(e) {
         e.preventDefault();
@@ -129,7 +136,7 @@ export default class Signup extends Component {
                                         value={username}
                                         required
                                     />
-                                    <Form.Select fluid label="Country"  placeholder='Select your country' options={countries}
+                                    <Form.Select fluid label="Country"  placeholder='Select your country' options={this.state.countries}
                                       name="country"
                                       onChange={this.typing}
                                       />

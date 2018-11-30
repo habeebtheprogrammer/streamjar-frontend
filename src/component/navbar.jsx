@@ -1,21 +1,26 @@
 import React,{Component} from  "react"
 import {Link} from "react-router-dom"
-import {  Dimmer, Header, Icon, Grid, List, Image, Label, Dropdown,  } from 'semantic-ui-react'
+import {  Dimmer, Header, Icon, Grid, List, Image, Label, Dropdown, Button,  } from 'semantic-ui-react'
 import Fblogin from "./facebookauth"
 import classnames from "classnames"
 import setAuthorizationToken from "./auth"
-import Sidenavbar from "./ui/sidenavbar";
+import Navmodal from "./ui/navmodal";
+import $ from "jquery"
 export default class Navbar extends Component{
     constructor(props){
         super(props)
         this.state ={
-            active:false
+            active:false,
+            toggleModal:false,
         }
         this.handleClose =this.handleClose.bind(this)
         this.handleOpen =this.handleOpen.bind(this)
+        this.toggleModal =this.toggleModal.bind(this)
         this.logout =this.logout.bind(this)
     }
-   
+   componentDidMount() {
+       $(window).scrollTop(0)
+   }
     logout() {
 		// e.preventDefault();
         setAuthorizationToken(false);
@@ -23,23 +28,23 @@ export default class Navbar extends Component{
 		window.location.reload();
     }
     handleOpen(){ this.setState({ active: true })}
-    handleClose(){this.setState({ active: false })}
-
+    handleClose(){this.setState({ active: false,toggleModal:false })}
+    toggleModal(){this.setState({ toggleModal: true })}
+    
     render(){
         var token = window.localStorage.getItem("kaytoken")
         return(
             <div className="white xnav">
+            {this.state.toggleModal?<Navmodal {...this.props} handleClose={this.handleClose}/>:null}
             <div className="ui container " style={{padding:"15px 0px"}}>
             <Grid columns="equal" >
                 <Grid.Column width="4" mobile="12" tablet="4" computer="4">
                     <div style={{}} className="nav-brand">
                     <Link to="/" > <i className="cube icon"></i> <span >REACTANGLE</span></Link>
                     </div>
-                   {/* <Sidenavbar /> */}
                 </Grid.Column>
                 <Grid.Column only="mobile" mobile="4" style={{paddingRight:"0px"}}>
-                   <Sidenavbar auth={this.props.auth} logout={this.logout}/>
-                    {/* <div className="btn-bars"><i className="sidebar icon"></i></div> */}
+                <Button icon="code "  onClick={this.toggleModal} basic/>
                 </Grid.Column>
                 <Grid.Column  textAlign="right" only="tablet computer" className="lato">
                     <List floated='right' horizontal >
@@ -48,7 +53,11 @@ export default class Navbar extends Component{
                     <List.Item >
                     <Link to="/messages" style={{padding:"0px 10px"}}>Messages <span style={{color:"red"}}>*</span> </Link>
                     </List.Item>:null}
-                    {this.props.auth.isAuthenticated?
+                    {this.props.auth.user.role ==="support"?
+                    <List.Item >
+                    <Link to="#" style={{padding:"0px 10px"}} onClick={this.logout}>Sign out </Link>
+                    </List.Item>:null}
+                    {this.props.auth.isAuthenticated && this.props.auth.user.role !=="support"?
                     <List.Item >
                     <Dropdown  text={<strong>Notification</strong>} floating  className='icon notification' >
                         <Dropdown.Menu>
@@ -72,15 +81,16 @@ export default class Navbar extends Component{
                     </button>
                     </List.Item>
                     }
-                    {this.props.auth.isAuthenticated?
+                    {this.props.auth.isAuthenticated && this.props.auth.user.role !=="support"?
                     <List.Item >
                         <Link to="/dashboard" ><Image avatar src={`${process.env.PUBLIC_URL}/images/avatar.jpg`} />
                         <span style={{marginLeft:"5px"}} >{this.props.auth.user.username}</span>
                         </Link>
                     </List.Item>
                     :null}
+                    {this.props.auth.user.role !=="support"?
                     <List.Item >
-                    <Dropdown  icon={<Icon name="code" size="large" />}  floating  className='icon ' >
+                    {/* <Dropdown  icon={<Icon name="code" size="large" />}  floating  className='icon ' >
                         <Dropdown.Menu className="code">
                         <Dropdown.Header icon='tags' content='Explore' />
                         <Dropdown.Item icon='comment outline' text='Chat with us' onClick={()=>this.props.history.push('/messages')} />
@@ -93,9 +103,9 @@ export default class Navbar extends Component{
                         <Dropdown.Item icon='user' text='Sign up' onClick={()=>this.props.history.push('/signup')}/>
                         }
                         </Dropdown.Menu>
-                    </Dropdown>
-                    {/* <Link to="/reviews"> <Icon name="code " size="large"/></Link> */}
-                    </List.Item>
+                    </Dropdown> */}
+                    <Link to="#" onClick={this.toggleModal}> <Icon name="code " size="large"/></Link>
+                    </List.Item>:null}
                     </List>
                 </Grid.Column>
 

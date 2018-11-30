@@ -53,14 +53,14 @@ export default class Profilecard extends Component{
                 </div>
             </Card.Description>:
             <Card.Description textAlign="center">
-                {this.state.defaultDesc||this.props.user.description} <Icon name="pencil" className="xcursor" onClick={this.editDesc}/></Card.Description>}
+            {this.state.defaultDesc||this.props.user.description} {this.props.auth.user.role==="support"?null: <Icon name="pencil" className="xcursor" onClick={this.editDesc}/>}</Card.Description>}
                  <div style={{textAlign:"center"}}>
                 {this.state.success?
                 <Label  basic color='green' pointing>
                   {this.state.success}
                 </Label>:null}
                 </div>
-            <Button content="Send a Request" fluid  basic style={{margin:"15px 0px"}} onClick={()=>this.props.history.push("/request")}/>
+            {this.props.auth.user.role==="support"?null:<Button content="Send a Request" fluid  basic style={{margin:"15px 0px"}} onClick={()=>this.props.history.push("/request")}/>}
             <Grid  columns="equal" className="lato" >
                     <Grid.Row style={{paddingBottom:"0px"}} >
                         <Grid.Column width="1" className="">
@@ -70,7 +70,7 @@ export default class Profilecard extends Component{
                          From
                         </Grid.Column>
                         <Grid.Column width="4" textAlign="right">
-                         Nigeria
+                         {this.props.user.country}
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row  style={{paddingBottom:"0px"}}>

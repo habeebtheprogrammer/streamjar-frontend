@@ -32,7 +32,7 @@ function mapStateToProps(state){
         return(
             <div className="light dashboard">
                 <Navbar {...this.props} />
-                <section style={{padding:"20px 0px"}}>
+                <section style={{padding:"100px 0px 20px"}}>
                 <Grid  columns="equal"  container>
                             <Grid.Column width="5" mobile="16" tablet="5" computer="5" className="no-xspad">
                           <Profilecard {...this.props} user={this.state.user}/>

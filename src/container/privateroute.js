@@ -7,14 +7,23 @@ function mapStateToProps(state) {
 class Privateroute extends Component {
     constructor(props) {
         super(props);
+        this.checkRole=this.checkRole.bind(this)
     }
-
+    checkRole(props){
+       if(this.props.auth.user.role=="support")return <Redirect
+       to={{
+       pathname: "/messages",
+       state: { from: props.location }
+       }}
+       />;
+       else return <this.props.component {...props}  auth={this.props.auth}/>
+    }
     render() {
         return (
                 <Route 
                 path={this.props.path} 
                 render={(props) => this.props.auth.isAuthenticated === true ?
-                     <this.props.component {...props} />
+                     this.checkRole(props)
                       : <Redirect
                         to={{
                         pathname: "/signin",

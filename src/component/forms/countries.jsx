@@ -1,9 +1,9 @@
 
 export var countries= [
-  { key:'af', value:'afghanistan',text: 'Afghanistan', flag: 'af' },
+  { key:'af', value:'afghanistan', text: 'Afghanistan', flag: 'af' },
   { text: 'Aland Islands',value:'Aland Islands', flag: 'ax' },
-  { text: 'Albania', flag: 'al' },
-  { text: 'Algeria', flag: 'dz' },
+  { key:'al', value:'albania', text: 'Albania', flag: 'al' },
+  { key:'dz', value:'algeria', text: 'Algeria', flag: 'dz' },
   { text: 'American Samoa', flag: 'as' },
   { text: 'Andorra', flag: 'ad' },
   { text: 'Angola', flag: 'ao' },
