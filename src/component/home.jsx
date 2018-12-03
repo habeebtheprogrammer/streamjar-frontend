@@ -96,12 +96,7 @@ function mapStateToProps(state){
                             </div>
                         <Dimmer active={this.state.active} onClickOutside={this.handleClose} page>
                                 
-                        <Embed
-                        active={this.state.active}
-                        icon='arrow circle down'
-                        id='90Omh7_I8vI'
-                        url='../../videos/reactangle.mp4'
-                        />
+                        <Embed id='4zVKncvJimo' placeholder='../../images/code.jpg' source='youtube' />
                         <Header as='h2' icon inverted>
                             <p data-aos="fade-up">Want to discuss your product ? Contact us now!</p>
                         </Header>
