@@ -7,14 +7,14 @@ export default class Footer extends Component{
         return(
                 <footer  >
                     <div >
-                    <Grid  columns="equal" className="main-footer" style={{display:"none"}}>
-                    <Grid.Row >
+                    <Grid  columns="equal" className="main-footer" >
+                    {/* <Grid.Row >
                         <Grid.Column>
                         <div style={{color:"#555"}} >
                         <h1 className="open-sans2"> <i className="cube icon"></i> <span >REACTANGLE</span></h1>
                         </div>
                         </Grid.Column>
-                    </Grid.Row>
+                    </Grid.Row> */}
                     <Grid.Row className="first-row">
                         <Grid.Column width="6">
                         <Grid >
@@ -28,6 +28,11 @@ export default class Footer extends Component{
                         <Grid.Column>
                         {/* <h3> Support </h3> */}
                             <Grid >
+                            <Grid.Row >
+                                <Grid.Column>
+                                <Link to="/blog"> Our blog</Link>
+                                </Grid.Column>
+                                </Grid.Row>
                                 <Grid.Row >
                                 <Grid.Column>
                                     <Link to="/privacy_policy">Privacy policy</Link>
@@ -35,28 +40,25 @@ export default class Footer extends Component{
                                 </Grid.Row>
                                 <Grid.Row >
                                 <Grid.Column>
-                                <Link to="/partnership"> Partnership</Link>
+                                <Link to="/terms_of_service"> Terms of Service</Link>
                                 </Grid.Column>
                                 </Grid.Row>
-                                <Grid.Row >
-                                <Grid.Column>
-                                <Link to="/blog"> Our blog</Link>
-                                </Grid.Column>
-                                </Grid.Row>
+                               
                             </Grid>
                         </Grid.Column>
                         <Grid.Column>
                             <Grid >
+                            <Grid.Row >
+                                <Grid.Column>
+                                <Link to="/our_works">Our work</Link>
+                                </Grid.Column>
+                                </Grid.Row>
                                 <Grid.Row >
                                 <Grid.Column>
                                     <Link to="/how_it_works">How it works</Link>
                                 </Grid.Column>
                                 </Grid.Row>
-                                <Grid.Row >
-                                <Grid.Column>
-                                <Link to="/our_works">Our works</Link>
-                                </Grid.Column>
-                                </Grid.Row>
+                               
                                 <Grid.Row >
                                 <Grid.Column>
                                 <Link to="/request">Send a request</Link>
@@ -66,11 +68,12 @@ export default class Footer extends Component{
                         </Grid.Column>
                         <Grid.Column>
                         <Grid >
-                            <Grid.Row >
+                        <Grid.Row >
                             <Grid.Column>
-                                <Link to="/support">Support center</Link>
+                            <Link to="/contact">Contact us</Link>
                             </Grid.Column>
                             </Grid.Row>
+                            
                             <Grid.Row >
                             <Grid.Column>
                             <Link to="/messages">Chat with us</Link>
@@ -78,7 +81,7 @@ export default class Footer extends Component{
                             </Grid.Row>
                             <Grid.Row >
                             <Grid.Column>
-                            <Link to="/contact">Contact us</Link>
+                                <Link to="/support">Support center</Link>
                             </Grid.Column>
                             </Grid.Row>
                         </Grid>
@@ -101,9 +104,9 @@ export default class Footer extends Component{
                         </div>
                         </div>
                    </div>
-                   <div style={{borderTop:"1px solid #ddd"}}>
-                    <div style={{textAlign:"right"}} className="container ui" >
-                    <div className="copyright"><small >ReactAngle © 2018 | all right reserved</small>
+                   <div >
+                    <div style={{textAlign:"center"}} className="container ui" >
+                    <div className="copyright"><small >© 2018 React Angle, all rights reserved. Made with  for a better web.</small>
                     </div>
                     </div>
                     </div>

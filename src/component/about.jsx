@@ -7,10 +7,8 @@ import Bottomsection from "./ui/bottomsection";
 import {connect} from "react-redux"
 import Particles from "react-particles-js";
 
-function mapStateToProps(state){
-    return {auth: state.auth}
-}
-class Aboutus extends Component{
+
+export default class Aboutus extends Component{
     constructor(props){
         super(props);
     }
@@ -107,4 +105,3 @@ class Aboutus extends Component{
         )
     }
 }
-export default connect(mapStateToProps)(Aboutus)

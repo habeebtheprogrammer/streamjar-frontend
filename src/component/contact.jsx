@@ -7,10 +7,8 @@ import Contactus from "./forms/contact";
 import Bottomsection from "./ui/bottomsection";
 import Particles from "react-particles-js";
 import {connect} from "react-redux"
-function mapStateToProps(state){
-    return {auth: state.auth}
-}
- class Contact extends Component{
+
+export default  class Contact extends Component{
     constructor(props){
         super(props)
         this.state ={
@@ -86,5 +84,3 @@ function mapStateToProps(state){
         )
     }
 }
-
-export default connect(mapStateToProps)(Contact)
