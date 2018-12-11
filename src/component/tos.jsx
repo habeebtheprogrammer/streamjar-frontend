@@ -19,9 +19,43 @@ export default  class Tos extends Component{
  
     render(){
         return(
-              <div className="privacy ">
+              <div className="privacy misc">
                   <Navbar {...this.props} />
-                <section className="ui container second" style={{padding:"150px 0px",fontSize:"1.1em"}}>
+                  <section  className="first-section"  style={{}}>
+                  <Particles  params={{
+                    "particles": {
+                        "number": {
+                            "value": 50
+                        },
+                        "size": {
+                            "value": 3
+                        },
+                    },
+                    "interactivity": {
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "repulse"
+                            }
+                        }
+                    },
+                    
+	            }} style={{position:"absolute",width:"100%"}} />
+                    <div className="ui container  ">
+                    <div  className="content">
+                    <Grid columns="2" textAlign="center">
+                        <Grid.Column mobile="16" tablet="6" computer="6">
+                        <h1 className="open-sans2" data-aos="zoom-in-right" style={{letterSpacing:"2px"}}>Terms of Service</h1>
+                        <p style={{fontSize:"1.3em"}}>
+                        
+                        {/* We want to involve you in the process of bringing our products to a bigger audience. */}
+                        </p>
+                        </Grid.Column>
+                    </Grid>
+                     </div>
+                     </div>
+                   </section>
+                <section className="ui container second" style={{padding:"80px 0px",fontSize:"1.1em"}}>
                     <Grid columns="equal">
                         <Grid.Column width="4" mobile="16" tablet="4" computer="4">
                             <p className="lato"><b>Terms & Condition</b></p>
@@ -76,7 +110,7 @@ export default  class Tos extends Component{
                     </Grid>
                 </section>
                 <Bottomsection {...this.props}/>
-                <Footer />
+                <Footer history={this.props.history}/>
               </div>
         )
     }

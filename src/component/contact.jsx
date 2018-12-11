@@ -79,7 +79,19 @@ export default  class Contact extends Component{
                     </Grid>
                 </section>
                 <Bottomsection {...this.props}/>
-                <Footer />
+                <Footer history={this.props.history}/>
+                {/* <style>{`
+           
+               .xnav{
+                background: #fff;
+                }
+            .xnav  a{
+                    color: #000 !important
+                }
+                .xnav .navmodal a{
+                    color: #f7f7f7 !important
+                }
+               `}</style> */}
               </div>
         )
     }

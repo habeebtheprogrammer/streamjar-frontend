@@ -1,5 +1,5 @@
 import React,{Component} from  "react"
-import {Button,Embed, Dimmer, Header, Icon, Step ,Input, Form, TextArea, Grid, Divider} from 'semantic-ui-react'
+import {Button,Embed, Dimmer, Header, Icon, Rail ,Segment, Placeholder,Image, Sticky, Grid, Divider} from 'semantic-ui-react'
 import Navbar from "./navbar";
 import {Link} from "react-router-dom"
 import Footer from "./footer";
@@ -8,7 +8,7 @@ import Contactus from "./forms/contact";
 import Bottomsection from "./ui/bottomsection";
 import Particles from "react-particles-js";
 import {connect} from "react-redux"
-
+import $ from "jquery"
 export default  class Privacy extends Component{
     constructor(props){
         super(props)
@@ -16,19 +16,65 @@ export default  class Privacy extends Component{
             active:false
         }
     }
- 
+   componentDidMount() {
+
+    // $(window).on("scroll",()=>{
+    //     console.log($(window).scrollTop(), $('footer').innerHeight()+$(".bottom-section").innerHeight())
+    //     if($(window).scrollTop() >1300 && $(window).innerWidth() > 1000 && $(window).scrollTop() ){
+    //         $('.booking-widget').addClass("fix")
+    //     }else $('.booking-widget').removeClass("fix")
+    // })
+   }
+   handleContextRef = contextRef => this.setState({ contextRef })
     render(){
+        const { contextRef } = this.state
         return(
-              <div className="privacy ">
+              <div className="privacy misc">
                   <Navbar {...this.props} />
-                <section className="ui container second" style={{padding:"150px 0px",fontSize:"1.1em"}}>
+                  <section  className="first-section"  style={{}}>
+                  <Particles  params={{
+                    "particles": {
+                        "number": {
+                            "value": 50
+                        },
+                        "size": {
+                            "value": 3
+                        },
+                    },
+                    "interactivity": {
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "repulse"
+                            }
+                        }
+                    },
+                    
+	            }} style={{position:"absolute",width:"100%"}} />
+                    <div className="ui container  ">
+                    <div  className="content">
+                    <Grid columns="2" textAlign="center">
+                        <Grid.Column mobile="16" tablet="6" computer="6">
+                        <h1 className="open-sans2" data-aos="zoom-in-right" style={{letterSpacing:"2px"}}>Privacy Policy</h1>
+                        <p style={{fontSize:"1.3em"}}>
+                        
+                        {/* We want to involve you in the process of bringing our products to a bigger audience. */}
+                        </p>
+                        </Grid.Column>
+                    </Grid>
+                     </div>
+                     </div>
+                   </section>
+                <section className="ui container second" style={{padding:"80px 0px",fontSize:"1.1em"}}>
                     <Grid columns="equal">
                         <Grid.Column width="4" mobile="16" tablet="4" computer="4">
+                           <div>
                             <p className="lato"><b>Terms & Condition</b></p>
                             <p ><span className="xcursor" onClick={()=>this.props.history.push('/privacy_policy')}>Privacy policy</span></p>
                             <p ><span className="xcursor" onClick={()=>this.props.history.push('/terms_of_service')}>Terms of service</span></p>
                             <p ><span className="xcursor" onClick={()=>this.props.history.push('/support')}>Support</span></p>
                             <p ><span className="xcursor" onClick={()=>this.props.history.push('/how_it_works')}>How it works</span></p>
+                        </div>
                         </Grid.Column>
                         <Grid.Column width="12" mobile="16" tablet="12" computer="12">
                           <h1>Privacy Policy <Icon name="pin" style={{float:"right"}}/></h1>
@@ -45,7 +91,7 @@ export default  class Privacy extends Component{
                     </Grid>
                 </section>
                 <Bottomsection {...this.props}/>
-                <Footer />
+                <Footer history={this.props.history}/>
               </div>
         )
     }

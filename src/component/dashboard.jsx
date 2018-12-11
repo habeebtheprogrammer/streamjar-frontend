@@ -94,7 +94,22 @@ function mapStateToProps(state){
                 </section>
                 <Bottomsection {...this.props}/>
                 
-               <Footer />
+               <Footer history={this.props.history}/>
+               <style>{`
+           
+           .xnav{
+            background: #fff;
+            color:#000;
+            border-bottom:1px solid #ddd;
+
+            }
+        .xnav  a{
+                color: #000 !important
+            }
+            .xnav .navmodal a{
+                color: #f7f7f7 !important
+            }
+           `}</style>
             </div>
         )
     }

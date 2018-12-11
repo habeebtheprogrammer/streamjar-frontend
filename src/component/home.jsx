@@ -22,7 +22,7 @@ function mapStateToProps(state){
     handleClose(){this.setState({ active: false })}
     render(){
         return(
-            <div className="light home">
+            <div className="white home">
                 <Navbar {...this.props}/>
                 {/* <section className="first-section"   style={{}}>
                     <div>
@@ -96,7 +96,7 @@ function mapStateToProps(state){
                             </div>
                         <Dimmer active={this.state.active} onClickOutside={this.handleClose} page>
                                 
-                        <Embed id='4zVKncvJimo' placeholder='../../images/code.jpg' source='youtube' />
+                        <Embed id='4zVKncvJimo'  source='youtube' />
                         <Header as='h2' icon inverted>
                             <p data-aos="fade-up">Want to discuss your product ? Contact us now!</p>
                         </Header>
@@ -258,7 +258,7 @@ function mapStateToProps(state){
                 </section>
                 <Bottomsection {...this.props}/>
                 
-               <Footer />
+               <Footer history={this.props.history} />
             </div>
         )
     }

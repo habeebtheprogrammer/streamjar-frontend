@@ -71,7 +71,7 @@ import $ from "jquery"
                         <Grid  >
                             <Grid.Row style={{borderBottom:"1px solid #ddd"}}>
                                 <Grid.Column > 
-                                <p style={{padding:"13px 0px"}}>All conversation <span style={{float:"right"}}><Icon name="comments outline" size="big" /></span></p>
+                                <p style={{padding:"13px 0px",marginTop:"70px"}}>All conversation <span style={{float:"right"}}><Icon name="comments outline" size="big" /></span></p>
                              </Grid.Column>
                             </Grid.Row>
                             <Grid.Row style={{borderBottom:"1px solid #ddd",padding:"0px"}}>
@@ -117,7 +117,7 @@ import $ from "jquery"
                             <Grid columns="equal" celled="internally" > 
                                 <Grid.Row >
                                 <Grid.Column >
-                                    <h3 className="lato" style={{margin:"0px 0px 3px"}}><Icon name="circle" color="green" size="tiny"/> Customer care</h3>
+                                    <h3 className="lato" style={{margin:"70px 0px 3px"}}><Icon name="circle" color="green" size="tiny"/> Customer care</h3>
                                     <p><small>Online | Local time {moment().format("LL")}</small></p>
                                 </Grid.Column>
                                 </Grid.Row>
@@ -216,6 +216,22 @@ import $ from "jquery"
                             </p>
                     </Dimmer>}
                 </Grid>
+                <br /><br/>
+                <Footer history={this.props.history}/>
+                <style>{`
+           
+           .xnav{
+            background: #fff;
+            color:#000;
+            border-bottom:1px solid #ddd;
+            }
+        .xnav  a{
+                color: #000 !important
+            }
+            .xnav .navmodal a{
+                color: #f7f7f7 !important
+            }
+           `}</style>
             </div>
         )
     }

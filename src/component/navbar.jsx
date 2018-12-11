@@ -20,6 +20,15 @@ export default class Navbar extends Component{
     }
    componentDidMount() {
        $(window).scrollTop(0)
+       $(window).on("scroll",()=>{
+           console.log($(window).scrollTop())
+            if($(window).scrollTop()>400){
+            $('.xnav').hide()
+            $('.xnav').addClass("fixed")
+            $('.xnav').show()
+           }
+           else $('.xnav').removeClass("fixed")
+       })
    }
     logout() {
 		// e.preventDefault();
@@ -34,9 +43,9 @@ export default class Navbar extends Component{
     render(){
         var token = window.localStorage.getItem("kaytoken")
         return(
-            <div className="white xnav">
-            {this.state.toggleModal?<Navmodal {...this.props} handleClose={this.handleClose}/>:null}
-            <div className="ui container " style={{padding:"15px 0px"}}>
+            <div className="xnav">
+            {this.state.toggleModal?<Navmodal {...this.props} handleClose={this.handleClose} logout={this.logout}/>:null}
+            <div className="ui container " style={{padding:"15px 0px"}}  data-aos="slide-down">
             <Grid columns="equal" >
                 <Grid.Column width="4" mobile="12" tablet="4" computer="4">
                     <div style={{}} className="nav-brand">
@@ -51,7 +60,7 @@ export default class Navbar extends Component{
                    
                     {this.props.auth.isAuthenticated?
                     <List.Item >
-                    <Link to="/messages" style={{padding:"0px 10px"}}>Messages <span style={{color:"red"}}>*</span> </Link>
+                    <Link to="/messages" style={{padding:"0px 10px"}}>Messages <span style={{color:"orange"}}>*</span> </Link>
                     </List.Item>:null}
                     {this.props.auth.user.role ==="support"?
                     <List.Item >
@@ -68,7 +77,7 @@ export default class Navbar extends Component{
                     </List.Item>:null}
                     {this.props.auth.isAuthenticated?null:
                     <List.Item >
-                     <button className={classnames('ui orange button compact basic')} role='button' onClick={()=>this.props.history.push('/request')}>
+                     <button className={classnames('ui orange button  basic')} role='button' onClick={()=>this.props.history.push('/request')}>
                         Send a request
                     </button>
                     </List.Item>
@@ -76,7 +85,7 @@ export default class Navbar extends Component{
                     {this.props.auth.isAuthenticated ?
                     null:
                     <List.Item >
-                    <button className={classnames('ui orange button compact basic')} role='button' onClick={()=>this.props.history.push('/signin')}>
+                    <button className={classnames('ui orange button  basic')} role='button' onClick={()=>this.props.history.push('/signin')}>
                        Sign in
                     </button>
                     </List.Item>
@@ -104,7 +113,8 @@ export default class Navbar extends Component{
                         }
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    <Link to="#" onClick={this.toggleModal}> <Icon name="code " size="large"/></Link>
+                    <Button color="orange" onClick={this.toggleModal} basic compact size="tiny"><Icon className="circle"size="tiny"/> <Icon className="circle"size="tiny"/> <Icon className="circle"size="tiny"/></Button>
+                    {/* <Link to="#" onClick={this.toggleModal}> <Icon name="code " size="large"/></Link> */}
                     </List.Item>:null}
                     </List>
                 </Grid.Column>

@@ -107,7 +107,7 @@ export default class Requestid extends Component{
                     </Grid>
                 </section>
                 <Bottomsection {...this.props}/>
-                <Footer />
+                <Footer history={this.props.history}/>
               </div>
         )
     }

@@ -19,7 +19,7 @@ export default class Request extends Component{
         this.state ={
             active:false,
             step: 1,
-            offer:""
+            offer:{}
         }
         this.handleClose =this.handleClose.bind(this)
         this.handleOpen =this.handleOpen.bind(this)
@@ -42,12 +42,42 @@ export default class Request extends Component{
     render(){
         var {offer} = this.state
         return(
-              <div className="request light" >
+              <div className="request light misc" >
                   <Navbar {...this.props} />
-                 
-                <section className="ui container "  style={{paddingTop:'70px'}}>
+                  <section  className="first-section"  style={{}}>
+                  <Particles  params={{
+                    "particles": {
+                        "number": {
+                            "value": 50
+                        },
+                        "size": {
+                            "value": 3
+                        },
+                    },
+                    "interactivity": {
+                        "events": {
+                            "onhover": {
+                                "enable": true,
+                                "mode": "repulse"
+                            }
+                        }
+                    },
+                    
+	            }} style={{position:"absolute",width:"100%"}} />
+                    <div className="ui container  ">
+                    <div  className="content">
+                    <Grid columns="2" textAlign="center">
+                        <Grid.Column mobile="16" tablet="6" computer="6">
+                        <h1 className="open-sans2" data-aos="zoom-in-right" style={{letterSpacing:"2px"}}>{this.state.offer.offerTitle||"Buyers Request"}</h1>
+                        <p style={{fontSize:"1.3em"}}>{this.state.offer.offerDeadline?`Deliver in the next ${ this.state.offer.offerDeadline} days`:' Tell us about your idea. we will help you build it'} </p>
+                        </Grid.Column>
+                    </Grid>
+                     </div>
+                     </div>
+                   </section>
+                <section className="ui container " >
                     <Grid columns="equal">
-                        <Grid.Row only="tablet computer" style={{paddingTop:"50px"}}>
+                        <Grid.Row only="tablet computer" >
                            
                             <GridColumn width="16" >
                             
@@ -56,7 +86,7 @@ export default class Request extends Component{
                             <Step   onClick={()=>this.handleStep(1)} active={this.state.step==1?true:false}>
                             <Icon name=' edit outline' />
                             <Step.Content>
-                                <Step.Title>Buyers Request</Step.Title>
+                                <Step.Title> Buyers Request</Step.Title>
                                 <Step.Description>Upload requirements</Step.Description>
                             </Step.Content>
                             </Step >
@@ -79,7 +109,7 @@ export default class Request extends Component{
                         </Grid.Row>
                     </Grid>
                     <Grid columns="equal">
-                    <Grid.Column only="mobile" style={{paddingTop:"20px",background:"#fff",borderBottom:"1px solid #ddd"}}>
+                    <Grid.Column only="mobile" style={{background:"#fff",borderBottom:"1px solid #ddd"}}>
                             <Breadcrumb size="small">
                             <Breadcrumb.Section active >Custom Request</Breadcrumb.Section>
                             <Breadcrumb.Divider icon='right chevron' />
@@ -120,7 +150,7 @@ export default class Request extends Component{
                     </Grid>
                 </section>
                 <Bottomsection {...this.props}/>
-                <Footer />
+                <Footer history={this.props.history}/>
               </div>
         )
     }

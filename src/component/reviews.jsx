@@ -123,11 +123,22 @@ export default class Reviews extends Component{
                        
                 <Bottomsection {...this.props}/>
                 
-               <Footer />
+               <Footer history={this.props.history}/>
                <style>{`
                .ui.star.rating .active.icon{
                    color:#f2711c !important;
                }
+               .xnav{
+                background: #fff;
+                color:#000 !important;
+
+                }
+            .xnav  a{
+                    color: #000 !important
+                }
+                .xnav .navmodal a{
+                    color: #f7f7f7 !important
+                }
                `}</style>
             </div>
         )

@@ -209,6 +209,19 @@ import Createoffer from "./ui/createoffer";
                             </p>
                     </Dimmer>}
                 </Grid>
+                <style>{`
+           
+           .xnav{
+            background: #fff;
+            color:#000;
+            }
+        .xnav  a{
+                color: #000 !important
+            }
+            .xnav .navmodal a{
+                color: #f7f7f7 !important
+            }
+           `}</style>
             </div>
         )
     }

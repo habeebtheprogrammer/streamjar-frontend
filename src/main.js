@@ -20,6 +20,7 @@ import Requestid from './component/requestid';
 import Privacy from './component/privacy';
 import Tos from './component/tos';
 import Affiliates from './component/affiliates';
+import Howitworks from './component/howitworks';
 class App extends Component {
     constructor(props){
         super(props);
@@ -46,6 +47,7 @@ class App extends Component {
                     <Checkpriviledges exact path="/terms_of_service" component={Tos} />
                     <Checkpriviledges exact path="/contact" component={Contact} />
                     <Checkpriviledges exact path="/messages" component={Chat} />
+                    <Checkpriviledges exact path="/how_it_works" component={Howitworks} />
                     <Route exact path="/commingsoon" component={Commingsoon} />
                     <Privateroute exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/" component={Home} />

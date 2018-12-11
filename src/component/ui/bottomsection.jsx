@@ -35,7 +35,7 @@ export default class Bottomsection extends Component{
                             </Grid.Row>
                             <Grid.Row only="mobile">
                                 <Grid.Column  width="sixteen" className="">
-                                    <div style={{padding:"20px 0px"}}>
+                                    <div style={{padding:"20px 0px 55px"}}>
                                     <div className="ui container">
                                     <h2 style={{fontFamily:"open-sans2",color:"#555"}}  data-aos="zoom-in-left" >Sound Exciting?</h2>
                                     <p className="fs1-2">Whatever you need, simply send a request, no matter your budget. We will give you a delivery that you will be proud of</p>

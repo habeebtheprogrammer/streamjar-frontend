@@ -37,7 +37,7 @@ export default class Requestform extends Component{
     render(){
         var {offer} = this.props;
         return(
-                this.props.offer?
+                this.props.offer.offerBudget?
                     <div style={{background:"#fff",padding:"40px 20px 10px"}}>
                         <h2>Order #{offer.ticket} <span style={{float:"right"}}>${offer.offerBudget}</span></h2> 
                         <p>Buyer: {this.props.auth.user.username} | {moment(offer.date).format("ll")} </p>

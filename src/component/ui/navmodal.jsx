@@ -28,7 +28,7 @@ export default class Navmodal extends Component{
                                  <Grid.Row >
                                  <Grid.Column>
                                  <Button inverted color="orange" icon="sign-out" circular size="big" floated="left"/>
-                                     <Link to="#" onClick={this.props.logout}>Sign out</Link>
+                                     <a href="#" onClick={()=>this.props.logout()}>Sign out</a>
                                  </Grid.Column>
                                  </Grid.Row>
                                :

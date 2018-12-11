@@ -100,7 +100,22 @@ export default class Aboutus extends Component{
                         </Grid>
                 </section>
                 <Bottomsection {...this.props} />
-               <Footer />
+                <style>{`
+           
+           .xnav{
+            background: #fff;
+            color: #000;
+            border-bottom:1px solid #ddd;
+
+            }
+        .xnav  a{
+                color: #000 !important
+            }
+            .xnav .navmodal a{
+                color: #f7f7f7 !important
+            }
+           `}</style>
+               <Footer  history={this.props.history}/>
             </div>
         )
     }
