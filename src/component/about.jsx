@@ -1,122 +1,141 @@
 import React,{Component} from  "react"
-import { Popup ,Button, Grid} from 'semantic-ui-react'
-import Footer from "./footer";
+import {Button,Embed, Dimmer, Header, Icon, Step ,Input, Form, TextArea, Grid, Divider, Image, ImageGroup, Card} from 'semantic-ui-react'
 import Navbar from "./navbar";
-import Featurebox from "./ui/featurebox";
-import Bottomsection from "./ui/bottomsection";
-import {connect} from "react-redux"
+import Footer from "./footer";
 import Particles from "react-particles-js";
-
-
-export default class Aboutus extends Component{
+import Typist from "react-typist"
+import {connect} from "react-redux"
+import $ from "jquery"
+function mapStateToProps(state){
+    return {auth: state.auth}
+}
+class About extends Component{
     constructor(props){
-        super(props);
+        super(props)
+        this.state ={
+            active:false
+        }
+    }
+ 
+    componentDidMount() {
+         $(window).on("scroll",()=>{
+        if(window.scrollY >500 && $(window).innerWidth() > 800 && window.scrollY < $('#content').innerHeight() ){
+        $('#sidebar').addClass("fix")
+        }else $('#sidebar').removeClass("fix")
+    })
     }
     render(){
         return(
-            <div className="about light">
-                <Navbar {...this.props}/>
-                
-                <section  className=" first-section" style={{}}>
-                  
-                    <div className="content">
-                        <Grid columns="equal" container>
-                            <Grid.Column>
-                            </Grid.Column>
-                            <Grid.Column className="no-xspad" width="8" mobile="16" tablet="8" computer="8">
-                                <h1 data-aos="zoom-up" >Learn About Us</h1>
-                                <p data-aos="fade-up" data-aos-delay="300" style={{fontSize:'1.3em'}}>
-                                We are professionals. A team of Developers, Designers, and Devops engineers. Our main aim is to bring ideas to life and put a smile on our customers. We build interactive websites/mobile application and solve problems in a creative way. Take that bold step now and you’ll finally have a sleek & practical web app to be proud of!</p>
-                                <div class='ui buttons' data-aos="fade-up" data-aos-delay="300">
-                                <button class='ui button' role='button' onClick={()=>this.props.history.push('/reviews')}>
-                                    Reviews
-                                </button>
-                                <div class='or' />
-                                <button class='ui orange button' role='button' onClick={()=>this.props.history.push('/contact')}>
-                                    Contact us
-                                </button>
-                                </div>
-                            </Grid.Column>
-                            <Grid.Column>
-                            </Grid.Column>
-                        </Grid>
-                    </div>
+              <div className="misc ">
+                  <Navbar {...this.props} />
+                  <section  className="first-section"  style={{}}>
+                  <Particles params={{
+	    "particles": {
+	        "number": {
+	            "value": 160,
+	            "density": {
+	                "enable": false
+	            }
+	        },
+	        "size": {
+	            "value": 3,
+	            "random": true,
+	            "anim": {
+	                "speed": 4,
+	                "size_min": 0.3
+	            }
+	        },
+	        "line_linked": {
+	            "enable": false
+	        },
+	        "move": {
+	            "random": true,
+	            "speed": 1,
+	            "direction": "bottom",
+	            "out_mode": "out"
+	        }
+	    },
+	    "interactivity": {
+	        "events": {
+	            "onhover": {
+	                "enable": true,
+	                "mode": "bubble"
+	            },
+	            "onclick": {
+	                "enable": true,
+	                "mode": "repulse"
+	            }
+	        },
+	        "modes": {
+	            "bubble": {
+	                "distance": 250,
+	                "duration": 2,
+	                "size": 0,
+	                "opacity": 0
+	            },
+	            "repulse": {
+	                "distance": 400,
+	                "duration": 4
+	            }
+	        }
+	    }
+	}} style={{position:"absolute",width:"100%",top:0,left:0}} />
+                    <div className="ui container  ">
+                    <div  >
+                    <Grid columns="equal" textAlign="center">
+                        <Grid.Column width="8" mobile="16" tablet="8" computer="8">
+                            {/* <Image size="small" src="../images/devcon.jpg" avatar/> */}
+                            <h1 className="open-sans2" >
+                            Welcome to StreamJar
+                            </h1>
+                        </Grid.Column>
+                            </Grid>
+                     </div>
+                     </div>
+                   </section>
+                <section className="ui container second" style={{padding:"40px 0px ",fontSize:"1.1em"}}>
+                    <Grid columns="equal">
+                        <Grid.Column width="4" mobile="16" tablet="4" computer="4" className="no-xspadding">
+                           {/* <div id="sidebar">
+                           <Card style={{boxShadow:"none"}}>
+                        <Card.Content>
+                            <Card.Header>Contact info</Card.Header>
+                            <Card.Meta style={{margin:"20px 0px 10px"}} ><Icon name="address card outline" /> Address</Card.Meta>
+                            <Card.Description>Nigerian Airforce Base, Along Dill clinton drive Nnamdi Azikwe International Airport. Belgium</Card.Description>
+                            <Card.Meta style={{margin:"20px 0px 10px"}}><Icon name="phone" /> Phone</Card.Meta>
+                            <Card.Description>+123456780</Card.Description>
+                            <Card.Meta style={{margin:"20px 0px 10px"}}><Icon name="envelope outline" /> Email Address</Card.Meta>
+                            <Card.Description>support@streamjar.com</Card.Description>
+                        </Card.Content>
+                        </Card>
+                            </div> */}
+                        </Grid.Column>
+                        <Grid.Column id="content" width="12" mobile="16" tablet="12" computer="12">
+                        <h1>About</h1>
+                        <p><b>A tip jar for streamers aimed at helping streamers increase their revenue and keep fans more engaged</b></p>
+                            <Divider />
+                          <p className="lato" style={{paddingTop:"30px"}}><b>How it Works</b></p> 
+                          <p>StreamJar is a service that allows viewers to tip streamers for free (aka. the viewer doesn't have to spend their hard earned money). While some viewers do donate their own money, the vast majority of a streamer's audience do not. StreamJar aims to help streamers monetize this vast majority by helping get the non-paying viewers more involved. Our platform lets streamers create a profile which will generate a donations page. Instead of your typical donation page which asks viewers for PayPal or credit card info, StreamJar lists out available apps, surveys, and other actions viewers can complete. Each time a viewer completes an action such as downloading a free app, the streamer gets paid. You can view a demo page here (link to demo profile page).</p>
+                          <p className="lato"  style={{paddingTop:"30px"}}><b>Sign up now</b></p>
+                          <p>As a way to say thank you to our early adopters, we are offering a 5% bonus to all streamers who create a profile during the Beta phase. For every donation you receive, you will earn a 5% bonus on top of the original donation. This bonus will last for the lifetime of your time with us at StreamJar. The bonus phase won't last long, so sign up now!
+                            </p>             
+                          <p className="lato" style={{paddingTop:"30px"}}><b>Coming Soon</b></p> 
+                            <p>StreamJar is currently in Beta testing. Not all features have been implemented. Here is what is in the pipeline.</p>
+                          <p><Icon name="arrow right"  /> Viewers can leave messages for streamer</p>
+                          <p><Icon name="arrow right"  /> On stream alerts.</p>
+                          <p><Icon name="arrow right"  /> User suggestions.</p>
+                          
+                        
+                          <p  style={{paddingTop:"30px"}}>
+                          The StreamJar platform is designed for you, the streamer. We want to hear your suggestions on what you like and dislike. What could make this platform better? Is there something you need that is missing? We would love to hear your suggestions at feedback@streamjar.co. The StreamJar team will try to add many features based on your feedback!</p> 
+                        
+                        </Grid.Column>
+                    </Grid>
                 </section>
+                <Footer/>
                 
-                <section className="ui  features ">
-                        <Grid columns="equal" container>
-                            <Grid.Column mobile="16" only="mobile" className="no-xspad">
-                                <h2 className="open-sans2"> Features Overview</h2>
-                                <p style={{fontSize:"1em",color:"#aaa"}}>
-                                With our dedicated and briliant minds, you are rest assured that your innovative idea will see the light of the day in no time.
-                                </p>
-                            </Grid.Column>
-                            <Grid.Column width="9" mobile="16" tablet="9" computer="9" >
-                                <Grid columns="equal" >
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox icon="power off icon" content="Performance Optimize"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="300" icon="game icon" content="INTUITIVE & EASY TO USE"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="600" icon="file icon" content="UNLIMITED PAGE TEMPLATE"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="900" icon="youtube icon" content="YOUTUBE API SUPPORT"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="900" icon="youtube icon" content="YOUTUBE API SUPPORT"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="1200" icon="code off icon" content="FRONTEND FRAMEWORKS "/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="1500" icon="server off icon" content="RESTFUL API DEVELOPMENT "/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox  delay="1800" icon="desktop icon" content="RESPONSIVE DESIGN"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="2100" icon="mobile icon" content="MOBILE APP DEVELOPMENT"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="2700" icon="tablet off icon" content="USSD APP DEVELOPMENT "/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="3000" icon="cloud icon" content="CLOUD COMPUTING SERVICES"/>
-                                    </Grid.Column>
-                                    <Grid.Column width="4" mobile="8" tablet="4" computer="4">
-                                        <Featurebox delay="3000" icon="bug icon" content="BUG FREE AND DEBUGGING"/>
-                                    </Grid.Column>
-                                </Grid>
-                            </Grid.Column>
-                            <Grid.Column only="tablet computer">
-                                <h2 className="open-sans2"> Features Overview</h2>
-                                <p style={{fontSize:"1.2em",color:"#aaa"}}>
-                                With our dedicated and briliant minds, you are rest assured that your innovative idea will see the light of the day in no time.
-                                </p>
-                            </Grid.Column>
-                        </Grid>
-                </section>
-                <Bottomsection {...this.props} />
-                <style>{`
-           
-           .xnav{
-            background: #fff;
-            color: #000;
-            border-bottom:1px solid #ddd;
-
-            }
-        .xnav  a{
-                color: #000 !important
-            }
-            .xnav .navmodal a{
-                color: #f7f7f7 !important
-            }
-           `}</style>
-               <Footer  history={this.props.history}/>
-            </div>
+              </div>
         )
     }
 }
+export default connect(mapStateToProps)(About)

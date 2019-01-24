@@ -1,6 +1,6 @@
 
 .white {background:#fff}
-.light {background:#f7f7f7 !important}
+.light {background:#f8f9fa !important}
 .gray {background:#6c757d}
 .dark-grey{background: #343a40}
 .dark {background:#343a40}
@@ -62,9 +62,13 @@ a{
 .nav-brand{
     font-family:open-sans2;
     font-size:1.5em;
-    padding-top:8px
 }
+.nav-brand img{
+    width:  25px !important;
+    display: inline-block !important;
+    margin-right: 10px
 
+}
 .commingsoon h1{
     font-size: 4em;
 }
@@ -74,10 +78,15 @@ a{
     bottom:20px;
     text-align: center
 }
+#sidebar.fix{
+    position: fixed;
+    top: 100px;
+    transition: 0.2s ease-in
+}
 .scroll-top{
     position: fixed;
     right: 20px;
-    bottom:120px;
+    bottom:20px;
     text-align: center
 }
 .side-widget{
@@ -106,7 +115,8 @@ a{
     display: block
 }
 .ui.grid{
-    /* margin: 0px !important; */
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }
 .ui.dimmer{
     position: fixed !important
@@ -114,109 +124,23 @@ a{
 .ui.basic.segment{
     padding: 0px;
 }
-
-.request .first-section{
-    padding: 120px 0px 50px
-}
-.request .stepone{
-    padding: 0px 0px 50px;
-}
-.contact section
-{
-    padding: 30px 0px
-}
-.contact .large-comment{
-    background:linear-gradient( 45deg, rgb(243, 118, 55) 0%,rgb(121, 14, 98) 100%);
-    padding: 50px;
-    color: #fff
-}
-.contact .large-comment::after{
-    position: absolute;
-    content: "";
-    border-style: solid;
-    border-width: 20px;
-    bottom: -20px;
-    left: 50px;
-    border-top-color: #ea6d33;
-    border-right-color: transparent;
-    border-left-color: transparent;
-    border-bottom-color: transparent;
-    z-index: 10;
-}
-
-.contact .large-comment span{
-    font-size: 1.1em;
-}
-.contact .first-section{
-    background:#fff url('../images/china.jpg');
-    background-position:bottom;
-    color:#fff;
-    background-attachment:fixed
-}
-.contact .content{
-    padding:150px 0px 60px;
-    color:#fff
-}
- .form-box{
-    padding: 30px;
+.xloader{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     background: #fff;
-    border: 1px solid #eee
-}
-.affiliates .first-section,.misc .first-section{
-    background:url('../images/bg.jpg');
-    background-position:center;
-    color:#fff;
-    background-attachment:fixed;
-    background-position: bottom;
-    padding:180px 0px 150px;
-    overflow: hidden;
-}
-.affiliates .second button {
-    margin-top: 20px !important
-}
-.about .features{
-    background: rgb(45,47,50) url('../../images/code.jpg') no-repeat;
-    background-size: 60%;
-    background-position-x: right;
-    background-position-y: bottom;
-    padding: 50px 0px;
-    color: #eee;
-
-}
-
-.about .feature-box{
-    padding: 20px 10px;
-    box-shadow: 0 3px 5px 0 #111;
-    color:#aaa;
-    text-align: center
-}
-.about .feature-box i{
-    color: #ccc
-}
-.about .feature-box p{
-    font-size: 0.8em;
-    text-transform: uppercase;
-    font-weight: bolder;
-}
-.about .first-section h1{
-    font-size:3em;
-}
-.about .first-section .content{
-    padding: 300px 0px;
-}
-.about .first-section{
-    background:#e0e0e0 url('../images/react-desk.jpg') no-repeat;
-    background-size:100%;
-    text-align: center;
+    z-index: 1029;
 }
 .signin .left-grid{
     position: absolute;
-    width: -webkit-fill-available;
-    background: url('../../images/china.jpg');
+    width: 100%;
+    left:0;
+    background: url('../../images/darkbg.png');
     height:-webkit-fill-available;
     text-align: center;
     background-position: top;
-    color: #000;
+    color: #eee;
     padding: 150px 10px 10px
 }
 .signin .right-grid{
@@ -225,6 +149,32 @@ a{
     height:  -webkit-fill-available;
     background: #fff;
     padding: 150px 10px 10px
+
+}
+
+.admin .left-grid{
+    position: absolute;
+    width: 100%;
+    left:0;
+    background: url('../../images/darkbg.png');
+    height:-webkit-fill-available;
+    text-align: center;
+    background-position: top;
+    color: #eee;
+    padding: 150px 10px 10px
+}
+.admin .left-grid a{
+    color: #fff !important;
+    font-size: 1.3em;
+    font-weight: bolder;
+}
+.admin .right-grid{
+    position: absolute;
+    width: -webkit-fill-available;
+    height:  -webkit-fill-available;
+    background: #fff;
+    padding-right: 50px;
+    padding-top: 100px
 
 }
 .signin input,.profile-card .edit-profile input{
@@ -261,21 +211,47 @@ a{
     padding: 20px 0px;
     font-size: 0.8em;
     text-align: center;
-    font-weight: bolder
+    font-weight: bolder;
+
 }
-.home .first-section{
+.misc .first-section{
     background:#000 url('../images/home-parrot-main-react.png');
     background-position:right;
     background-size:cover;
     color:#eee;
     background-attachment:fixed;
-    padding: 200px 10px 250px;
+    padding: 150px 10px ;
+    text-align: center;
+    position: relative;
+}
+.misc .second-section{
+    padding: 30px 10px ;
+}
+.misc .ui.loading.form:after{
+    font-size: 0.3em !important
+}
+.dashboard .first-section{
+    background:#000 url('../images/home-parrot-main-react.png');
+    background-position:right;
+    background-size:cover;
+    color:#eee;
+    background-attachment:fixed;
+    padding: 100px 10px ;
+    text-align: center
+}
+.home .first-section{
+    /* background:#000 url('../images/darkbg.png');
+    background-position:right;
+    background-size:cover;
+    color:#eee;
+    background-attachment:fixed; */
+    padding: 150px 10px 30px;
 }
 .home .first-section h1{
     font-size: 2.5em !important
 }
 .home .second-section{
-    padding:100px 0px;background:url('../images/apps.png');
+    padding:100px 0px;
     background-size:60%;
     background-position:right;
     background-repeat:no-repeat;
@@ -287,7 +263,7 @@ a{
     font-size: 2.5em !important;
 }
 .home .third-section{
-    background:linear-gradient( 45deg, rgb(243, 118, 55) 0%,rgb(121, 14, 98) 100%);
+    background:linear-gradient( 45deg, rgb(243, 118, 55) 0%,rgb(32, 30, 32) 100%);
     background-position:center;
     color:#fff;
     padding: 100px 0px;
@@ -298,38 +274,18 @@ a{
 .home .xlgicon i{
     font-size: 5em !important
 }
-.chat .event{
-    padding: 10px 10px !important;
-    border-top: 1px solid #ddd !important
-}
-.chat .messages .event{
-    border-top: unset !important
-}
-.chat .event:hover{
-    background: #f8f8f8 !important
-}
-.chat .event.active{
-    background: rgba(243, 118, 55,0.4) !important
-}
-.chat .event .content .text.extra{
-    white-space: pre-wrap
-}
-.chat .event .content .header{
-    text-transform: capitalize
-}
-.chat .xheight{
-    max-height: 450px;
-    overflow: auto;
-}
 .xnav .ui.horizontal.list>.item a{
     /* margin-left: 20px !important; */
     font-weight: bolder;
 }
 .xnav{
     /* border-bottom: 1px solid #ddd; */
+    /* background: #fff; */
     position: absolute;
     width: -webkit-fill-available;
     z-index: 1089;
+    top:0;
+    left: 0;
 transition: 0.2s ease-in;
 color: #fff
 
@@ -337,6 +293,7 @@ color: #fff
 
 .xnav.fixed{
 position: fixed;
+left: 0;
 transition: 0.2s ease-in;
 background: #fff;
 border-bottom: 1px solid #ddd;
@@ -351,12 +308,17 @@ color: #000;
 .xnav a{
     color: #fff !important
 }
-
-.navmodal,.commingsoon{
+.xnav .ui.basic.orange.button:hover{
+    background: #f26202 !important;
+    color:#eee !important
+}
+.navmodal{
     position:fixed;
     height: 100%;
+    overflow-y: auto;
     width: 100%;
     top:0;
+    left: 0;
     bottom: 0;
     background:rgba(0, 0, 0, 0.9);
     background-position: right;
@@ -364,10 +326,22 @@ color: #000;
     color:#f7f7f7;
     padding: 50px 0px; 
 }
+.commingsoon{
+    position:fixed;
+    height: 100%;
+    width: 100%;
+    top:0;
+    bottom: 0;
+    background: url("../images//darkbg.png");
+    background-position: right;
+    z-index: 2000;
+    color:#f7f7f7;
+    padding: 200px 0px; 
+}
 .navmodal a{
     color:#f7f7f7 !important;
     margin-top: 12px;
-    font-size: 1.5em;
+    font-size: 1.3em;
     float: left;
     padding-left: 5px;
 }
@@ -433,24 +407,20 @@ color: #000;
     display: block;
     transition: 0.2s ease-in;
 }
-.bottom-section .b-box{
-    padding:80px 10px;
-    text-align:center;
-    font-size:1.2em;
-    font-weight:bolder;
+.home .epistle{
+    font-size: 1.3em
 }
-.bottom-section{
-    border-top: 1px solid #d7d7d8;
-    border-bottom: 1px solid #d7d7d8;
-    background: #fff;
+.dashboard .epistle{
+    font-size: 1em
 }
 footer{
     /* padding: 20px 40px; */
-    background : url('../../../images/world2.png'),#333;
-    background-position-y: bottom;
+    background :#111 url("../images/darkbg.png");
+    background-position-y: 0px;
     background-position-x: right;
-    background-size: 40%;
+    background-size: 100%;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     color:#999;
     /* border-top:1px solid #eee */
 }
@@ -485,16 +455,22 @@ footer button.ask{
     background: transparent !important;
     border: 1px solid #999 !important
 }
-
 @media (max-width:400px){
+    .ui.container{
+        margin-left: 0.5em !important;
+        margin-right: 0.5em !important;
+    }
     .home .second-section h1, .home .third-section h1,.about  .first-section h1, .request .first-section h1,.contact .first-section h1{
         font-size: 2em !important
     }
-    .home .first-section h1{
+    .home .first-section h1,.ourclients h1{
         font-size: 2em !important
     }
     .home .first-section{
-    padding: 160px 0px;
+    padding: 110px 0px;
+    margin-top:50px;
+    background-position-x: left;
+    min-height: 550px;
     }
     .request .first-section, .contact .first-section .content{
         padding: 100px 0px 50px !important
@@ -528,7 +504,7 @@ footer button.ask{
         padding: 70px 0px
     }
     .nav-brand{
-        padding-top:10px
+        /* padding-top:10px */
     }
     .request .ui.tag.label.label{
         display: none
@@ -541,9 +517,12 @@ footer button.ask{
       padding-top: 30px !important;
 
     }
-    .no-xspad{
+    .no-xspad,.ui.container.no-xspad{
         padding-left: 0px !important;
         padding-right: 0px !important;
+    }
+    .no-xspadding{
+        padding: 0px !important
     }
     .message-box{
         position: relative;
@@ -556,8 +535,11 @@ footer button.ask{
     .signin input,.profile-card .edit-profile input{
         padding-left: 5px !important
     }
+    .signin form h3 {
+        text-align: center
+    }
     .navmodal{
-        width: 92%;
+        width: 100%;
         padding: 25px 0px
     }
     .modal-links{
@@ -572,7 +554,7 @@ footer button.ask{
     }
     .navmodal a{
         float: unset !important;
-        font-size: 0.9em;
+        /* font-size: 0.9em; */
         display: block;
     }
     footer .main-footer{
@@ -585,6 +567,7 @@ footer button.ask{
         padding-left: 10px!important;
         padding-right: 10px!important;
     }
+
     .hide-xs{
         display: none
     }
@@ -596,7 +579,28 @@ footer button.ask{
             color: #000 !important
         }
       
-        .xnav.fixed .navmodal a,.xnav .navmodal a{
+    .xnav.fixed .navmodal a,.xnav .navmodal a{
             color: #f7f7f7 !important
         }
+    .ourservices .ui.card>.content{
+            padding: 60px 10px !important
+        
+        }
+    .ourservices .first-row{
+            margin-top: unset !important;
+        }
+    .ourservices .xcontainer,.ourclients .xcontainer{
+           padding: 0px 10px !important;
+        }
+    .scroll-top,.bottom-chatbox {
+            right: 10px;
+        }
+
+    .commingsoon{
+        padding: 150px 10px
+    }
+    .epistle{
+        font-size: 1.2em
+    }
+   
 }

@@ -4,9 +4,10 @@ import axios from "axios"
 import setAuthorizationToken from "./auth"
 import apiUrl from "../config.js"
 import jwt from "jsonwebtoken"
-import { Button,Form,Checkbox,Select,Message, Grid } from 'semantic-ui-react';
+import { Button,Form,Checkbox,Select,Message, Grid, Divider } from 'semantic-ui-react';
 import { countries } from './forms/countries';
-import Fblogin from './facebookauth';
+import Twitchlogin from './ui/twitchlogin';
+import Googlelogin from './ui/googleLogin';
 export default class Signin extends Component {
     constructor(props) {
         super(props);
@@ -21,8 +22,6 @@ export default class Signin extends Component {
         this.typing = this.typing.bind(this)
     }
     componentWillMount() {
-       var token= window.localStorage.getItem("kaytoken")
-       if(token) this.props.history.push("/dashboard")
        
     }
     login(e) {
@@ -32,12 +31,11 @@ export default class Signin extends Component {
                 if (res.data.error) {
                     this.setState({ ...this.state, error: res.data.error });
                 } else if (res.data.token) {
-                    var userData = jwt.verify(res.data.token, "1864")
+                    var userData = jwt.verify(res.data.token, "streamers")
                     if (userData) {
-                        var data = jwt.decode(res.data.token,"1864");
-                        localStorage.setItem("kaytoken", res.data.token);
+                        var data = jwt.decode(res.data.token,"streamers");
+                        localStorage.setItem("jartoken", res.data.token);
                         localStorage.setItem("username", data.username);
-                        if(data.role==="support")localStorage.setItem("role", data.role);
                         setAuthorizationToken(res.data.token);
                         window.location.assign(`/dashboard`)
                     }
@@ -66,33 +64,37 @@ export default class Signin extends Component {
                         <div className="left-grid">
                             <div className="brand">
                                 <i className="cube icon"></i>
-                            <h2>REACTANGLE</h2>
+                            <h2>StreamJar</h2>
                             </div>
-                            <div style={{fontSize:"1em"}}>We create brand identities that clients bear jealously. When we build apps or websites, we make them visually appealing and resilient. From your ideas to product to scaling up, we’ve always got you covered.</div>
+                            <div style={{fontSize:"1em"}}>A tip jar for streamers aimed at helping streamers increase their revenue and keep fans more engaged</div>
                             <div style={{padding:"20px 0px"}}>
                                 <p>Sign in with</p>
-                            <button class='ui google plus  button' role='button'>
-                                <i   class='google plus icon medium' />Google 
-                            </button> 
-                            
-                            <Fblogin />
+                                <Googlelogin />
+                            <Twitchlogin />
                             </div>
                         </div>
                     </Grid.Column>
-                    <Grid.Column width="12" mobile="16" tablet="12" computer="12">
+                    <Grid.Column width="12" mobile="16" tablet="12" computer="12" className="no-xspadding">
                     <div className="right-grid">
                             <Grid columns="equal" container>
-                                <Grid.Column width="4" mobile="16" only="mobile" >
+                                <Grid.Column  mobile="16" only="mobile" style={{padding:"0px"}}>
                                 <div className="brand " style={{textAlign:"center"}}>
                                     <i className="cube icon"></i>
-                                    <h2>REACTANGLE</h2>
+                                    <h2>SteamJar</h2>
                                 </div>
+                                <center style={{padding:"20px 0px"}}>
+                                <p>Sign in with</p>
+                                <Googlelogin />
+                            <Twitchlogin />
+                            </center>
+                            <Divider horizontal>Or</Divider>
+
                                 </Grid.Column>
                                 <Grid.Column  only="tablet computer">
                                 </Grid.Column>
-                                <Grid.Column width="8" mobile="16" tablet="8" computer="8">
+                                <Grid.Column width="8" mobile="16" tablet="8" computer="8" classN="no-xspadtop">
                                     <Form onSubmit={this.login} loading={this.state.isLoading} warning >
-                                    <h3 style={{color:"#555",marginBottom:"15px"}}>Sign in</h3>
+                                    <h3 style={{color:"#555",marginBottom:"15px"}} className="hide-xs">Sign in</h3>
                                     {this.state.error?
                                     <div class='ui warning message'>
                                     <small>{this.state.error}</small>
@@ -126,9 +128,12 @@ export default class Signin extends Component {
                                             onChange={this.typing}
                                             required/>
                                         </Form.Field>
-                                    <Button type='submit' color="orange">Submit</Button>
+                                    <Button type='submit' color="red">Submit</Button>
                                     <div className="bottom-text">
                                     Not a member? <Link to="/signup">Create an account</Link>
+                                    <br/>
+                                    <Link to="/forgot-password">Forgot password? click here</Link>
+
                                 </div>
                                 </Form>
                                 </Grid.Column>

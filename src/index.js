@@ -10,9 +10,9 @@ import { setCurrentUser } from "./actions/index"
 import setAuthorizationToken from "./component/auth"
 import 'semantic-ui-css/semantic.min.css';
 var store = createStore(allReducer);
-if (window.localStorage.kaytoken) {
-    setAuthorizationToken(window.localStorage.kaytoken);
-    var decodedToken = jwt.decode(window.localStorage.kaytoken);
+if (window.localStorage.jartoken) {
+    setAuthorizationToken(window.localStorage.jartoken);
+    var decodedToken = jwt.decode(window.localStorage.jartoken);
     store.dispatch(setCurrentUser(decodedToken))
 }
 ReactDOM.render(<BrowserRouter>

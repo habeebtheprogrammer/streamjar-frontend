@@ -10,13 +10,18 @@ class Privateroute extends Component {
         this.checkRole=this.checkRole.bind(this)
     }
     checkRole(props){
-       if(this.props.auth.user.role=="support")return <Redirect
+        console.log(this.props)
+       if(this.props.auth.user.role ==="admin" && this.props.path=="/admin/dashboard") 
+        return <this.props.component {...props}  auth={this.props.auth}/>
+        else if(this.props.auth.user.role !=="admin" && this.props.path=="/admin/dashboard") 
+        return <Redirect
        to={{
-       pathname: "/messages",
+       pathname: "/dashboard",
        state: { from: props.location }
        }}
        />;
        else return <this.props.component {...props}  auth={this.props.auth}/>
+         
     }
     render() {
         return (
