@@ -4,7 +4,7 @@ import axios from "axios"
 import setAuthorizationToken from "../auth"
 import apiUrl from "../../config.js"
 import jwt from "jsonwebtoken"
-import { Button,Form,Checkbox,Select,Message, Grid } from 'semantic-ui-react';
+import { Button,Form,Checkbox,Select,Message, Grid, Image } from 'semantic-ui-react';
 export default class Signin extends Component {
     constructor(props) {
         super(props);
@@ -64,7 +64,7 @@ export default class Signin extends Component {
                             <Grid columns="equal" container>
                                 <Grid.Column  mobile="16" only="mobile" style={{padding:"0px"}}>
                                 <div className="brand " style={{textAlign:"center"}}>
-                                    <i className="cube icon"></i>
+                                    <Link to="/" style={{textAlign:"center"}}><Image src={`${apiUrl}/images/logo.png`} style={{display:"inherit"}} size="mini" /></Link>
                                     <h2>SteamJar</h2>
                                 </div>
                                 </Grid.Column>
@@ -88,6 +88,7 @@ export default class Signin extends Component {
                                             id='form-subcomponent-shorthand-input-first-name'
                                             label='Username'
                                             name="username"
+                                            type="text"
                                             onChange={this.typing}
                                             required
                                         />
@@ -95,6 +96,7 @@ export default class Signin extends Component {
                                             id='form-subcomponent-shorthand-input-password'
                                             label='Password'
                                             name="password"
+                                            type="password"
                                             onChange={this.typing}
                                             required
                                         />

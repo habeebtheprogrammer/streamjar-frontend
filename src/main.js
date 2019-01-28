@@ -14,6 +14,7 @@ import Profile from './component/profile';
 import About from './component/about';
 import Reset from './component/reset';
 import Postback from './component/postback';
+import Checkstatus from './container/checkstatus';
 class App extends Component {
     constructor(props){
         super(props);
@@ -32,14 +33,14 @@ class App extends Component {
                     <Route exact path="/ogads/postback" component={Postback} />
                     <Route exact path="/find" component={Find} />
                     <Route exact path="/forgot-password" component={Reset} />
-                    <Route exact path="/signin" component={Signin} />
                     <Route exact path="/about" component={About} />
-                    <Route exact path="/signup" component={Signup} />
                     <Route exact path="/profile/u/:username" component={Profile} />
                     <Privateroute exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/" component={Home} />
                     <Route exact path="/admin/signin" component={Asignin} />
                     <Privateroute exact path="/admin/dashboard" component={Adashboard} />
+                    <Checkstatus exact path="/signup" component={Signup} />
+                    <Checkstatus exact path="/signin" component={Signin} />
                     <Route path="*" component={Home} />
                     
                 </Switch>

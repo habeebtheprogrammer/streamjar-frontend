@@ -10,7 +10,6 @@ class Privateroute extends Component {
         this.checkRole=this.checkRole.bind(this)
     }
     checkRole(props){
-        console.log(this.props)
        if(this.props.auth.user.role ==="admin" && this.props.path=="/admin/dashboard") 
         return <this.props.component {...props}  auth={this.props.auth}/>
         else if(this.props.auth.user.role !=="admin" && this.props.path=="/admin/dashboard") 

@@ -18,9 +18,9 @@ export default class Postback extends Component{
         var href = new URL(window.location.href)
         var url = new URLSearchParams(href.search)
         var accountID = url.get("accountID")
-        var referredBy = url.get("referralID")
+        var referralID = url.get("referralID")
         var payout = url.get("payout")
-        Axios.post(`${apiUrl}/api/postback`,{accountID,referredBy,payout}).then((res)=>{
+        Axios.post(`${apiUrl}/ogads/postback`,{accountID,referralID,payout}).then((res)=>{
                 this.props.history.push('/')
         })                
             .catch((err)=>this.props.history.push('/'))

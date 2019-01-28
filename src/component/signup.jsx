@@ -4,7 +4,7 @@ import axios from "axios"
 import setAuthorizationToken from "./auth"
 import apiUrl from "../config.js"
 import jwt from "jsonwebtoken"
-import { Button,Form,Checkbox,Select,Grid, Icon, Divider } from 'semantic-ui-react';
+import { Button,Form,Checkbox,Select,Grid, Icon, Divider, Image } from 'semantic-ui-react';
 import { countries } from './forms/countries';
 import { GoogleLogin } from 'react-google-login';
 import Googlelogin from './ui/googleLogin';
@@ -69,7 +69,7 @@ export default class Signup extends Component {
                     <Grid.Column width="4"  tablet="4" computer="4" only="tablet computer">
                         <div className="left-grid">
                             <div className="brand">
-                                <i className="cube icon"></i>
+                    <Link to="/" style={{textAlign:"center"}}><Image src={`${apiUrl}/images/logo.png`} style={{display:"inherit"}} size="tiny" /></Link>
                             <h2>StreamJar</h2>
                             </div>
                             <div style={{fontSize:"1em"}}>A tip jar for streamers aimed at helping streamers increase their revenue and keep fans more engaged</div>
@@ -81,7 +81,7 @@ export default class Signup extends Component {
                             <Grid columns="equal" container>
                                 <Grid.Column width="4" mobile="16" only="mobile" className="no-xspadding">
                                 <div className="brand " style={{textAlign:"center"}}>
-                                    <i className="cube icon"></i>
+                                    <Link to="/" style={{textAlign:"center"}}><Image src={`${apiUrl}/images/logo.png`} style={{display:"inherit"}} size="mini" /></Link>
                                     <h2>StreamJar</h2>
                                 </div>
                                 <center style={{padding:"20px 0px"}}>
@@ -135,6 +135,8 @@ export default class Signup extends Component {
                                         id='form-subcomponent-shorthand-input-password'
                                         label='Password'
                                         name="password"
+                                        type="password"
+
                                         onChange={this.typing}
                                         value={password}
                                         required
