@@ -12,6 +12,7 @@ import Loading from "./ui/loader";
 import Changepassword from "./ui/changepassword";
 import Descwidget from "./ui/desc";
 import Paymentwidget from "./ui/paymentwidget";
+import DpImageUpload from "./forms/changedp";
 function mapStateToProps(state){
     return {auth: state.auth}
 }
@@ -62,7 +63,8 @@ function mapStateToProps(state){
                     <div  >
                     <Grid columns="equal" textAlign="center">
                         <Grid.Column width="8" mobile="16" tablet="8" computer="8">
-                            <Image size="tiny" src={user.profileDetails.picture} avatar/>
+                            
+                            <DpImageUpload user={user}/>
                             <h2 className="open-sans2" >
                             <span>{this.state.user.username}</span><br />
                             </h2>

@@ -42,7 +42,7 @@ export default class Navbar extends Component{
     render(){
         var link = this.props.auth.user.role=="admin"?"/admin/dashboard":"/dashboard"
         const trigger = <span >
-            <Image src={`${this.props.auth.user.picture}`} avatar /> {this.props.auth.user.username}
+            <Image src={`${window.localStorage.getItem("picture")}`} avatar /> {this.props.auth.user.username}
         </span>
         var token = window.localStorage.getItem("kaytoken")
         return(

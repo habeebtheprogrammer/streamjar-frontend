@@ -152,6 +152,26 @@ a{
 
 }
 
+button.uploadDp{
+    position: absolute;
+    z-index: 102;
+    left: 42%;
+    right: 42%;
+    top:18%;
+    margin: auto
+}
+.changeImg{
+    display: inline-block
+}
+.changeImg .uploadDp{
+    display: none !important
+}
+.changeImg:hover .uploadDp {
+    display: block !important
+}
+.changeImg .ui.loading.form:before{
+    border-radius: 100% !important
+}
 .admin .left-grid{
     position: absolute;
     width: 100%;

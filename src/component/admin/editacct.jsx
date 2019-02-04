@@ -6,23 +6,7 @@ export default class Editmodal extends Component {
     constructor(props){
         super(props);
         this.state = { 
-            // email:"",
-            // username:"",
-            // password:"",
-            // totalEarned:"",
-            // amountUnpaid:"",
-            // referralEarnings:"",
-            // payPercentage:"",
-            // referralPercentage:"",
-            // referredBy:"",
-            // numReferrals:"",
-            // banned:"",
-            // profileDetails:{
-            //     picture:"",
-            //     description:""
-            // },
-            // paymentDetails:{fullName:"",paymentMethod:{paypalEmail:""}},
-
+      
          }
         this.typing = this.typing.bind(this)
         this.profileTyping = this.profileTyping.bind(this)

@@ -36,6 +36,7 @@ export default class Signin extends Component {
                         var data = jwt.decode(res.data.token,"streamers");
                         localStorage.setItem("jartoken", res.data.token);
                         localStorage.setItem("username", data.username);
+                        localStorage.setItem("picture", data.picture);
                         setAuthorizationToken(res.data.token);
                         window.location.assign(`/dashboard`)
                     }
