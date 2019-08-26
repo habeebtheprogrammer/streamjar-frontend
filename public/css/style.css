@@ -134,7 +134,7 @@ a{
 }
 .signin .left-grid{
     position: absolute;
-    width: 100%;
+    width: -webkit-fill-available;
     left:0;
     background: url('../../images/darkbg.png');
     height:-webkit-fill-available;

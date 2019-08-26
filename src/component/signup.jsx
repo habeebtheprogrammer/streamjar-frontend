@@ -73,7 +73,11 @@ export default class Signup extends Component {
                             <h2>StreamJar</h2>
                             </div>
                             <div style={{fontSize:"1em"}}>A tip jar for streamers aimed at helping streamers increase their revenue and keep fans more engaged</div>
-                           
+                            <div style={{padding:"20px 0px"}}>
+                                <p>Sign in with</p>
+                                <Googlelogin />
+                            <Twitchlogin />
+                            </div>
                         </div>
                     </Grid.Column> 
                     <Grid.Column width="12" mobile="16" tablet="12" computer="12" className="no-xspadding">

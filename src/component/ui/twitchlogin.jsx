@@ -14,11 +14,12 @@ export default class Twitchlogin extends React.Component{
            var url= window.location.hash.substr(1);
             var g = url.split('=',2)
             var data = jwt.decode(g[1]);
-            var email = data.email
+           var email = data.email
             var imageUrl = data.picture
-            var username = email.split("@",1)[0];
+            var username = data.preferred_username
             axios.post(`${apiUrl}/api/socialLogin`,{rID,username,email,imageUrl,password:username}).then((res) => {
                 if (res.data.token) {
+                    console.log(res)
                     var userData = jwt.verify(res.data.token, "streamers")
                     if (userData) {
                         var data = jwt.decode(res.data.token,"streamers");
